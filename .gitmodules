@@ -1,0 +1,6 @@
+[submodule "ksp_gui"]
+	path = ksp_gui
+	url = ./ksp_gui/
+[submodule "teensy"]
+	path = teensy
+	url = ./teensy/
