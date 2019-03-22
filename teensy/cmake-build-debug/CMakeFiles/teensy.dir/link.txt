@@ -1,1 +1,0 @@
-/home/rene/.platformio/packages/toolchain-gccarmnoneeabi/bin/arm-none-eabi-g++  -g  -rdynamic CMakeFiles/teensy.dir/src/Bargraph.cpp.o CMakeFiles/teensy.dir/src/LED.cpp.o CMakeFiles/teensy.dir/src/MAX7221.cpp.o CMakeFiles/teensy.dir/src/SevenSeg.cpp.o CMakeFiles/teensy.dir/src/main.cpp.o  -o teensy 
