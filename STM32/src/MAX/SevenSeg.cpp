@@ -12,8 +12,9 @@ SevenSeg::SevenSeg(MAX7221 *newHost) {
 String SevenSeg::toString(float data){
     int neg=(int)(data<0);
     int dec=(int)log10(data);
-    return String(data, (unsigned char)(8-dec-neg)); //TODO: une chaine de 8 carractères dont un point s'affiche sur 7 digits
-    //donc j'ai mis un 8 dans la ligne précédente pour essayer de corriger ce problème, s'il y a une erreur remets un 7
+    int dot=(int)(data-(float)(int)data!=0);
+    return String(data, (unsigned char)(7+dot-dec-neg));
+    //FIXME verifier si le dot fonctionne, sinon juste mettre 7 ou 8
 }
 
 void SevenSeg::display(float data) {

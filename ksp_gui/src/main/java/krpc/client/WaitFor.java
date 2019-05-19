@@ -3,23 +3,25 @@ package krpc.client;
 import com.fazecast.jSerialComm.SerialPort;
 import krpc.client.services.SpaceCenter;
 
+import static krpc.client.KRPCClient.*;
+
 import java.io.File;
 
 public class WaitFor {
-    static Connection connetcKrpc()throws InterruptedException{
+    static Connection connectKrpc()throws InterruptedException{
         int i=0;
-        Main.sop("Connexion à krpc en cours.");
+        out("Connexion à krpc en cours.");
         while(true) {
             try {
                 Connection connection = Connection.newInstance("KControls");
-                Main.SOP("");
+                System.out.println();
                 return connection;
             } catch (java.io.IOException e) {
                 if(i<2) {
-                    Main.sop(".");
+                    System.out.print(".");
                     ++i;
                 }else{
-                    Main.sop("\b\b");
+                    System.out.print("\b\b");
                     i=0;
                 }
                 Thread.sleep(1000);
@@ -29,34 +31,40 @@ public class WaitFor {
 
     static SerialPort connectDevice() throws UnknownOSException, InterruptedException{
         File ACM0;
-        switch (System.getProperty("os.name")){ //TODO: ajouter Mac et Solaris pour le fun ^^
+        File ACM1;
+        switch (os){ //TODO: ajouter Mac et Solaris pour le fun ^^
             case "Linux":
-                Main.SOP("Système Linux détecté");
                 ACM0=new File("/dev/ttyACM0");
+                ACM1=new File("/dev/ttyACM1");
                 break;
             case "Windows":
-                Main.SOP("Système Windows détecté");
                 ACM0=new File("COM3");
+                ACM1=new File("COM4");
             default:
-                System.err.println("Erreur: Le système "+System.getProperty("os.name")+" détecté est inconnu");
+                System.err.println("[ERROR] Le système "+os+" détecté est inconnu");
                 throw new UnknownOSException();
         }
 
-        Main.sop("Connexion au device.");
+        out("Connexion au device.");
         int i=0;
-        while(!ACM0.exists()){
+        while(!ACM0.exists()&&!ACM1.exists()){
             Thread.sleep(1000);
             if(i<2) {
-                Main.sop(".");
+                System.out.print(".");
                 ++i;
             }else{
-                Main.sop("\b\b");
+                System.out.print("\b\b");
                 i=0;
             }
         }
-        Main.SOP("");
-        Main.SOP("Device connecté!");
-        return SerialPort.getCommPort(ACM0.getAbsolutePath());
+        System.out.println();
+        out("Device connecté");
+        if(ACM0.exists()) {
+            System.out.println(" sur ACM0");
+            return SerialPort.getCommPort(ACM0.getAbsolutePath());
+        }
+        System.out.println(" sur ACM1");
+        return SerialPort.getCommPort(ACM1.getAbsolutePath());
     }
 
     static SpaceCenter.Vessel activeVessel(SpaceCenter sc) throws InterruptedException{
@@ -66,19 +74,19 @@ public class WaitFor {
         while(true){
             try{
                 out=sc.getActiveVessel();
-                Main.SOP("");
-                Main.SOP("Vaisseau commandé: "+out.getName());
+                System.out.println();
+                OUT("Vaisseau commandé: "+out.getName());
                 return out;
             }catch(RPCException e){
                 if(first){
-                    Main.sop("Recherche du vaisseau actif.");
+                    out("Recherche du vaisseau actif.");
                     first=false;
                 }else {
                     if (i<2){
-                        Main.sop(".");
+                        System.out.print(".");
                         ++i;
                     }else{
-                        Main.sop("\b\b");
+                        System.out.print("\b\b");
                         i=0;
                     }
                 }
