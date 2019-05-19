@@ -8,28 +8,27 @@
 #include "MAX/MAX7221.h"
 
 /////////Analogiques//////////////
-#define PITCH_PIN PA0
-#define YAW_PIN PA1
-#define ROLL_PIN PA4
-#define X_PIN PB0
-#define Y_PIN PC1
-#define Z_PIN PC2
-#define T_PIN PC3
-#define THROTTLE_PIN PC0
+enum analogInputs {
+    PITCH_PIN = PA0,
+    YAW_PIN = PA1,
+    ROLL_PIN = PA4,
+    X_PIN = PB0,
+    Y_PIN = PC1,
+    Z_PIN = PC2,
+    T_PIN = PC3,
+    THROTTLE_PIN = PC0
+};
 
 ////////SPI1///////////////////////
-#define CLOCK_PIN PB3
-#define MOSI_PIN PB5
-#define MISO_PIN PB4
-#define BARGRAPH_PIN PB13
-#define ALT_PIN PB14
-#define PE_PIN PB15
-#define AP_PIN PB1
-
-DigitsRegister adOxydizer[2] = {d0,d1};
-DigitsRegister adFuel[2] = {d2,d3};
-DigitsRegister adElec[2] = {d4,d5};
-DigitsRegister adProp[2] = {d6, d7};
+enum SPIPins{
+    CLOCK_PIN = PB3,
+    MOSI_PIN = PB5,
+    MISO_PIN = PB4,
+    BARGRAPH_PIN = PB13,
+    ALT_PIN = PB14,
+    PE_PIN = PB15,
+    AP_PIN = PB1
+};
 
 
 ///////DigitalIn/////////////////

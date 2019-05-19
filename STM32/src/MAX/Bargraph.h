@@ -12,8 +12,7 @@
 class Bargraph {
 private:
     MAX7221* host;
-    DigitsRegister* adress[2];
-
+    DigitsRegister* adress;
     byte toByte(int data);
 
 public:

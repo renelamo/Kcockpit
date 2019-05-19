@@ -32,7 +32,7 @@ void MAX7221::nbDigitsDisplayed(int nbdigit) {
     write(SCAN_LIMIT, (byte)nbdigit);
 }
 
-void MAX7221::setDecodeMode(DecodeMode mode) {
+void MAX7221::setDecodeMode(byte mode) {
     write(DECODE, mode);
 }
 

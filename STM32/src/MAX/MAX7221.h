@@ -33,10 +33,10 @@ enum DigitsRegister {
 
 const DigitsRegister allRegisters[8]={d0,d1,d2,d3,d4,d5,d6,d7};
 
-enum DecodeMode:byte{
+typedef enum :byte{
     FULL_DECODE=0b11111111,
     NO_DECODE=0b00000000
-};
+}DecodeMode;
 
 
 class MAX7221 {
@@ -52,7 +52,7 @@ public:
     void wake();
     void test();
     void nbDigitsDisplayed(int nbdigit);
-    void setDecodeMode(DecodeMode mode);
+    void setDecodeMode(byte mode);
     //TODO: je sais pas si c'est utile mais un decodeMode par digit?
     DecodeMode getDecodeMode();
     void setIntensity(int newIntensity);

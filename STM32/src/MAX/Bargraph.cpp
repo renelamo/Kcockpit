@@ -6,18 +6,17 @@
 
 Bargraph::Bargraph(MAX7221 *newHost, DigitsRegister newAdress[2]) {
     host=newHost;
-    *adress = newAdress;
+    adress = newAdress;
 }
 
 void Bargraph::display(int nb) {
     host->setDecodeMode(NO_DECODE);
     if(nb>8){
-        host->setRegister(*adress[1], toByte(nb-8));
+        host->setRegister(adress[1], toByte(nb-8));
         nb=8;
     }
-    host->setRegister(*adress[0], toByte(nb));
+    host->setRegister(adress[0], toByte(nb));
 }
-
 
 //convertit 4 en 0b 0000 1111
 // et 6 en 0b 0011 1111

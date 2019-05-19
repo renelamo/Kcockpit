@@ -7,12 +7,11 @@
 LED::LED(MAX7221 *newHost, address newAdr) {
     host=newHost;
     adr=newAdr;
-    //TODO: régler ca
-    //host->setDecodeMode(host->getDecodeMode() - toByte(adr.registre)); //FIXME: se renseigner sur typedef enum
+    host->setDecodeMode(host->getDecodeMode() - toByte(adr.registre));
 }
 
 void LED::turnOff() {
-    host->setRegister(adr.registre,host->getRegister(adr.registre) & ~toByte(adr.bit));
+    host->setRegister(adr.registre, host->getRegister(adr.registre) & ~toByte(adr.bit));
 }
 
 void LED::turnOn() {
