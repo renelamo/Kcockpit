@@ -32,11 +32,14 @@ enum SPIPins{
 
 
 ///////DigitalIn/////////////////
-#define JOYSTICK_BUTTON PH1
-#define RB_PIN PH0
-#define LB_PIN PC15
-#define STAGE_BUTTON PC13
-#define AP_PE_SWITCH PB2
+enum digitalInputs {
+    STAGE_BUTTON = PC13,
+    JOYSTICK_BUTTON = PH1,
+    RB_PIN = PH0,
+    LB_PIN = PC15,
+    AP_PE_SWITCH = PB2,
+};
+
 
 enum ActionGroupsPins{
     CUSTOM_1 = PB6,

@@ -8,13 +8,13 @@
 #include "Arduino.h"
 #include "MAX7221.h"
 
-struct address{
-    DigitsRegister registre;
-    unsigned int bit;
-};
-
-
 class LED {
+public:
+    struct address{
+        DigitsRegister registre;
+        byte bit;
+    };
+
 private:
     MAX7221* host;
     address adr;

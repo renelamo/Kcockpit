@@ -6,6 +6,8 @@
 #define STM32_COMM_H
 
 
+#include "OutputsManager.h"
+
 class Comm {
 public:
     static void sendPitch();
@@ -13,6 +15,7 @@ public:
     static void sendRoll();
     static void sendThrottle();
     static void handshake();
+    static bool capt(OutputsManager* outputsManager);
 };
 
 
