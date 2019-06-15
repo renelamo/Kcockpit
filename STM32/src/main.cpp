@@ -7,13 +7,15 @@
 #include "commTable.h"
 #include "Comm.h"
 #include "OutputsManager.h"
+#include "SerialManager.h"
 // */
 //TODO: refaire un utils.h
 
 OutputsManager* omgr;
+SerialManager* smgr;
 
 void setup(){
-    Serial.begin(115200);
+    smgr = new SerialManager();
     omgr = new OutputsManager();
     digitalWrite(LED_GREEN, HIGH);
     Comm::handshake();
@@ -23,10 +25,10 @@ void setup(){
 
 void loop(){
     Comm::capt(omgr);
-    Comm::sendThrottle();
-    Comm::sendPitch();
-    Comm::sendYaw();
-    Comm::sendRoll();
+    Comm::sendThrottle(SerialManager());
+    Comm::sendPitch(SerialManager());
+    Comm::sendYaw(SerialManager());
+    Comm::sendRoll(SerialManager());
     delay(10);
     Comm::handshake();
     digitalToggle(LED_GREEN);

@@ -20,4 +20,6 @@
 
 #define ALTITUDE_CODE 0x81
 
+#define NO_OP_CODE 0xFF
+
 #endif //STM32_COMMTABLE_H

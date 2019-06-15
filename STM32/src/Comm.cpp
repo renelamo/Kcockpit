@@ -8,6 +8,7 @@
 #include "utils.h"
 #include "offsets.h"
 #include "OutputsManager.h"
+#include "SerialManager.h"
 
 int lissage(int data, int centre){
     int seuil=15;
@@ -51,7 +52,7 @@ bool Comm::capt(OutputsManager* omgr) {
                 return false;
             }
             arg2=Serial.read();
-            altitudeSegments->display(arg2*pow(10, arg1));
+            omgr->altitudeSegments->display(arg2*pow(10, arg1));
             return true;
         case SAS_CODE:
             if(Serial.available()){
@@ -64,32 +65,28 @@ bool Comm::capt(OutputsManager* omgr) {
     }
 }
 
-void Comm::sendThrottle(){
+void Comm::sendThrottle(SerialManager smgr) {
     int val=analogRead(THROTTLE_PIN);
-    Serial.write(THROTTLE_CODE);//entre 0 et 1023 (10 bits)
-    Serial.write(val/4);//entre 0 et 255 (8 bits)
-    Serial.flush();
+    std::vector<int> buff= {THROTTLE_CODE, val/4};
+    smgr.add(buff);
 }
-void Comm::sendPitch(){
+void Comm::sendPitch(SerialManager smgr) {
     int val=analogRead(PITCH_PIN);
     val= lissage(val, PITCH_CENTER);
-    Serial.write(PITCH_CODE);
-    Serial.write(val/4);
-    Serial.flush();
+    std::vector<int> buff = {THROTTLE_CODE, val/4};
+    smgr.add(buff);
 }
-void Comm::sendYaw(){
+void Comm::sendYaw(SerialManager smgr) {
     int val=analogRead(YAW_PIN);
     val= lissage(val, YAW_CENTER);
-    Serial.write(YAW_CODE);
-    Serial.write(val/4);
-    Serial.flush();
+    std::vector<int> buff= {THROTTLE_CODE, val/4};
+    smgr.add(buff);
 }
-void Comm::sendRoll(){
+void Comm::sendRoll(SerialManager smgr) {
     int val=analogRead(ROLL_PIN);
     val= lissage(val, ROLL_CENTER);
-    Serial.write(ROLL_CODE);
-    Serial.write(val/4);
-    Serial.flush();
+    std::vector<int> buff = {THROTTLE_CODE, val/4};
+    smgr.add(buff);
 }
 
 void Comm::handshake(){
