@@ -68,25 +68,25 @@ bool Comm::capt(OutputsManager* omgr) {
 void Comm::sendThrottle(SerialManager smgr) {
     int val=analogRead(THROTTLE_PIN);
     std::vector<int> buff= {THROTTLE_CODE, val/4};
-    smgr.add(buff);
+    smgr.add(&buff);
 }
 void Comm::sendPitch(SerialManager smgr) {
     int val=analogRead(PITCH_PIN);
     val= lissage(val, PITCH_CENTER);
     std::vector<int> buff = {THROTTLE_CODE, val/4};
-    smgr.add(buff);
+    smgr.add(&buff);
 }
 void Comm::sendYaw(SerialManager smgr) {
     int val=analogRead(YAW_PIN);
     val= lissage(val, YAW_CENTER);
     std::vector<int> buff= {THROTTLE_CODE, val/4};
-    smgr.add(buff);
+    smgr.add(&buff);
 }
 void Comm::sendRoll(SerialManager smgr) {
     int val=analogRead(ROLL_PIN);
     val= lissage(val, ROLL_CENTER);
     std::vector<int> buff = {THROTTLE_CODE, val/4};
-    smgr.add(buff);
+    smgr.add(&buff);
 }
 
 void Comm::handshake(){

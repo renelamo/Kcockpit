@@ -5,12 +5,15 @@
 #ifndef MAX7221_H
 #define MAX7221_H
 
+#include <cstdint>
 #include <SPI.h>
 #include <cstdlib>
 #include <cstdio>
+#include <cmath>
 #include <Arduino.h>
+#include <vector>
 
-enum Register{
+enum Register : byte {
     NO_OP=0b0000, //ne fait rien, sert au branchement en cascade
     DECODE=0b1001,
     INTENSITY=0b1010,
@@ -20,7 +23,7 @@ enum Register{
 };
 
 
-enum DigitsRegister {
+enum DigitsRegister : byte {
     d0=0b0001,
     d1=0b0010,
     d2=0b0011,
@@ -42,7 +45,7 @@ typedef enum :byte{
 class MAX7221 {
 protected:
     uint8_t selectPin;
-    byte state[8];
+    uint8_t state[8];
 
     void write(Register r, byte data);
 
@@ -60,6 +63,7 @@ public:
     byte getRegister(DigitsRegister digit);
     void flushDigit(DigitsRegister digit);
     void flush();
+    void printDate(unsigned long time);
 };
 
 

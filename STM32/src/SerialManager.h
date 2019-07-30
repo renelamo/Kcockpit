@@ -9,10 +9,10 @@
 
 class SerialManager {
 private:
-    std::queue< std::vector<int> > buffer;
+    std::queue<const std::vector<int> *> buffer;
 public:
     SerialManager();
-    void add(std::vector<int> data);
+    void add(const std::vector<int> *data);
     void send();
     void SASchangedHandler();
     void customChangedHandler();

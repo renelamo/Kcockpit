@@ -4,17 +4,15 @@
 
 #include "SerialManager.h"
 #include "Arduino.h"
-#include "utils.h"
-#include "SerialManager.h"
-#include "commTable.h"
 #include "PinMap.h"
+#include "commTable.h"
 #include <queue>
 
 SerialManager::SerialManager() {
     Serial.begin(115200);
 }
 
-void SerialManager::add(std::vector<int> data) {
+void SerialManager::add(const std::vector<int> *data) {
     buffer.push(data);
 }
 
@@ -24,9 +22,9 @@ void SerialManager::send() {
         Serial.flush();
         return;
     }
-    std::vector<int> toSend=buffer.front();
+    const std::vector<int>* toSend=buffer.front();
     buffer.pop();
-    for(int i:toSend){
+    for(int i:*toSend){
         Serial.write(i);
     }
     Serial.flush();
@@ -34,7 +32,7 @@ void SerialManager::send() {
 
 void SerialManager::stageHandler(){
     std::vector<int> out={STAGE_CODE};
-    add(out);
+    add(&out);
 }
 
 void SerialManager::SASchangedHandler(){
@@ -55,7 +53,7 @@ void SerialManager::SASchangedHandler(){
         out+=0b00010000;
     }
     std::vector<int> buf={SAS_CODE, out};
-    add(buf);
+    add(&buf);
     /*
     Serial.write(SAS_CODE);
     Serial.write(out);
@@ -82,7 +80,7 @@ void SerialManager::customChangedHandler(){
     }
 
     std::vector<int> buf={ACTION_GROUP_CODE, out};
-    add(buf);
+    add(&buf);
     /*
     Serial.write(ACTION_GROUP_CODE);
     Serial.write(out);
