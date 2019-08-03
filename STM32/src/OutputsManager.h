@@ -21,15 +21,17 @@ public:
     DigitsRegister adFuel[2] = {d2,d3};
     DigitsRegister adElec[2] = {d4,d5};
     DigitsRegister adProp[2] = {d6, d7};
-    MAX7221* bargraphs=new MAX7221(BARGRAPH_PIN);
-    Bargraph* elecGraph=new Bargraph(bargraphs, adElec);
-    Bargraph* fuelGraph=new Bargraph(bargraphs, adFuel);
+    MAX7221* bargraphs;
+    Bargraph* elecGraph;
+    Bargraph* fuelGraph;
 
-    MAX7221* altitudeMUX=new MAX7221(ALT_PIN);
+    MAX7221* altitudeMUX;
+    MAX7221* timeMUX;
     SevenSeg* altitudeSegments=new SevenSeg(altitudeMUX);
 public:
     OutputsManager(SerialManager* smgr);
     void setSASLEDs(int data);
+    void setMET(double seconds);
     void customChangedHandler();
 };
 

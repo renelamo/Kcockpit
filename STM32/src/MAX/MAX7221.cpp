@@ -85,6 +85,8 @@ void smartTime(int y, int d,int h, int m, int s, std::vector<char>* buff){
         y/=10;
     }
     bool noDay = (d == 0) & noYear;
+    if(buff->size() >= 6)
+        return;
     if(!noYear || d / 100 > 0){
         buff->push_back(d/100);
     }
@@ -93,26 +95,47 @@ void smartTime(int y, int d,int h, int m, int s, std::vector<char>* buff){
     }
     if(! noDay){
         buff->push_back(d%10);
+        if(buff->size() == 8)
+            return;
         buff->push_back('d');
+        if(buff->size() == 8)
+            return;
     }
+    if(buff->size() >= 8)
+        return;
     bool noHour = (h==0) & noDay;
     if(!noHour){
         buff->push_back(h%10);
+        if(buff->size() == 8)
+            return;
         buff->push_back('h');
+        if(buff->size() == 8)
+            return;
     }
     bool noMinute = (m==0) & noHour;
+    if(buff->size() >= 7)
+        return;
     if( !noHour || m/10 > 0){
         buff->push_back(m/10);
     }
     if(!noMinute ){
         buff->push_back(m%10);
+        if(buff->size() == 8)
+            return;
         buff->push_back('\'');
+        if(buff->size() == 8)
+            return;
     }
+    if(buff->size() >= 7)
+        return;
     if( !noMinute || s/10 > 0){
         buff->push_back(s/10);
     }
     buff->push_back(s%10);
+    if(buff->size() == 8)
+        return;
     buff->push_back('"');
+
 }
 
 void MAX7221::printDate(unsigned long time) {

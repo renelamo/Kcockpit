@@ -14,9 +14,6 @@ public:
     SerialManager();
     void add(const std::vector<int> *data);
     void send();
-    void SASchangedHandler();
-    void customChangedHandler();
-    void stageHandler();
 };
 
 

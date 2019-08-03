@@ -39,10 +39,27 @@ void initPins(){
     //*/
 }
 
+void initSPI(){
+    pinMode(AP_PIN, OUTPUT_OPEN_DRAIN);
+    pinMode(PE_PIN, OUTPUT_OPEN_DRAIN);
+    pinMode(ALT_PIN, OUTPUT_OPEN_DRAIN);
+    pinMode(BARGRAPH_PIN, OUTPUT_OPEN_DRAIN);
+    SPI.setMISO(MISO_PIN);
+    SPI.setMOSI(MOSI_PIN);
+    SPI.setSCLK(CLOCK_PIN);
+    SPI.begin();
+}
+
 
 OutputsManager::OutputsManager(SerialManager* smgr) {
     initPins();
+    initSPI();
     serialManager=smgr;
+    timeMUX = new MAX7221(AP_PIN);
+    bargraphs = new MAX7221(BARGRAPH_PIN);
+    elecGraph = new Bargraph(bargraphs, adElec);
+    fuelGraph = new Bargraph(bargraphs, adFuel);
+    altitudeMUX = new MAX7221(ALT_PIN);
 }
 
 
@@ -56,4 +73,9 @@ void OutputsManager::setSASLEDs(int data) {
     bool gears= data%2;
     data/=2;
     bool brakes= data%2;
+}
+
+void OutputsManager::setMET(double seconds) {
+    timeMUX->printDate((unsigned long)seconds);
+
 }

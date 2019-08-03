@@ -33,12 +33,10 @@ int lissage(int data, int centre){
 }
 
 bool Comm::capt(OutputsManager* omgr) {
-    if( ! Serial.available()){
-        return false;
-    }
+    while (!Serial.available());
     int code=Serial.read();
-    int arg1;
-    int arg2;
+    int arg1, arg2, arg3, arg4, arg5, arg6;
+    int buff[8];
     switch (code){
         case HANDSHAKE_CODE:
             Serial.write(HANDSHAKE_CODE);
@@ -52,14 +50,25 @@ bool Comm::capt(OutputsManager* omgr) {
                 return false;
             }
             arg2=Serial.read();
-            omgr->altitudeSegments->display(arg2*pow(10, arg1));
+            omgr->altitudeSegments->display(arg2*pow(10, arg1)); //TODO: passer en double
             return true;
         case SAS_CODE:
-            if(Serial.available()){
+            if( ! Serial.available()){
                 return false;
             }
             arg1=Serial.read();
             omgr->setSASLEDs(arg1);
+            return true;
+        case MET_CODE:
+            if( ! Serial.available()){
+                return false;
+            }
+            arg1=Serial.read();
+            if( ! Serial.available()){
+                return false;
+            }
+            arg2=Serial.read();
+            omgr->setMET(((unsigned long)arg1)<<32|arg2);
         default:
             return false;
     }

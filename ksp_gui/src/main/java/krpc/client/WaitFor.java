@@ -10,11 +10,11 @@ import java.io.File;
 public class WaitFor {
     static Connection connectKrpc()throws InterruptedException{
         int i=0;
-        out("Connexion à krpc en cours.");
+        INFO_START("Connexion à krpc en cours.");
         while(true) {
             try {
                 Connection connection = Connection.newInstance("KControls");
-                System.out.println();
+                INFO_END();
                 return connection;
             } catch (java.io.IOException e) {
                 if(i<2) {
@@ -41,11 +41,11 @@ public class WaitFor {
                 ACM0=new File("COM3");
                 ACM1=new File("COM4");
             default:
-                System.err.println("[ERROR] Le système "+os+" détecté est inconnu");
+                ERROR("Le système "+os+" détecté est inconnu");
                 throw new UnknownOSException();
         }
 
-        out("Connexion au device.");
+        INFO_START("Connexion au device.");
         int i=0;
         while(!ACM0.exists()&&!ACM1.exists()){
             Thread.sleep(1000);
@@ -57,8 +57,8 @@ public class WaitFor {
                 i=0;
             }
         }
-        System.out.println();
-        out("Device connecté");
+        INFO_END();
+        INFO_START("Device connecté");
         if(ACM0.exists()) {
             System.out.println(" sur ACM0");
             return SerialPort.getCommPort(ACM0.getAbsolutePath());
@@ -75,11 +75,11 @@ public class WaitFor {
             try{
                 out=sc.getActiveVessel();
                 System.out.println();
-                OUT("Vaisseau commandé: "+out.getName());
+                INFO("Vaisseau commandé: "+out.getName());
                 return out;
             }catch(RPCException e){
                 if(first){
-                    out("Recherche du vaisseau actif.");
+                    INFO_START("Recherche du vaisseau actif.");
                     first=false;
                 }else {
                     if (i<2){

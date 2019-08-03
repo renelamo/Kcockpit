@@ -19,6 +19,7 @@
 #define ACTION_GROUP_CODE 0x0B
 
 #define ALTITUDE_CODE 0x81
+#define MET_CODE 0x82
 
 #define NO_OP_CODE 0xFF
 
