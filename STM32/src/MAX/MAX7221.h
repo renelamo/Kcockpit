@@ -63,7 +63,6 @@ public:
     byte getRegister(DigitsRegister digit);
     void flushDigit(DigitsRegister digit);
     void flush();
-    void printDate(unsigned long time);
 };
 
 

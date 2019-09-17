@@ -52,10 +52,11 @@ enum decodedLetter{
 class SevenSeg {
 private:
     MAX7221* host;
-    String toString(float data);
+    static String toString(float data);
 public:
-    SevenSeg(MAX7221* newHost);
+    explicit SevenSeg(MAX7221* newHost);
     void display(float data);
+    void printDate(long seconds);
 };
 
 

@@ -76,6 +76,5 @@ void OutputsManager::setSASLEDs(int data) {
 }
 
 void OutputsManager::setMET(double seconds) {
-    timeMUX->printDate((unsigned long)seconds);
-
+    METSegments->printDate((long)seconds);
 }
