@@ -21,6 +21,11 @@
 #define ALTITUDE_CODE 0x81
 #define MET_CODE 0x82
 
+#define ELEC_CODE 0x90
+#define FUEL_CODE 0X91
+#define OXID_CODE 0X92
+#define MONOP_CODE 0X93
+
 #define NO_OP_CODE 0xFF
 
 #endif //STM32_COMMTABLE_H

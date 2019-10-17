@@ -69,6 +69,18 @@ bool Comm::capt(OutputsManager* omgr) {
             }
             arg2=Serial.read();
             omgr->setMET(((unsigned long)arg1)<<32|arg2);
+            return true;
+        case ELEC_CODE:
+            if(!Serial.available()){
+                return false;
+            }
+            arg1 = Serial.read();
+            if(!Serial.available()){
+                return false;
+            }
+            arg2 = Serial.read();
+            omgr->setElecCharge(arg1<<8|arg2);
+            return true;
         default:
             return false;
     }

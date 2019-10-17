@@ -5,7 +5,6 @@
 #include "SerialManager.h"
 #include "SPI.h"
 // */
-//TODO: refaire un utils.h
 
 OutputsManager* omgr;
 SerialManager* smgr;
@@ -20,7 +19,6 @@ void setup(){
 }
 
 void loop(){
-
     Comm::capt(omgr);
     delay(5);
     digitalToggle(LED_GREEN);

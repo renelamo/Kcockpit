@@ -6,9 +6,9 @@
 
 MAX7221::MAX7221(uint8_t pinSelect) {
     selectPin=pinSelect;
-    pinMode(selectPin, OUTPUT);
-    for(unsigned char & i : state){
-        i=(byte)0;
+    pinMode(selectPin, OUTPUT_OPEN_DRAIN);
+    for(int i = 0; i<8; ++i){
+        state[i] = (byte)0;
     }
     wake();
     setIntensity(15);

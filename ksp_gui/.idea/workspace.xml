@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fa1ed441-c532-48ed-8d32-83f41a62ec5e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/krpc/client/SerialOverflowException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/krpc/client/CommTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/krpc/client/CommTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/krpc/client/KRPCClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/krpc/client/KRPCClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/krpc/client/SerialManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/krpc/client/SerialManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/krpc/client/WaitFor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/krpc/client/WaitFor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/krpc/main/CommTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/krpc/main/CommTable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/krpc/main/KRPCClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/krpc/main/KRPCClient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/krpc/main/SerialManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/krpc/main/SerialManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/krpc/main/CommTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/krpc/main/CommTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/krpc/main/KRPCClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/krpc/main/KRPCClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/krpc/main/SerialManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/krpc/main/SerialManager.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,6 +43,11 @@
                 <item name="ksp_gui" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="ksp_gui" type="f1a62948:ProjectNode" />
+                <item name="Run Configurations" type="7b0102dc:RunConfigurationsNode" />
               </path>
             </expand>
             <select />
@@ -80,10 +86,20 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/build.gradle" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/jSerialComm-2.4.0.jar!/" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="preferences.general" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="gradle build" />
+      <command value="gradle buildDependents" />
+    </option>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -97,10 +113,25 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.KRPCClient">
-    <configuration name="KRPCClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="krpc.client.KRPCClient" />
+  <component name="RunManager" selected="Application.KRPCClient (1)">
+    <configuration name="KRPCClient (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="krpc.main.KRPCClient" />
       <module name="ksp_gui.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="krpc.main.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="KRPCClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8.0_191" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="krpc.main.KRPCClient" />
+      <module name="ksp_gui" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="krpc.client.*" />
@@ -110,6 +141,38 @@
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
+    </configuration>
+    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="krpc.main.Test" />
+      <module name="ksp_gui.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="krpc.main.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ksp_gui [buildDependents]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="buildDependents" />
+          </list>
+        </option>
+        <option name="vmOptions" value="" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
     </configuration>
     <configuration name="ksp_gui [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
@@ -132,11 +195,17 @@
     </configuration>
     <list>
       <item itemvalue="Application.KRPCClient" />
+      <item itemvalue="Application.Test" />
       <item itemvalue="Gradle.ksp_gui [build]" />
+      <item itemvalue="Gradle.ksp_gui [buildDependents]" />
+      <item itemvalue="Application.KRPCClient (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.KRPCClient (1)" />
         <item itemvalue="Application.KRPCClient" />
+        <item itemvalue="Application.Test" />
+        <item itemvalue="Gradle.ksp_gui [buildDependents]" />
         <item itemvalue="Gradle.ksp_gui [build]" />
       </list>
     </recent_temporary>
@@ -156,6 +225,17 @@
       <workItem from="1564692832678" duration="3156000" />
       <workItem from="1564842413212" duration="2209000" />
       <workItem from="1564845300473" duration="5495000" />
+      <workItem from="1568721796370" duration="113000" />
+      <workItem from="1568721963203" duration="1242000" />
+      <workItem from="1568756580930" duration="380000" />
+      <workItem from="1568756982760" duration="3620000" />
+      <workItem from="1570051104767" duration="363000" />
+      <workItem from="1570051503285" duration="245000" />
+      <workItem from="1570051777795" duration="1253000" />
+      <workItem from="1570114279701" duration="1375000" />
+      <workItem from="1570116809365" duration="3463000" />
+      <workItem from="1570715562283" duration="4149000" />
+      <workItem from="1571319093591" duration="2841000" />
     </task>
     <servers />
   </component>
@@ -177,21 +257,5 @@
   </component>
   <component name="gradleExecuteTaskHistory">
     <option value="" />
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ProjectJDKs.UI">
-        <settings>
-          <last-edited>1.8.0_191</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
   </component>
 </project>

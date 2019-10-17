@@ -166,6 +166,6 @@ void SevenSeg::printDate(long time) {
         }
     }
     host->setDecodeMode(decMode);
-
+//TODO: ne pas forcément flush ici
     host->flush();
 }

@@ -27,13 +27,14 @@ public:
 
     MAX7221* altitudeMUX;
     MAX7221* timeMUX;
-    SevenSeg* altitudeSegments = new SevenSeg(altitudeMUX);
-    SevenSeg* METSegments = new SevenSeg(timeMUX);
+    SevenSeg* altitudeSegments;
+    SevenSeg* METSegments;
 public:
     explicit OutputsManager(SerialManager* smgr);
     void setSASLEDs(int data);
     void setMET(double seconds);
     void customChangedHandler();
+    void setElecCharge(int ratio);
 };
 
 

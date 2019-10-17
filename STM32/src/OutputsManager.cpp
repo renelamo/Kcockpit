@@ -40,10 +40,6 @@ void initPins(){
 }
 
 void initSPI(){
-    pinMode(AP_PIN, OUTPUT_OPEN_DRAIN);
-    pinMode(PE_PIN, OUTPUT_OPEN_DRAIN);
-    pinMode(ALT_PIN, OUTPUT_OPEN_DRAIN);
-    pinMode(BARGRAPH_PIN, OUTPUT_OPEN_DRAIN);
     SPI.setMISO(MISO_PIN);
     SPI.setMOSI(MOSI_PIN);
     SPI.setSCLK(CLOCK_PIN);
@@ -57,9 +53,12 @@ OutputsManager::OutputsManager(SerialManager* smgr) {
     serialManager=smgr;
     timeMUX = new MAX7221(AP_PIN);
     bargraphs = new MAX7221(BARGRAPH_PIN);
+    bargraphs->setIntensity(6);
     elecGraph = new Bargraph(bargraphs, adElec);
     fuelGraph = new Bargraph(bargraphs, adFuel);
     altitudeMUX = new MAX7221(ALT_PIN);
+    altitudeSegments = new SevenSeg(altitudeMUX);
+    METSegments = new SevenSeg(timeMUX);
 }
 
 
@@ -77,4 +76,13 @@ void OutputsManager::setSASLEDs(int data) {
 
 void OutputsManager::setMET(double seconds) {
     METSegments->printDate((long)seconds);
+}
+
+void OutputsManager::setElecCharge(int ratio) {
+    int toPrint = ratio/2;
+    elecGraph->display(toPrint);
+}
+
+void OutputsManager::customChangedHandler() {
+
 }

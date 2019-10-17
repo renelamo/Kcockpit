@@ -30,6 +30,8 @@ void SerialManager::send() {
     Serial.flush();
 }
 
+/*
+
 void SerialManager::stageHandler(){
     std::vector<int> out={STAGE_CODE};
     add(&out);
@@ -54,11 +56,10 @@ void SerialManager::SASchangedHandler(){
     }
     std::vector<int> buf={SAS_CODE, out};
     add(&buf);
-    /*
+
     Serial.write(SAS_CODE);
     Serial.write(out);
     Serial.flush();
-     //*/
 }
 
 void SerialManager::customChangedHandler(){
@@ -81,9 +82,10 @@ void SerialManager::customChangedHandler(){
 
     std::vector<int> buf={ACTION_GROUP_CODE, out};
     add(&buf);
-    /*
+
     Serial.write(ACTION_GROUP_CODE);
     Serial.write(out);
     Serial.flush();
-     //*/
+
 }
+ */
