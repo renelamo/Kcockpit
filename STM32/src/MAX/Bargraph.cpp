@@ -14,6 +14,8 @@ void Bargraph::display(int nb) {
     if(nb>8){
         host->setRegister(adress[1], toStack(nb - 8));
         nb=8;
+    } else{
+        host->setRegister(adress[1], 0);
     }
     host->setRegister(adress[0], toStack(nb));
     host->flush();//TODO: ne flush qu'une fois quand les 4 bargraphs ont été actualisés en mémoire
@@ -22,13 +24,11 @@ void Bargraph::display(int nb) {
 //convertit 4 en 0b 0000 1111
 // et 6 en 0b 0011 1111
 uint8_t Bargraph::toStack(int data) {
-    int out=0;
-    int add=1;
-    for (int i=0; i<data; ++i){
-        out+=add;
-        add*=2;
+    uint8_t out=0;
+    for (int i=1; i<=data; ++i){
+        out|=toOne(i);
     }
-    return (uint8_t)out;
+    return out;
 }
 
 
