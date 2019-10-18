@@ -12,20 +12,47 @@ Bargraph::Bargraph(MAX7221 *newHost, DigitsRegister newAdress[2]) {
 void Bargraph::display(int nb) {
     host->setDecodeMode(NO_DECODE);
     if(nb>8){
-        host->setRegister(adress[1], toByte(nb-8));
+        host->setRegister(adress[1], toStack(nb - 8));
         nb=8;
     }
-    host->setRegister(adress[0], toByte(nb));
+    host->setRegister(adress[0], toStack(nb));
+    host->flush();//TODO: ne flush qu'une fois quand les 4 bargraphs ont été actualisés en mémoire
 }
 
 //convertit 4 en 0b 0000 1111
 // et 6 en 0b 0011 1111
-byte Bargraph::toByte(int data) {
+uint8_t Bargraph::toStack(int data) {
     int out=0;
     int add=1;
     for (int i=0; i<data; ++i){
         out+=add;
         add*=2;
     }
-    return (byte)out;
+    return (uint8_t)out;
 }
+
+
+//convertit 4 en 0b 0000 1000
+// et 6 en 0b 0010 0000
+uint8_t Bargraph::toOne(int data) {
+    if(data == 0){
+        return 0b0;
+    }
+    if(data == 8){
+        return 0b10000000;
+    }
+    return pow(2,7-data);
+}
+
+void Bargraph::displayOne(int nb) {
+    host->setDecodeMode(NO_DECODE);
+    if(nb>8){
+        host->setRegister(adress[1], toOne(nb-8));
+        host->setRegister(adress[0], 0);
+    } else{
+        host->setRegister(adress[1], 0);
+        host->setRegister(adress[0], toOne(nb));
+    }
+    host->flush();//TODO: ne flush qu'une fois quand les 4 bargraphs ont été actualisés en mémoire
+}
+

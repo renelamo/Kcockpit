@@ -86,3 +86,9 @@ void OutputsManager::setElecCharge(int ratio) {
 void OutputsManager::customChangedHandler() {
 
 }
+
+void OutputsManager::setFuelLevel(int ratio) {
+    int toPrint = ratio/2;
+    fuelGraph->display(toPrint);
+
+}

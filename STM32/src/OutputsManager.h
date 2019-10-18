@@ -35,6 +35,7 @@ public:
     void setMET(double seconds);
     void customChangedHandler();
     void setElecCharge(int ratio);
+    void setFuelLevel(int ratio);
 };
 
 

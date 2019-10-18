@@ -8,7 +8,7 @@ MAX7221::MAX7221(uint8_t pinSelect) {
     selectPin=pinSelect;
     pinMode(selectPin, OUTPUT_OPEN_DRAIN);
     for(int i = 0; i<8; ++i){
-        state[i] = (byte)0;
+        state[i] = (uint8_t)0;
     }
     wake();
     setIntensity(15);
@@ -31,18 +31,18 @@ void MAX7221::test() {
 
 void MAX7221::nbDigitsDisplayed(int nbdigit) {
     if(nbdigit>7 or nbdigit<1){return;}
-    write(SCAN_LIMIT, (byte)nbdigit);
+    write(SCAN_LIMIT, (uint8_t)nbdigit);
 }
 
-void MAX7221::setDecodeMode(byte mode) {
+void MAX7221::setDecodeMode(uint8_t mode) {
     write(DECODE, mode);
 }
 
-void MAX7221::setRegister(DigitsRegister digit, byte data) {
+void MAX7221::setRegister(DigitsRegister digit, uint8_t data) {
     state[digit-1]=data;
 }
 
-byte MAX7221::getRegister(DigitsRegister digit) {
+uint8_t MAX7221::getRegister(DigitsRegister digit) {
     return state[digit-1];
 }
 
@@ -60,10 +60,10 @@ void MAX7221::flush() {
 
 void MAX7221::setIntensity(int newIntensity) {
     if(newIntensity>16 or newIntensity<1){return;}
-    write(INTENSITY, (byte)newIntensity);
+    write(INTENSITY, (uint8_t)newIntensity);
 }
 
-void MAX7221::write(Register r, byte data) {
+void MAX7221::write(Register r, uint8_t data) {
     digitalWrite(selectPin, LOW);
     SPI.transfer16( r << 8u | data);
     digitalWrite(selectPin, HIGH);

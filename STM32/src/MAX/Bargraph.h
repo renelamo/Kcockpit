@@ -13,12 +13,13 @@ class Bargraph {
 private:
     MAX7221* host;
     DigitsRegister* adress;
-    byte toByte(int data);
+    uint8_t toStack(int data);
+    uint8_t toOne(int data);
 
 public:
     Bargraph(MAX7221 *newHost, DigitsRegister newAdress[2]);
     void display(int nb);
-
+    void displayOne(int nb);
 };
 
 

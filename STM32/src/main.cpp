@@ -12,6 +12,13 @@ SerialManager* smgr;
 void setup(){
     smgr = new SerialManager();
     omgr = new OutputsManager(smgr);
+    while(1) {
+        for (int i = 0; i <= 10; ++i) {
+            omgr->fuelGraph->displayOne(i);
+            Serial.println(i);
+            delay(1000);
+        }
+    }
     digitalWrite(LED_GREEN, HIGH);
     Comm::handshake();
     delay(500);

@@ -75,11 +75,14 @@ bool Comm::capt(OutputsManager* omgr) {
                 return false;
             }
             arg1 = Serial.read();
+            omgr->setElecCharge(arg1);
+            return true;
+        case FUEL_CODE:
             if(!Serial.available()){
                 return false;
             }
-            arg2 = Serial.read();
-            omgr->setElecCharge(arg1<<8|arg2);
+            arg1 = Serial.read();
+            omgr->setFuelLevel(arg1);
             return true;
         default:
             return false;
