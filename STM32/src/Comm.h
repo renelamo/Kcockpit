@@ -8,15 +8,12 @@
 
 #include "OutputsManager.h"
 #include "SerialManager.h"
+#include "InputsManager.h"
 
 class Comm {
 public:
-    static void sendPitch(SerialManager smgr);
-    static void sendYaw(SerialManager smgr);
-    static void sendRoll(SerialManager smgr);
-    static void sendThrottle(SerialManager smgr);
     static void handshake();
-    static bool capt(OutputsManager* outputsManager);
+    static bool capt(OutputsManager* outputsManager, InputsManager* inputsManager);
 };
 
 

@@ -54,10 +54,10 @@ void SerialManager::SASchangedHandler(){
     if(digitalRead(BRAKES_PIN)==LOW){
         out+=0b00010000;
     }
-    std::vector<int> buf={SAS_CODE, out};
+    std::vector<int> buf={SAS_CODE_SET, out};
     add(&buf);
 
-    Serial.write(SAS_CODE);
+    Serial.write(SAS_CODE_SET);
     Serial.write(out);
     Serial.flush();
 }
@@ -80,10 +80,10 @@ void SerialManager::customChangedHandler(){
         out+=0b00010000;
     }
 
-    std::vector<int> buf={ACTION_GROUP_CODE, out};
+    std::vector<int> buf={ACTION_GROUP_CODE_SET, out};
     add(&buf);
 
-    Serial.write(ACTION_GROUP_CODE);
+    Serial.write(ACTION_GROUP_CODE_SET);
     Serial.write(out);
     Serial.flush();
 

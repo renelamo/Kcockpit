@@ -56,6 +56,8 @@ OutputsManager::OutputsManager(SerialManager* smgr) {
     bargraphs->setIntensity(6);
     elecGraph = new Bargraph(bargraphs, adElec);
     fuelGraph = new Bargraph(bargraphs, adFuel);
+    oxidGraph = new Bargraph(bargraphs, adOxydizer);
+    monoPGraph = new Bargraph(bargraphs, adProp);
     altitudeMUX = new MAX7221(ALT_PIN);
     altitudeSegments = new SevenSeg(altitudeMUX);
     METSegments = new SevenSeg(timeMUX);
@@ -79,8 +81,7 @@ void OutputsManager::setMET(double seconds) {
 }
 
 void OutputsManager::setElecCharge(int ratio) {
-    int toPrint = ratio/2;
-    elecGraph->display(toPrint);
+    elecGraph->display(ratio);
 }
 
 void OutputsManager::customChangedHandler() {
@@ -88,7 +89,14 @@ void OutputsManager::customChangedHandler() {
 }
 
 void OutputsManager::setFuelLevel(int ratio) {
-    int toPrint = ratio/2;
-    fuelGraph->display(toPrint);
+    fuelGraph->display(ratio);
 
+}
+
+void OutputsManager::setOxidLevel(int ratio) {
+    oxidGraph->display(ratio);
+}
+
+void OutputsManager::setMonoPLevel(int ratio) {
+    monoPGraph->display(ratio);
 }

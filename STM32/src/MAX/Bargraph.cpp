@@ -9,7 +9,8 @@ Bargraph::Bargraph(MAX7221 *newHost, DigitsRegister newAdress[2]) {
     adress = newAdress;
 }
 
-void Bargraph::display(int nb) {
+void Bargraph::display(uint8_t nb) {
+    level = nb;
     host->setDecodeMode(NO_DECODE);
     if(nb>8){
         host->setRegister(adress[1], toStack(nb - 8));
@@ -54,5 +55,18 @@ void Bargraph::displayOne(int nb) {
         host->setRegister(adress[0], toOne(nb));
     }
     host->flush();//TODO: ne flush qu'une fois quand les 4 bargraphs ont été actualisés en mémoire
+}
+
+void Bargraph::update() {
+    if(level%2) {
+        if (state) {
+            display(level/2);
+        } else {
+            display(level/2 - 1);
+        }
+    } else{
+        display(level/2);
+    }
+    state = ! state;
 }
 

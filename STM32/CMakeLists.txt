@@ -51,7 +51,7 @@ add_custom_target(
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-add_executable(${PROJECT_NAME} ${SRC_LIST} src/commTable.h src/Comm.cpp src/Comm.h src/offsets.h src/OutputsManager.cpp src/OutputsManager.h src/SerialManager.cpp src/SerialManager.h)
+add_executable(${PROJECT_NAME} ${SRC_LIST} src/commTable.h src/Comm.cpp src/Comm.h src/offsets.h src/OutputsManager.cpp src/OutputsManager.h src/SerialManager.cpp src/SerialManager.h src/InputsManager.cpp src/InputsManager.h)
 
 include_directories(./lib/Adafruit-ST7735-Library-master)
 include_directories(./lib/Adafruit-GFX-Library-master)

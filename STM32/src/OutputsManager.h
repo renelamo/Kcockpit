@@ -24,6 +24,8 @@ public:
     MAX7221* bargraphs;
     Bargraph* elecGraph;
     Bargraph* fuelGraph;
+    Bargraph* oxidGraph;
+    Bargraph* monoPGraph;
 
     MAX7221* altitudeMUX;
     MAX7221* timeMUX;
@@ -36,6 +38,8 @@ public:
     void customChangedHandler();
     void setElecCharge(int ratio);
     void setFuelLevel(int ratio);
+    void setOxidLevel(int ratio);
+    void setMonoPLevel(int ratio);
 };
 
 

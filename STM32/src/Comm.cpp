@@ -5,34 +5,10 @@
 #include "Comm.h"
 #include "PinMap.h"
 #include "commTable.h"
-#include "utils.h"
-#include "offsets.h"
 #include "OutputsManager.h"
-#include "SerialManager.h"
+#include "InputsManager.h"
 
-int lissage(int data, int centre){
-    int seuil=15;
-    data*=511/centre;
-    if(data<=seuil){
-        data=0;
-    }
-    else if(data<=511-seuil){
-        double m=551.0/491.0;
-        data=(int) (m* (double)(data-10));
-    } else if(data<=551+seuil){
-        data=511;
-    }
-    else if(data<=1023-seuil){
-        double m=552.0/492.0;
-        data=(int) (m* (double)(data-10 -2*seuil));
-    }
-    else{
-        data=1023;
-    }
-    return data;
-}
-
-bool Comm::capt(OutputsManager* omgr) {
+bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
     while (!Serial.available());
     int code=Serial.read();
     int arg1, arg2, arg3, arg4, arg5, arg6;
@@ -52,7 +28,7 @@ bool Comm::capt(OutputsManager* omgr) {
             arg2=Serial.read();
             omgr->altitudeSegments->display(arg2*pow(10, arg1)); //TODO: passer en double
             return true;
-        case SAS_CODE:
+        case SAS_CODE_SET:
             if( ! Serial.available()){
                 return false;
             }
@@ -84,34 +60,58 @@ bool Comm::capt(OutputsManager* omgr) {
             arg1 = Serial.read();
             omgr->setFuelLevel(arg1);
             return true;
+        case OXID_CODE:
+            if(!Serial.available()){
+                return false;
+            }
+            arg1 = Serial.read();
+            omgr->setOxidLevel(arg1);
+            return true;
+        case MONOP_CODE:
+            if(!Serial.available()){
+                return false;
+            }
+            arg1 = Serial.read();
+            omgr->setMonoPLevel(arg1);
+            return true;
+        case THROTTLE_CODE:
+            imgr->sendThrottle();
+            return true;
+        case PITCH_CODE:
+            imgr->sendPitch();
+            return true;
+        case YAW_CODE:
+            imgr->sendYaw();
+            return true;
+        case ROLL_CODE:
+            imgr->sendRoll();
+            return true;
+        case X_CODE:
+            imgr->sendX();
+            return true;
+        case Y_CODE:
+            imgr->sendY();
+            return true;
+        case Z_CODE:
+            imgr->sendZ();
+            return true;
+        case T_CODE:
+            imgr->sendT();
+            return true;
+        case STAGE_CODE:
+            imgr->sendStage();
+            return true;
+        case SAS_CODE_GET:
+            imgr->sendSAS();
+            return true;
+        case ACTION_CODE_CODE_GET:
+            imgr->sendActionGroup();
+            return true;
         default:
             return false;
     }
 }
 
-void Comm::sendThrottle(SerialManager smgr) {
-    int val=analogRead(THROTTLE_PIN);
-    std::vector<int> buff= {THROTTLE_CODE, val/4};
-    smgr.add(&buff);
-}
-void Comm::sendPitch(SerialManager smgr) {
-    int val=analogRead(PITCH_PIN);
-    val= lissage(val, PITCH_CENTER);
-    std::vector<int> buff = {THROTTLE_CODE, val/4};
-    smgr.add(&buff);
-}
-void Comm::sendYaw(SerialManager smgr) {
-    int val=analogRead(YAW_PIN);
-    val= lissage(val, YAW_CENTER);
-    std::vector<int> buff= {THROTTLE_CODE, val/4};
-    smgr.add(&buff);
-}
-void Comm::sendRoll(SerialManager smgr) {
-    int val=analogRead(ROLL_PIN);
-    val= lissage(val, ROLL_CENTER);
-    std::vector<int> buff = {THROTTLE_CODE, val/4};
-    smgr.add(&buff);
-}
 
 void Comm::handshake(){
     do{

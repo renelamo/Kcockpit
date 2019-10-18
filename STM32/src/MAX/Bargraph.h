@@ -11,6 +11,8 @@
 
 class Bargraph {
 private:
+    uint8_t level;
+    bool state;
     MAX7221* host;
     DigitsRegister* adress;
     uint8_t toStack(int data);
@@ -18,7 +20,8 @@ private:
 
 public:
     Bargraph(MAX7221 *newHost, DigitsRegister newAdress[2]);
-    void display(int nb);
+    void update();
+    void display(uint8_t nb);
     void displayOne(int nb);
 };
 
