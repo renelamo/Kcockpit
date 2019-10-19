@@ -28,8 +28,29 @@ int lissage(int data, int centre){
     return data;
 }
 
-InputsManager::InputsManager() {
+void InputsManager::initPins(){
+    //digital inputs
+    pinMode(STAGE_BUTTON, INPUT_PULLUP);
 
+    pinMode(SAS_PIN, INPUT_PULLUP);
+    pinMode(RCS_PIN, INPUT_PULLUP);
+    pinMode(LIGHTS_PIN, INPUT_PULLUP);
+    pinMode(GEARS_PIN, INPUT_PULLUP);
+    pinMode(BRAKES_PIN, INPUT_PULLUP);
+
+    //analog inputs
+    pinMode(THROTTLE_PIN, INPUT);
+    pinMode(PITCH_PIN, INPUT);
+    pinMode(YAW_PIN, INPUT);
+    pinMode(ROLL_PIN, INPUT);
+    pinMode(X_PIN, INPUT);
+    pinMode(Y_PIN, INPUT);
+    pinMode(Z_PIN, INPUT);
+    pinMode(T_PIN, INPUT);
+}
+
+InputsManager::InputsManager() {
+    initPins();
 }
 
 void InputsManager::sendThrottle() {
@@ -88,5 +109,21 @@ void InputsManager::sendStage() {
 }
 
 void InputsManager::sendSAS() {
-
+    uint8_t out = 0;
+    if(digitalRead(SAS_PIN)==LOW){
+        out|=0b0001u;
+    }
+    if(digitalRead(RCS_PIN)==LOW){
+        out|=0b0010u;
+    }
+    if(digitalRead(LIGHTS_PIN)==LOW){
+        out|=0b0100u;
+    }
+    if(digitalRead(GEARS_PIN) ==LOW){
+        out|=0b1000u;
+    }
+    if(digitalRead(BRAKES_PIN)==LOW){
+        out|=0b10000u;
+    }
+    Serial.write(out);
 }

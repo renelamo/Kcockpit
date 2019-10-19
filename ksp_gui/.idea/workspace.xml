@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fa1ed441-c532-48ed-8d32-83f41a62ec5e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/krpc/main/CommTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/krpc/main/CommTable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/krpc/main/KRPCClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/krpc/main/KRPCClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/krpc/main/SerialManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/krpc/main/SerialManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/krpc/main/CommTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/krpc/main/CommTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/krpc/main/KRPCClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/krpc/main/KRPCClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/krpc/main/SerialManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/krpc/main/SerialManager.java" afterDir="false" />
-    </list>
+    <list default="true" id="fa1ed441-c532-48ed-8d32-83f41a62ec5e" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,6 +135,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="KRPCClient" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="krpc.main.KRPCClient" />
+      <module name="ksp_gui.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="krpc.main.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="krpc.main.Test" />
       <module name="ksp_gui.main" />
@@ -195,18 +201,18 @@
     </configuration>
     <list>
       <item itemvalue="Application.KRPCClient" />
+      <item itemvalue="Application.KRPCClient (1)" />
       <item itemvalue="Application.Test" />
       <item itemvalue="Gradle.ksp_gui [build]" />
       <item itemvalue="Gradle.ksp_gui [buildDependents]" />
-      <item itemvalue="Application.KRPCClient (1)" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Test" />
         <item itemvalue="Application.KRPCClient (1)" />
         <item itemvalue="Application.KRPCClient" />
-        <item itemvalue="Application.Test" />
+        <item itemvalue="Application.KRPCClient" />
         <item itemvalue="Gradle.ksp_gui [buildDependents]" />
-        <item itemvalue="Gradle.ksp_gui [build]" />
       </list>
     </recent_temporary>
   </component>
@@ -236,6 +242,9 @@
       <workItem from="1570116809365" duration="3463000" />
       <workItem from="1570715562283" duration="4149000" />
       <workItem from="1571319093591" duration="5177000" />
+      <workItem from="1571432040688" duration="6528000" />
+      <workItem from="1571441693851" duration="6652000" />
+      <workItem from="1571448581438" duration="1636000" />
     </task>
     <servers />
   </component>

@@ -19,15 +19,15 @@
 #define SAS_CODE_SET 0x0A
 #define SAS_CODE_GET 0x0B
 #define ACTION_GROUP_CODE_SET 0x0C
-#define ACTION_CODE_CODE_GET
+#define ACTION_CODE_CODE_GET 0x0D
 
 #define ALTITUDE_CODE 0x81
 #define MET_CODE 0x82
 
 #define ELEC_CODE 0x90
-#define FUEL_CODE 0X91
-#define OXID_CODE 0X92
-#define MONOP_CODE 0X93
+#define FUEL_CODE 0x91
+#define OXID_CODE 0x92
+#define MONOP_CODE 0x93
 
 #define NO_OP_CODE 0xFF
 

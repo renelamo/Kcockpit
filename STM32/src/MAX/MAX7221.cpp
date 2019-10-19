@@ -13,6 +13,7 @@ MAX7221::MAX7221(uint8_t pinSelect) {
     wake();
     setIntensity(15);
     write(SCAN_LIMIT, 0x07);
+    flush();
 }
 
 void MAX7221::sleep() {

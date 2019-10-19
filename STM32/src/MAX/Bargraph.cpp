@@ -11,7 +11,6 @@ Bargraph::Bargraph(MAX7221 *newHost, DigitsRegister newAdress[2]) {
 
 void Bargraph::display(uint8_t nb) {
     level = nb;
-    host->setDecodeMode(NO_DECODE);
     if(nb>8){
         host->setRegister(adress[1], toStack(nb - 8));
         nb=8;
@@ -46,7 +45,6 @@ uint8_t Bargraph::toOne(int data) {
 }
 
 void Bargraph::displayOne(int nb) {
-    host->setDecodeMode(NO_DECODE);
     if(nb>8){
         host->setRegister(adress[1], toOne(nb-8));
         host->setRegister(adress[0], 0);

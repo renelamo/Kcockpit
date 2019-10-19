@@ -7,23 +7,22 @@
 // */
 
 OutputsManager* omgr;
+InputsManager* imgr;
 SerialManager* smgr;
 
 void setup(){
     smgr = new SerialManager();
     omgr = new OutputsManager(smgr);
+    imgr = new InputsManager();
     digitalWrite(LED_GREEN, HIGH);
-    Comm::handshake();
-    delay(500);
-    digitalWrite(LED_GREEN, LOW);
+    //Comm::handshake();
+    //delay(500);
+    //digitalWrite(LED_GREEN, LOW);
 }
 
 void loop(){
-    Comm::capt(omgr);
-    delay(5);
+    Comm::capt(omgr, imgr);
     digitalToggle(LED_GREEN);
-    smgr->send();
-    delay(5);
 }
 
 

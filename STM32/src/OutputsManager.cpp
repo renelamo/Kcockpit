@@ -8,7 +8,7 @@
 #include "commTable.h"
 #include "SerialManager.h"
 
-void initPins(){
+void OutputsManager::initPins(){
     pinMode(LED_GREEN, OUTPUT);
     pinMode(USER_BTN, INPUT);
 
@@ -48,7 +48,7 @@ void initSPI(){
 
 
 OutputsManager::OutputsManager(SerialManager* smgr) {
-    initPins();
+    //initPins();
     initSPI();
     serialManager=smgr;
     timeMUX = new MAX7221(AP_PIN);
@@ -99,4 +99,16 @@ void OutputsManager::setOxidLevel(int ratio) {
 
 void OutputsManager::setMonoPLevel(int ratio) {
     monoPGraph->display(ratio);
+}
+
+void OutputsManager::setActionGroupLeds(int data) {
+    bool sas= data%2;
+    data/=2;
+    bool rcs= data%2;
+    data/=2;
+    bool lights= data%2;
+    data/=2;
+    bool gears= data%2;
+    data/=2;
+    bool brakes= data%2;
 }

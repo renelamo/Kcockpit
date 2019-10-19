@@ -16,10 +16,11 @@
 class OutputsManager {
 private:
     SerialManager* serialManager;
+    void initPins();
 public:
-    DigitsRegister adOxydizer[2] = {d0,d1};
+    DigitsRegister adOxydizer[2] = {d4,d5};
     DigitsRegister adFuel[2] = {d2,d3};
-    DigitsRegister adElec[2] = {d4,d5};
+    DigitsRegister adElec[2] = {d0,d1};
     DigitsRegister adProp[2] = {d6, d7};
     MAX7221* bargraphs;
     Bargraph* elecGraph;
@@ -40,6 +41,7 @@ public:
     void setFuelLevel(int ratio);
     void setOxidLevel(int ratio);
     void setMonoPLevel(int ratio);
+    void setActionGroupLeds(int data);
 };
 
 

@@ -12,67 +12,53 @@ bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
     while (!Serial.available());
     int code=Serial.read();
     int arg1, arg2, arg3, arg4, arg5, arg6;
-    int buff[8];
     switch (code){
         case HANDSHAKE_CODE:
             Serial.write(HANDSHAKE_CODE);
             return true;
         case ALTITUDE_CODE:
-            if( ! Serial.available()){
-                return false;
-            }
+            while(!Serial.available());
             arg1=Serial.read();
-            if( ! Serial.available()){
-                return false;
-            }
+            while(!Serial.available());
             arg2=Serial.read();
             omgr->altitudeSegments->display(arg2*pow(10, arg1)); //TODO: passer en double
             return true;
         case SAS_CODE_SET:
-            if( ! Serial.available()){
-                return false;
-            }
+            while(!Serial.available());
             arg1=Serial.read();
             omgr->setSASLEDs(arg1);
             return true;
         case MET_CODE:
-            if( ! Serial.available()){
-                return false;
-            }
+            while(!Serial.available());
             arg1=Serial.read();
-            if( ! Serial.available()){
-                return false;
-            }
+            while(!Serial.available());
             arg2=Serial.read();
             omgr->setMET(((unsigned long)arg1)<<32|arg2);
             return true;
         case ELEC_CODE:
-            if(!Serial.available()){
-                return false;
-            }
+            while(!Serial.available());
             arg1 = Serial.read();
             omgr->setElecCharge(arg1);
             return true;
         case FUEL_CODE:
-            if(!Serial.available()){
-                return false;
-            }
+            while(!Serial.available());
             arg1 = Serial.read();
             omgr->setFuelLevel(arg1);
             return true;
         case OXID_CODE:
-            if(!Serial.available()){
-                return false;
-            }
+            while(!Serial.available());
             arg1 = Serial.read();
             omgr->setOxidLevel(arg1);
             return true;
         case MONOP_CODE:
-            if(!Serial.available()){
-                return false;
-            }
+            while(!Serial.available());
             arg1 = Serial.read();
             omgr->setMonoPLevel(arg1);
+            return true;
+        case ACTION_GROUP_CODE_SET:
+            while(!Serial.available());
+            arg1 = Serial.read();
+            omgr->setActionGroupLeds(arg1);
             return true;
         case THROTTLE_CODE:
             imgr->sendThrottle();

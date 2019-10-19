@@ -11,7 +11,7 @@
 
 class InputsManager {
 private:
-
+    void initPins();
 public:
     InputsManager();
 
