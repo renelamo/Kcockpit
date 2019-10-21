@@ -11,7 +11,7 @@
 bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
     while (!Serial.available());
     int code=Serial.read();
-    int arg1, arg2, arg3, arg4, arg5, arg6;
+    int arg1, arg2;
     switch (code){
         case HANDSHAKE_CODE:
             Serial.write(HANDSHAKE_CODE);

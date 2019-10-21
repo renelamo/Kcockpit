@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fa1ed441-c532-48ed-8d32-83f41a62ec5e" name="Default Changelist" comment="" />
+    <list default="true" id="fa1ed441-c532-48ed-8d32-83f41a62ec5e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/krpc/main/KRPCClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/krpc/main/KRPCClient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/krpc/main/SerialManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/krpc/main/SerialManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/krpc/main/WaitFor.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/krpc/main/WaitFor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/krpc/main/KRPCClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/krpc/main/KRPCClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/krpc/main/Logger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/krpc/main/Logger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/krpc/main/SerialManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/krpc/main/SerialManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/krpc/main/WaitFor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/krpc/main/WaitFor.java" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +94,7 @@
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
@@ -106,28 +114,13 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.KRPCClient (1)">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="KRPCClient (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="krpc.main.KRPCClient" />
       <module name="ksp_gui.main" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="krpc.main.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="KRPCClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="1.8.0_191" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="MAIN_CLASS_NAME" value="krpc.main.KRPCClient" />
-      <module name="ksp_gui" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="krpc.client.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -144,6 +137,14 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="krpc.main.KRPCClient" />
+      <module name="ksp_gui.main" />
+      <shortenClasspath name="CLASSPATH_FILE" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -200,6 +201,7 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Application.Main" />
       <item itemvalue="Application.KRPCClient" />
       <item itemvalue="Application.KRPCClient (1)" />
       <item itemvalue="Application.Test" />
@@ -210,7 +212,6 @@
       <list>
         <item itemvalue="Application.Test" />
         <item itemvalue="Application.KRPCClient (1)" />
-        <item itemvalue="Application.KRPCClient" />
         <item itemvalue="Application.KRPCClient" />
         <item itemvalue="Gradle.ksp_gui [buildDependents]" />
       </list>
@@ -245,6 +246,10 @@
       <workItem from="1571432040688" duration="6528000" />
       <workItem from="1571441693851" duration="6652000" />
       <workItem from="1571448581438" duration="1636000" />
+      <workItem from="1571525523110" duration="4905000" />
+      <workItem from="1571571207833" duration="358000" />
+      <workItem from="1571584937999" duration="5781000" />
+      <workItem from="1571598575040" duration="1171000" />
     </task>
     <servers />
   </component>
@@ -263,6 +268,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/ksp_gui$Main.ic" NAME="Main Coverage Results" MODIFIED="1571530258671" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
   <component name="gradleExecuteTaskHistory">
     <option value="" />

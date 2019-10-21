@@ -8,21 +8,22 @@
 
 int lissage(int data, int centre){
     int seuil=15;
-    data*=511/centre;
-    if(data<=seuil){
+    data*=511/centre; //La multiplication est effectuée avant la division d'entiers
+    if(data<=seuil){ //Premier palier
         data=0;
     }
-    else if(data<=511-seuil){
-        double m=551.0/491.0;
-        data=(int) (m* (double)(data-10));
-    } else if(data<=551+seuil){
+    else if(data<=511-seuil){ //Première pente
+        double m=511.0/(511.0-2*(double)seuil);
+        data=(int) (m* (double)(data-seuil));
+    }
+    else if(data<=511+seuil){ //Deuxième palier
         data=511;
     }
-    else if(data<=1023-seuil){
-        double m=552.0/492.0;
-        data=(int) (m* (double)(data-10 -2*seuil));
+    else if(data<=1023-seuil){ //Seconde pente
+        double m=512.0/(512.0-2*(double)seuil);
+        data=(int) (m* (double)(data-3*seuil));
     }
-    else{
+    else{ //Dernier palier
         data=1023;
     }
     return data;
@@ -38,15 +39,21 @@ void InputsManager::initPins(){
     pinMode(GEARS_PIN, INPUT_PULLUP);
     pinMode(BRAKES_PIN, INPUT_PULLUP);
 
+    pinMode(CUSTOM_1, INPUT_PULLUP);
+    pinMode(CUSTOM_2, INPUT_PULLUP);
+    pinMode(CUSTOM_3, INPUT_PULLUP);
+    pinMode(CUSTOM_4, INPUT_PULLUP);
+    pinMode(CUSTOM_5, INPUT_PULLUP);
+
     //analog inputs
-    pinMode(THROTTLE_PIN, INPUT);
-    pinMode(PITCH_PIN, INPUT);
-    pinMode(YAW_PIN, INPUT);
-    pinMode(ROLL_PIN, INPUT);
-    pinMode(X_PIN, INPUT);
-    pinMode(Y_PIN, INPUT);
-    pinMode(Z_PIN, INPUT);
-    pinMode(T_PIN, INPUT);
+    pinMode(THROTTLE_PIN, INPUT_ANALOG);
+    pinMode(PITCH_PIN, INPUT_ANALOG);
+    pinMode(YAW_PIN, INPUT_ANALOG);
+    pinMode(ROLL_PIN, INPUT_ANALOG);
+    pinMode(X_PIN, INPUT_ANALOG);
+    pinMode(Y_PIN, INPUT_ANALOG);
+    pinMode(Z_PIN, INPUT_ANALOG);
+    pinMode(T_PIN, INPUT_ANALOG);
 }
 
 InputsManager::InputsManager() {

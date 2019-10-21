@@ -12,6 +12,7 @@ void OutputsManager::initPins(){
     pinMode(LED_GREEN, OUTPUT);
     pinMode(USER_BTN, INPUT);
 
+    /*
     pinMode(STAGE_BUTTON, INPUT);
     pinMode(SAS_PIN, INPUT);
     pinMode(RCS_PIN, INPUT);
@@ -23,7 +24,7 @@ void OutputsManager::initPins(){
     pinMode(CUSTOM_3, INPUT);
     pinMode(CUSTOM_4, INPUT);
     pinMode(CUSTOM_5, INPUT);
-
+    */
     /*
     attachInterrupt(digitalPinToInterrupt(STAGE_BUTTON), stageHandler, FALLING);
     attachInterrupt(digitalPinToInterrupt(SAS_PIN), SASchangedHandler, CHANGE);
