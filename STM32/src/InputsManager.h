@@ -15,17 +15,17 @@ private:
 public:
     InputsManager();
 
-    void sendThrottle();
-    void sendPitch();
-    void sendYaw();
-    void sendRoll();
-    void sendX();
-    void sendY();
-    void sendZ();
-    void sendT();
-    void sendActionGroup();
-    void sendStage();
-    void sendSAS();
+    static void sendThrottle();
+    static void sendPitch();
+    static void sendYaw();
+    static void sendRoll();
+    static void sendX();
+    static void sendY();
+    static void sendZ();
+    static void sendT();
+    static void sendActionGroup();
+    static void sendStage();
+    static void sendSAS();
 };
 
 

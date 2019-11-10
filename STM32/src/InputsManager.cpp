@@ -122,7 +122,23 @@ void InputsManager::sendT() {
 }
 
 void InputsManager::sendActionGroup() {
-
+    uint8_t out = 0;
+    if(digitalRead(CUSTOM_1)==LOW){
+        out|=0b0001u;
+    }
+    if(digitalRead(CUSTOM_2)==LOW){
+        out|=0b0010u;
+    }
+    if(digitalRead(CUSTOM_3)==LOW){
+        out|=0b0100u;
+    }
+    if(digitalRead(CUSTOM_4) ==LOW){
+        out|=0b1000u;
+    }
+    if(digitalRead(CUSTOM_5)==LOW){
+        out|=0b10000u;
+    }
+    Serial.write(out);
 }
 
 void InputsManager::sendStage() {

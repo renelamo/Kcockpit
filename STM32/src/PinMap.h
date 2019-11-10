@@ -57,5 +57,17 @@ enum ActionGroupsPins{
 //Todo: assigner un pin au buzzer
 #define BUZZ_PIN -1
 
+enum ActionGroupsLeds{//Todo: assigner les bonnes valeurs
+    CUSTOM_LED_1 = PB6,
+    CUSTOM_LED_2 = PC7,
+    CUSTOM_LED_3 = PA9,
+    CUSTOM_LED_4 = PA8,
+    CUSTOM_LED_5 = PB10,
+    SAS_LED = PC9,
+    RCS_LED = PB8,
+    LIGHTS_LED = PC8,
+    GEARS_LED = PC6,
+    BRAKES_LED = PC5
+};
 
 #endif

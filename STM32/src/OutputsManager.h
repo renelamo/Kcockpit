@@ -34,15 +34,15 @@ public:
     SevenSeg* METSegments;
 public:
     explicit OutputsManager(SerialManager* smgr);
-    void setSASLEDs(int data);
+    static void setSASLEDs(int data);
     void setMET(double seconds);
-    void customChangedHandler();
+    static void customChangedHandler();
     void setElecCharge(int ratio);
     void setFuelLevel(int ratio);
     void setOxidLevel(int ratio);
     void setMonoPLevel(int ratio);
-    void setActionGroupLeds(int data);
-    void buzz(int freq);
+    static void setActionGroupLeds(int data);
+    static void buzz(int freq);
 };
 
 

@@ -47,6 +47,12 @@ void OutputsManager::setSASLEDs(int data) {
     bool gears= data%2;
     data/=2;
     bool brakes= data%2;
+
+    digitalWrite(SAS_LED, (sas?HIGH:LOW));
+    digitalWrite(RCS_LED, (rcs?HIGH:LOW));
+    digitalWrite(LIGHTS_LED, (lights?HIGH:LOW));
+    digitalWrite(GEARS_LED, (gears?HIGH:LOW));
+    digitalWrite(BRAKES_LED, (brakes?HIGH:LOW));
 }
 
 void OutputsManager::setMET(double seconds) {
@@ -84,6 +90,12 @@ void OutputsManager::setActionGroupLeds(int data) {
     bool gears= data%2;
     data/=2;
     bool brakes= data%2;
+
+    digitalWrite(CUSTOM_LED_1, (sas?HIGH:LOW));
+    digitalWrite(CUSTOM_LED_2, (rcs?HIGH:LOW));
+    digitalWrite(CUSTOM_LED_3, (lights?HIGH:LOW));
+    digitalWrite(CUSTOM_LED_4, (gears?HIGH:LOW));
+    digitalWrite(CUSTOM_LED_5, (brakes?HIGH:LOW));
 }
 
 void OutputsManager::buzz(int freq) {
