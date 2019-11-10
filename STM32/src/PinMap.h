@@ -54,5 +54,8 @@ enum ActionGroupsPins{
     BRAKES_PIN = PC5
 };
 
+//Todo: assigner un pin au buzzer
+#define BUZZ_PIN -1
+
 
 #endif

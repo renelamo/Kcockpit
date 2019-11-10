@@ -13,6 +13,8 @@ bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
     int code=Serial.read();
     int arg1, arg2;
     switch (code){
+        case NO_OP_CODE:
+            return true;
         case HANDSHAKE_CODE:
             Serial.write(HANDSHAKE_CODE);
             return true;
@@ -92,6 +94,11 @@ bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
             return true;
         case ACTION_CODE_CODE_GET:
             imgr->sendActionGroup();
+            return true;
+        case BUZZ_CODE:
+            while (!Serial.available());
+            arg1 = Serial.read();
+            omgr->buzz(arg1);
             return true;
         default:
             return false;

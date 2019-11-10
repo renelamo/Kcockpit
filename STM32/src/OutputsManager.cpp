@@ -85,3 +85,11 @@ void OutputsManager::setActionGroupLeds(int data) {
     data/=2;
     bool brakes= data%2;
 }
+
+void OutputsManager::buzz(int freq) {
+    if(freq == 0){
+        noTone(BUZZ_PIN);
+        return;
+    }
+    tone(BUZZ_PIN, freq);
+}

@@ -29,6 +29,8 @@
 #define OXID_CODE 0x92
 #define MONOP_CODE 0x93
 
+#define BUZZ_CODE 0xA0
+
 #define NO_OP_CODE 0xFF
 
 #endif //STM32_COMMTABLE_H

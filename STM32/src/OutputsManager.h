@@ -42,6 +42,7 @@ public:
     void setOxidLevel(int ratio);
     void setMonoPLevel(int ratio);
     void setActionGroupLeds(int data);
+    void buzz(int freq);
 };
 
 
