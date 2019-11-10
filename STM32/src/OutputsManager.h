@@ -16,7 +16,7 @@
 class OutputsManager {
 private:
     SerialManager* serialManager;
-    void initPins();
+    static void initPins();
 public:
     DigitsRegister adOxydizer[2] = {d4,d5};
     DigitsRegister adFuel[2] = {d2,d3};
