@@ -26,16 +26,16 @@ void SevenSeg::display(float data) {
     String str= toString(data);
     int i=0; //digit que l'on est en train de modifier
     for(int s=0; s<8; ++s){
-        if(s==str.length()){ //au cas où la chaine str fait moins de 8 carractères
+        if(s==str.length()){ //au cas où la chaîne str fait moins de 8 caractères
             return;
         }
-        switch(str[s]){ //pour chaque carractère de la chaine
+        switch(str[s]){ //pour chaque caractère de la chaîne
             case '-':
                 host->setRegister(allRegisters[i], MINUS); //on affiche moins
                 break;
             case '.': //si c'est un point, on ne passe pas au digit suivant à la fin
                 --i;  //de cette boucle de for (le point se met sur l'afficheur précédent)
-                      //ce --i compense le ++i de la ligne 43
+                      //ce --i compense le ++i 12 lignes plus bas
                 break;
             default:
                 byte disp=(byte)str[s];
@@ -48,8 +48,9 @@ void SevenSeg::display(float data) {
                 break;
         }
         ++i; //on passe au digit suivant
+        if(i==8)
+            return;
     }
-
 }
 
 

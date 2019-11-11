@@ -6,12 +6,16 @@
 #include "Arduino.h"
 
 void OutputsManager::initPins(){
-    pinMode(LED_GREEN, OUTPUT);
+    pinMode(STAGE_LED, OUTPUT);
+    pinMode(PRECISE_CONTROLS, OUTPUT);
+    pinMode(BUZZ_PIN, OUTPUT);
+
     pinMode(SAS_LED, OUTPUT);
     pinMode(RCS_LED, OUTPUT);
     pinMode(LIGHTS_LED, OUTPUT);
     pinMode(GEARS_LED, OUTPUT);
     pinMode(BRAKES_LED, OUTPUT);
+
     pinMode(CUSTOM_LED_1, OUTPUT);
     pinMode(CUSTOM_LED_2, OUTPUT);
     pinMode(CUSTOM_LED_3, OUTPUT);
@@ -30,16 +34,25 @@ void initSPI(){
 OutputsManager::OutputsManager() {
     initPins();
     initSPI();
-    timeMUX = new MAX7221(AP_PIN);
+
     bargraphs = new MAX7221(BARGRAPH_PIN);
     bargraphs->setIntensity(6);
     elecGraph = new Bargraph(bargraphs, adElec);
     fuelGraph = new Bargraph(bargraphs, adFuel);
     oxidGraph = new Bargraph(bargraphs, adOxydizer);
     monoPGraph = new Bargraph(bargraphs, adProp);
+
     altitudeMUX = new MAX7221(ALT_PIN);
     altitudeSegments = new SevenSeg(altitudeMUX);
+
+    timeMUX = new MAX7221(TIME_PIN);
     METSegments = new SevenSeg(timeMUX);
+
+    apoapsisMUX = new MAX7221(AP_PIN);
+    apoSegments = new SevenSeg(apoapsisMUX);
+
+    periapsisMUX = new MAX7221(PE_PIN);
+    periSegments = new SevenSeg(periapsisMUX);
 }
 
 

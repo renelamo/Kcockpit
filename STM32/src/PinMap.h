@@ -27,7 +27,8 @@ enum SPIPins{
     BARGRAPH_PIN = PB13,
     ALT_PIN = PB14,
     PE_PIN = PB15,
-    AP_PIN = PB1
+    AP_PIN = PB1,
+    TIME_PIN = PC4,
 };
 
 

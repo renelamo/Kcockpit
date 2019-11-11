@@ -28,8 +28,12 @@ public:
 
     MAX7221* altitudeMUX;
     MAX7221* timeMUX;
+    MAX7221* apoapsisMUX;
+    MAX7221* periapsisMUX;
     SevenSeg* altitudeSegments;
     SevenSeg* METSegments;
+    SevenSeg* apoSegments;
+    SevenSeg* periSegments;
 public:
     explicit OutputsManager();
     static void setSASLEDs(int data);

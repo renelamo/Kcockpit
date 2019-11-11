@@ -23,7 +23,7 @@ bool Comm::capt(OutputsManager* omgr) {
             arg1=Serial.read();
             while(!Serial.available());
             arg2=Serial.read();
-            omgr->altitudeSegments->display((float)arg2*(float)pow(10, arg1)); //TODO: passer en double
+            omgr->altitudeSegments->display((float)arg2*(float)pow(10, arg1));
             return true;
         case SAS_CODE_SET:
             while(!Serial.available());
