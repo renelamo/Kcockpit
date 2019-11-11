@@ -7,13 +7,11 @@
 
 
 #include "OutputsManager.h"
-#include "SerialManager.h"
 #include "InputsManager.h"
 
 class Comm {
 public:
-    static void handshake();
-    static bool capt(OutputsManager* outputsManager, InputsManager* inputsManager);
+    static bool capt(OutputsManager* outputsManager);
 };
 
 

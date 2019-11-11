@@ -8,7 +8,7 @@
 #include "OutputsManager.h"
 #include "InputsManager.h"
 
-bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
+bool Comm::capt(OutputsManager* omgr) {
     while (!Serial.available());
     int code=Serial.read();
     int arg1, arg2;
@@ -23,19 +23,19 @@ bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
             arg1=Serial.read();
             while(!Serial.available());
             arg2=Serial.read();
-            omgr->altitudeSegments->display(arg2*pow(10, arg1)); //TODO: passer en double
+            omgr->altitudeSegments->display((float)arg2*(float)pow(10, arg1)); //TODO: passer en double
             return true;
         case SAS_CODE_SET:
             while(!Serial.available());
             arg1=Serial.read();
-            omgr->setSASLEDs(arg1);
+            OutputsManager::setSASLEDs(arg1);
             return true;
         case MET_CODE:
             while(!Serial.available());
             arg1=Serial.read();
             while(!Serial.available());
             arg2=Serial.read();
-            omgr->setMET(((unsigned long)arg1)<<32|arg2);
+            omgr->setMET(((unsigned long)arg1)<<16u|(unsigned)arg2);//Fixme: c'est peut-être 32 bits de décallage?
             return true;
         case ELEC_CODE:
             while(!Serial.available());
@@ -60,52 +60,52 @@ bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
         case ACTION_GROUP_CODE_SET:
             while(!Serial.available());
             arg1 = Serial.read();
-            omgr->setActionGroupLeds(arg1);
+            OutputsManager::setActionGroupLeds(arg1);
             return true;
         case THROTTLE_CODE:
-            imgr->sendThrottle();
+            InputsManager::sendThrottle();
             return true;
         case PITCH_CODE:
-            imgr->sendPitch();
+            InputsManager::sendPitch();
             return true;
         case YAW_CODE:
-            imgr->sendYaw();
+            InputsManager::sendYaw();
             return true;
         case ROLL_CODE:
-            imgr->sendRoll();
+            InputsManager::sendRoll();
             return true;
         case X_CODE:
-            imgr->sendX();
+            InputsManager::sendX();
             return true;
         case Y_CODE:
-            imgr->sendY();
+            InputsManager::sendY();
             return true;
         case Z_CODE:
-            imgr->sendZ();
+            InputsManager::sendZ();
             return true;
         case T_CODE:
-            imgr->sendT();
+            InputsManager::sendT();
             return true;
         case STAGE_CODE:
-            imgr->sendStage();
+            InputsManager::sendStage();
             return true;
         case SAS_CODE_GET:
-            imgr->sendSAS();
+            InputsManager::sendSAS();
             return true;
         case ACTION_CODE_CODE_GET:
-            imgr->sendActionGroup();
+            InputsManager::sendActionGroup();
             return true;
         case BUZZ_CODE:
             while (!Serial.available());
             arg1 = Serial.read();
-            omgr->buzz(arg1);
+            OutputsManager::buzz(arg1);
             return true;
         default:
             return false;
     }
 }
 
-
+/*
 void Comm::handshake(){
     do{
         Serial.write(HANDSHAKE_CODE);
@@ -113,3 +113,4 @@ void Comm::handshake(){
         while (!Serial.available());
     }while (Serial.read()!=HANDSHAKE_CODE);
 }
+*/

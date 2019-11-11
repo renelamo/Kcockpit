@@ -2,18 +2,12 @@
 //*
 #include "Comm.h"
 #include "OutputsManager.h"
-#include "SerialManager.h"
-#include "SPI.h"
 // */
 
 OutputsManager* omgr;
-InputsManager* imgr;
-SerialManager* smgr;
 
 void setup(){
-    smgr = new SerialManager();
-    omgr = new OutputsManager(smgr);
-    imgr = new InputsManager();
+    omgr = new OutputsManager();
     digitalWrite(LED_GREEN, HIGH);
     //Comm::handshake();
     //delay(500);
@@ -21,7 +15,7 @@ void setup(){
 }
 
 void loop(){
-    Comm::capt(omgr, imgr);
+    Comm::capt(omgr);
     digitalToggle(LED_GREEN);
 }
 

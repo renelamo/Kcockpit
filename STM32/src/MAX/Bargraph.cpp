@@ -5,6 +5,8 @@
 #include "Bargraph.h"
 
 Bargraph::Bargraph(MAX7221 *newHost, DigitsRegister newAdress[2]) {
+    level = 0;
+    state = true;
     host=newHost;
     adress = newAdress;
 }

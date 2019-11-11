@@ -15,8 +15,8 @@ private:
     bool state;
     MAX7221* host;
     DigitsRegister* adress;
-    uint8_t toStack(int data);
-    uint8_t toOne(int data);
+    static uint8_t toStack(int data);
+    static uint8_t toOne(int data);
 
 public:
     Bargraph(MAX7221 *newHost, DigitsRegister newAdress[2]);

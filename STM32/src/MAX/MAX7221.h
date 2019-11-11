@@ -45,7 +45,7 @@ typedef enum :byte{
 class MAX7221 {
 protected:
     uint8_t selectPin;
-    uint8_t state[8];
+    uint8_t state[8]{};
 
     void write(Register r, byte data);
 

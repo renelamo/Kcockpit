@@ -19,7 +19,7 @@ private:
     MAX7221* host;
     address adr;
 
-    byte toByte(int data);
+    static byte toByte(int data);
 
 public:
     LED(MAX7221* newHost, address newAdr);

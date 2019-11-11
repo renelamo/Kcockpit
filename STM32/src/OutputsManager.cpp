@@ -4,12 +4,19 @@
 #include "OutputsManager.h"
 
 #include "Arduino.h"
-#include "utils.h"
-#include "commTable.h"
-#include "SerialManager.h"
 
 void OutputsManager::initPins(){
     pinMode(LED_GREEN, OUTPUT);
+    pinMode(SAS_LED, OUTPUT);
+    pinMode(RCS_LED, OUTPUT);
+    pinMode(LIGHTS_LED, OUTPUT);
+    pinMode(GEARS_LED, OUTPUT);
+    pinMode(BRAKES_LED, OUTPUT);
+    pinMode(CUSTOM_LED_1, OUTPUT);
+    pinMode(CUSTOM_LED_2, OUTPUT);
+    pinMode(CUSTOM_LED_3, OUTPUT);
+    pinMode(CUSTOM_LED_4, OUTPUT);
+    pinMode(CUSTOM_LED_5, OUTPUT);
 }
 
 void initSPI(){
@@ -20,10 +27,9 @@ void initSPI(){
 }
 
 
-OutputsManager::OutputsManager(SerialManager* smgr) {
-    //initPins();
+OutputsManager::OutputsManager() {
+    initPins();
     initSPI();
-    serialManager=smgr;
     timeMUX = new MAX7221(AP_PIN);
     bargraphs = new MAX7221(BARGRAPH_PIN);
     bargraphs->setIntensity(6);
@@ -61,10 +67,6 @@ void OutputsManager::setMET(double seconds) {
 
 void OutputsManager::setElecCharge(int ratio) {
     elecGraph->display(ratio);
-}
-
-void OutputsManager::customChangedHandler() {
-
 }
 
 void OutputsManager::setFuelLevel(int ratio) {

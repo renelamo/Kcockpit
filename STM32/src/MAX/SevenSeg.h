@@ -40,15 +40,6 @@ enum letter{
  *
  ******************************************/
 
-enum decodedLetter{
-    sec=0b00100010, //''
-    mn=0b00000010, //'
-    hours=0b00010111, //h
-    days=0b00111101, //d
-    months=0b00010101, //n
-    years=0b00100111, //y
-};
-
 class SevenSeg {
 private:
     MAX7221* host;

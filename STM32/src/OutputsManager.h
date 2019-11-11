@@ -10,12 +10,10 @@
 #include "Arduino.h"
 #include "MAX/Bargraph.h"
 #include "PinMap.h"
-#include "SerialManager.h"
 
 
 class OutputsManager {
 private:
-    SerialManager* serialManager;
     static void initPins();
 public:
     DigitsRegister adOxydizer[2] = {d4,d5};
@@ -33,10 +31,9 @@ public:
     SevenSeg* altitudeSegments;
     SevenSeg* METSegments;
 public:
-    explicit OutputsManager(SerialManager* smgr);
+    explicit OutputsManager();
     static void setSASLEDs(int data);
     void setMET(double seconds);
-    static void customChangedHandler();
     void setElecCharge(int ratio);
     void setFuelLevel(int ratio);
     void setOxidLevel(int ratio);
