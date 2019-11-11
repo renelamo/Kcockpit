@@ -5,18 +5,20 @@
 // */
 
 OutputsManager* omgr;
+int lastTimeChanged;
 
 void setup(){
     omgr = new OutputsManager();
     digitalWrite(LED_GREEN, HIGH);
-    //Comm::handshake();
-    //delay(500);
-    //digitalWrite(LED_GREEN, LOW);
+    lastTimeChanged = millis();
 }
 
 void loop(){
     Comm::capt(omgr);
-    digitalToggle(LED_GREEN);
+    if(millis()>lastTimeChanged + 500) {
+        digitalToggle(LED_GREEN);
+        lastTimeChanged = millis();
+    }
 }
 
 
