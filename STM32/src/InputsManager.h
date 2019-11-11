@@ -13,6 +13,8 @@ class InputsManager {
 private:
     static void initPins();
 public:
+    static bool stage;
+
     InputsManager();
 
     static void sendThrottle();

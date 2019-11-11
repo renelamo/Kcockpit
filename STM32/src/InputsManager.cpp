@@ -70,8 +70,14 @@ void InputsManager::initPins(){
     //*/
 }
 
+void stageISR(){
+    InputsManager::stage = true;
+}
+
 InputsManager::InputsManager() {
     initPins();
+    stage = false;
+    attachInterrupt(digitalPinToInterrupt(STAGE_BUTTON), stageISR, FALLING);
 }
 
 void InputsManager::sendThrottle() {
@@ -142,7 +148,8 @@ void InputsManager::sendActionGroup() {
 }
 
 void InputsManager::sendStage() {
-    Serial.write(digitalRead(STAGE_BUTTON));
+    Serial.write((int)stage);
+    stage = false;
 }
 
 void InputsManager::sendSAS() {
