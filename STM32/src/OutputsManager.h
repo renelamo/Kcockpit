@@ -36,7 +36,7 @@ public:
     SevenSeg* periSegments;
 public:
     explicit OutputsManager();
-    static void setSASLEDs(int data);
+    static void setSASLeds(int data);
     void setMET(double seconds);
     void setElecCharge(int ratio);
     void setFuelLevel(int ratio);

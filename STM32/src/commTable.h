@@ -23,6 +23,10 @@
 
 #define ALTITUDE_CODE 0x81
 #define MET_CODE 0x82
+#define AP_ALT_CODE 0x83
+#define AP_TIME_CODE 0x84
+#define PE_ALT_CODE 0x85
+#define PE_TIME_CODE 0x86
 
 #define ELEC_CODE 0x90
 #define FUEL_CODE 0x91

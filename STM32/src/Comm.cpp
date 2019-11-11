@@ -18,6 +18,16 @@ bool Comm::capt(OutputsManager* omgr) {
         case HANDSHAKE_CODE:
             Serial.write(HANDSHAKE_CODE);
             return true;
+        case STAGE_CODE:
+            InputsManager::sendStage();
+            return true;
+        case BUZZ_CODE:
+            while (!Serial.available());
+            arg1 = Serial.read();
+            OutputsManager::buzz(arg1);
+            return true;
+
+/////////////////////////////// 7 SEGMENTS /////////////////////////////////////////////////
         case ALTITUDE_CODE:
             while(!Serial.available());
             arg1=Serial.read();
@@ -25,10 +35,33 @@ bool Comm::capt(OutputsManager* omgr) {
             arg2=Serial.read();
             omgr->altitudeSegments->display((float)arg2*(float)pow(10, arg1));
             return true;
-        case SAS_CODE_SET:
+        case AP_ALT_CODE:
             while(!Serial.available());
             arg1=Serial.read();
-            OutputsManager::setSASLEDs(arg1);
+            while(!Serial.available());
+            arg2=Serial.read();
+            omgr->apoSegments->display((float)arg2*(float)pow(10, arg1));
+            return true;
+        case PE_ALT_CODE:
+            while(!Serial.available());
+            arg1=Serial.read();
+            while(!Serial.available());
+            arg2=Serial.read();
+            omgr->periSegments->display((float)arg2*(float)pow(10, arg1));
+            return true;
+        case AP_TIME_CODE:
+            while(!Serial.available());
+            arg1=Serial.read();
+            while(!Serial.available());
+            arg2=Serial.read();
+            omgr->apoSegments->printDate((long) ( ((unsigned long)arg1) << 16u | (unsigned)arg2 ) );//FIXME: Idem ici
+            return true;
+        case PE_TIME_CODE:
+            while(!Serial.available());
+            arg1=Serial.read();
+            while(!Serial.available());
+            arg2=Serial.read();
+            omgr->periSegments->printDate((long)(((unsigned long)arg1)<<16u|(unsigned)arg2));//FIXME: Idem ici
             return true;
         case MET_CODE:
             while(!Serial.available());
@@ -37,6 +70,26 @@ bool Comm::capt(OutputsManager* omgr) {
             arg2=Serial.read();
             omgr->setMET(((unsigned long)arg1)<<16u|(unsigned)arg2);//Fixme: c'est peut-être 32 bits de décallage?
             return true;
+
+            ///////////////////////////////// ACTION GROUPS //////////////////////////////////////////////
+        case SAS_CODE_SET:
+            while(!Serial.available());
+            arg1=Serial.read();
+            OutputsManager::setSASLeds(arg1);
+            return true;
+        case ACTION_GROUP_CODE_SET:
+            while(!Serial.available());
+            arg1 = Serial.read();
+            OutputsManager::setActionGroupLeds(arg1);
+            return true;
+        case SAS_CODE_GET:
+            InputsManager::sendSAS();
+            return true;
+        case ACTION_CODE_CODE_GET:
+            InputsManager::sendActionGroup();
+            return true;
+
+            ///////////////////////////////// BARGRAPHS //////////////////////////////////////////////////
         case ELEC_CODE:
             while(!Serial.available());
             arg1 = Serial.read();
@@ -57,11 +110,8 @@ bool Comm::capt(OutputsManager* omgr) {
             arg1 = Serial.read();
             omgr->setMonoPLevel(arg1);
             return true;
-        case ACTION_GROUP_CODE_SET:
-            while(!Serial.available());
-            arg1 = Serial.read();
-            OutputsManager::setActionGroupLeds(arg1);
-            return true;
+
+            ///////////////////////////////// ANALOG INPUTS ////////////////////////////////////////////
         case THROTTLE_CODE:
             InputsManager::sendThrottle();
             return true;
@@ -86,20 +136,7 @@ bool Comm::capt(OutputsManager* omgr) {
         case T_CODE:
             InputsManager::sendT();
             return true;
-        case STAGE_CODE:
-            InputsManager::sendStage();
-            return true;
-        case SAS_CODE_GET:
-            InputsManager::sendSAS();
-            return true;
-        case ACTION_CODE_CODE_GET:
-            InputsManager::sendActionGroup();
-            return true;
-        case BUZZ_CODE:
-            while (!Serial.available());
-            arg1 = Serial.read();
-            OutputsManager::buzz(arg1);
-            return true;
+
         default:
             return false;
     }

@@ -36,7 +36,7 @@ OutputsManager::OutputsManager() {
     initSPI();
 
     bargraphs = new MAX7221(BARGRAPH_PIN);
-    bargraphs->setIntensity(6);
+    bargraphs->setIntensity(6);//Pour pas se brûler la rétine
     elecGraph = new Bargraph(bargraphs, adElec);
     fuelGraph = new Bargraph(bargraphs, adFuel);
     oxidGraph = new Bargraph(bargraphs, adOxydizer);
@@ -56,7 +56,7 @@ OutputsManager::OutputsManager() {
 }
 
 
-void OutputsManager::setSASLEDs(int data) {
+void OutputsManager::setSASLeds(int data) {
     bool sas= data%2;
     data/=2;
     bool rcs= data%2;
@@ -84,7 +84,6 @@ void OutputsManager::setElecCharge(int ratio) {
 
 void OutputsManager::setFuelLevel(int ratio) {
     fuelGraph->display(ratio);
-
 }
 
 void OutputsManager::setOxidLevel(int ratio) {
@@ -120,3 +119,4 @@ void OutputsManager::buzz(int freq) {
     }
     tone(BUZZ_PIN, freq);
 }
+
