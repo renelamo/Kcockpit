@@ -2,16 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fa1ed441-c532-48ed-8d32-83f41a62ec5e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/rene.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/jSerialComm_2_4_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/krpc_java_0_4_8.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/krpc/main/KRPCClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/krpc/main/KRPCClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/krpc/main/CommTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/krpc/main/CommTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/krpc/main/KRPCClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/krpc/main/KRPCClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/krpc/main/SerialManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/krpc/main/SerialManager.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -255,7 +245,8 @@
       <workItem from="1571584937999" duration="5781000" />
       <workItem from="1571598575040" duration="1171000" />
       <workItem from="1573397690031" duration="291000" />
-      <workItem from="1573478302906" duration="1807000" />
+      <workItem from="1573478302906" duration="3564000" />
+      <workItem from="1573924404731" duration="501000" />
     </task>
     <servers />
   </component>

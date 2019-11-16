@@ -138,11 +138,14 @@ void InputsManager::sendActionGroup() {
     if(digitalRead(CUSTOM_3)==LOW){
         out|=0b0100u;
     }
-    if(digitalRead(CUSTOM_4) ==LOW){
+    if(digitalRead(CUSTOM_4)==LOW){
         out|=0b1000u;
     }
     if(digitalRead(CUSTOM_5)==LOW){
         out|=0b10000u;
+    }
+    if(digitalRead(AP_PE_SWITCH)==LOW){
+        out|=0b100000u;
     }
     Serial.write(out);
 }
@@ -168,6 +171,10 @@ void InputsManager::sendSAS() {
     }
     if(digitalRead(BRAKES_PIN)==LOW){
         out|=0b10000u;
+    }
+    if(stage){
+        stage= false;
+        out|=0b100000u;
     }
     Serial.write(out);
 }

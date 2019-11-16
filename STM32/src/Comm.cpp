@@ -68,10 +68,10 @@ bool Comm::capt(OutputsManager* omgr) {
             arg1=Serial.read();
             while(!Serial.available());
             arg2=Serial.read();
-            omgr->setMET(((unsigned long)arg1)<<16u|(unsigned)arg2);//Fixme: c'est peut-être 32 bits de décallage?
+            omgr->setMET(((unsigned long)arg1)<<16u|(unsigned)arg2);//Fixme: c'est peut-être 32 bits de décalage?
             return true;
 
-            ///////////////////////////////// ACTION GROUPS //////////////////////////////////////////////
+///////////////////////////////// ACTION GROUPS //////////////////////////////////////////////
         case SAS_CODE_SET:
             while(!Serial.available());
             arg1=Serial.read();
@@ -89,7 +89,7 @@ bool Comm::capt(OutputsManager* omgr) {
             InputsManager::sendActionGroup();
             return true;
 
-            ///////////////////////////////// BARGRAPHS //////////////////////////////////////////////////
+///////////////////////////////// BARGRAPHS //////////////////////////////////////////////////
         case ELEC_CODE:
             while(!Serial.available());
             arg1 = Serial.read();
@@ -111,7 +111,7 @@ bool Comm::capt(OutputsManager* omgr) {
             omgr->setMonoPLevel(arg1);
             return true;
 
-            ///////////////////////////////// ANALOG INPUTS ////////////////////////////////////////////
+///////////////////////////////// ANALOG INPUTS ////////////////////////////////////////////
         case THROTTLE_CODE:
             InputsManager::sendThrottle();
             return true;
