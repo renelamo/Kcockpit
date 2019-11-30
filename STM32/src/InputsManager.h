@@ -13,7 +13,7 @@ class InputsManager {
 private:
     static void initPins();
 public:
-    static bool stage;
+    static volatile bool stage;
 
     InputsManager();
 
@@ -26,9 +26,11 @@ public:
     static void sendZ();
     static void sendT();
     static void sendActionGroup();
+    /**
+     * @deprecated
+     */
     static void sendStage();
     static void sendSAS();
 };
-
 
 #endif //STM32_INPUTSMANAGER_H

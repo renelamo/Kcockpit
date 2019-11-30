@@ -5,7 +5,7 @@
 // */
 
 OutputsManager* omgr;
-int lastTimeChanged;
+unsigned int lastTimeChanged;
 
 void setup(){
     omgr = new OutputsManager();

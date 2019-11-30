@@ -5,6 +5,7 @@
 #include "InputsManager.h"
 #include "offsets.h"
 
+volatile bool InputsManager::stage;
 
 int lissage(int data, int centre){
     int seuil=15;
@@ -76,7 +77,7 @@ void stageISR(){
 
 InputsManager::InputsManager() {
     initPins();
-    stage = false;
+    InputsManager::stage = false;
     attachInterrupt(digitalPinToInterrupt(STAGE_BUTTON), stageISR, FALLING);
 }
 
@@ -151,8 +152,8 @@ void InputsManager::sendActionGroup() {
 }
 
 void InputsManager::sendStage() {
-    Serial.write((int)stage);
-    stage = false;
+    Serial.write((int)InputsManager::stage);
+    InputsManager::stage = false;
 }
 
 void InputsManager::sendSAS() {
@@ -172,8 +173,8 @@ void InputsManager::sendSAS() {
     if(digitalRead(BRAKES_PIN)==LOW){
         out|=0b10000u;
     }
-    if(stage){
-        stage= false;
+    if(InputsManager::stage){
+        InputsManager::stage= false;
         out|=0b100000u;
     }
     Serial.write(out);
