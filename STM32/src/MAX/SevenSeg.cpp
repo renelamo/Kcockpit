@@ -25,7 +25,7 @@ String SevenSeg::toString(float data){
 void SevenSeg::display(float data) {
     String str= toString(data);
     int i=0; //digit que l'on est en train de modifier
-    for(int s=0; s<8; ++s){
+    for(unsigned int s=0; s<8; ++s){
         if(s==str.length()){ //au cas où la chaîne str fait moins de 8 caractères
             return;
         }

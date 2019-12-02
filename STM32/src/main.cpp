@@ -1,24 +1,25 @@
 #include "Arduino.h"
-//*
 #include "Comm.h"
 #include "OutputsManager.h"
-// */
 
 OutputsManager* omgr;
-unsigned int lastTimeChanged;
+HardwareTimer* timer;
+
+void timerISR(HardwareTimer*){
+    digitalToggle(LED_BUILTIN);
+}
 
 void setup(){
     omgr = new OutputsManager();
     digitalWrite(LED_GREEN, HIGH);
-    lastTimeChanged = millis();
+    timer = new HardwareTimer(TIM1);
+    timer->attachInterrupt(timerISR);
+    timer->setOverflow(2, HERTZ_FORMAT);
+    timer->resume();
 }
 
 void loop(){
     Comm::capt(omgr);
-    if(millis()>lastTimeChanged + 500) {
-        digitalToggle(LED_GREEN);
-        lastTimeChanged = millis();
-    }
 }
 
 
