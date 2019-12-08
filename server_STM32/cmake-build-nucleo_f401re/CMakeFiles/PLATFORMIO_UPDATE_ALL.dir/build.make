@@ -34,19 +34,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /snap/clion/97/bin/cmake/linux/bin/cmake
+CMAKE_COMMAND = /snap/clion/98/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /snap/clion/97/bin/cmake/linux/bin/cmake -E remove -f
+RM = /snap/clion/98/bin/cmake/linux/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/rene/ksp/STM32
+CMAKE_SOURCE_DIR = /home/rene/ksp/server_STM32
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/rene/ksp/STM32/cmake-build-nucleo_f401re
+CMAKE_BINARY_DIR = /home/rene/ksp/server_STM32/cmake-build-nucleo_f401re
 
 # Utility rule file for PLATFORMIO_UPDATE_ALL.
 
@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /home/rene/ksp/STM32/cmake-build-nucleo_f401re
 include CMakeFiles/PLATFORMIO_UPDATE_ALL.dir/progress.make
 
 CMakeFiles/PLATFORMIO_UPDATE_ALL:
-	cd /home/rene/ksp/STM32 && /home/rene/.local/bin/pio -f -c clion update
+	cd /home/rene/ksp/server_STM32 && /home/rene/.local/bin/pio -f -c clion update
 
 PLATFORMIO_UPDATE_ALL: CMakeFiles/PLATFORMIO_UPDATE_ALL
 PLATFORMIO_UPDATE_ALL: CMakeFiles/PLATFORMIO_UPDATE_ALL.dir/build.make
@@ -71,6 +71,6 @@ CMakeFiles/PLATFORMIO_UPDATE_ALL.dir/clean:
 .PHONY : CMakeFiles/PLATFORMIO_UPDATE_ALL.dir/clean
 
 CMakeFiles/PLATFORMIO_UPDATE_ALL.dir/depend:
-	cd /home/rene/ksp/STM32/cmake-build-nucleo_f401re && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/rene/ksp/STM32 /home/rene/ksp/STM32 /home/rene/ksp/STM32/cmake-build-nucleo_f401re /home/rene/ksp/STM32/cmake-build-nucleo_f401re /home/rene/ksp/STM32/cmake-build-nucleo_f401re/CMakeFiles/PLATFORMIO_UPDATE_ALL.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/rene/ksp/server_STM32/cmake-build-nucleo_f401re && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/rene/ksp/server_STM32 /home/rene/ksp/server_STM32 /home/rene/ksp/server_STM32/cmake-build-nucleo_f401re /home/rene/ksp/server_STM32/cmake-build-nucleo_f401re /home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/CMakeFiles/PLATFORMIO_UPDATE_ALL.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/PLATFORMIO_UPDATE_ALL.dir/depend
 

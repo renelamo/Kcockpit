@@ -8,34 +8,34 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/rene/ksp/STM32/cmake-build-nucleo_f401re"/>
+				<Option working_dir="/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/home/rene/ksp/STM32/cmake-build-nucleo_f401re"/>
+				<Option working_dir="/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Z_DUMMY_TARGET">
-				<Option output="/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Z_DUMMY_TARGET" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/rene/ksp/STM32/cmake-build-nucleo_f401re"/>
+				<Option output="/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Z_DUMMY_TARGET" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/home/rene/ksp/STM32/include"/>
-					<Add directory="/home/rene/ksp/STM32/src"/>
+					<Add directory="/home/rene/ksp/server_STM32/include"/>
+					<Add directory="/home/rene/ksp/server_STM32/src"/>
 					<Add directory="/home/rene/.platformio/packages/framework-arduinoststm32/libraries/SPI/src"/>
 					<Add directory="/home/rene/.platformio/packages/framework-arduinoststm32/cores/arduino/avr"/>
 					<Add directory="/home/rene/.platformio/packages/framework-arduinoststm32/cores/arduino/stm32"/>
@@ -53,8 +53,8 @@
 					<Add directory="/home/rene/.platformio/packages/framework-arduinoststm32/system/Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/gcc"/>
 					<Add directory="/home/rene/.platformio/packages/framework-arduinoststm32/cores/arduino"/>
 					<Add directory="/home/rene/.platformio/packages/framework-arduinoststm32/variants/NUCLEO_F401RE"/>
-					<Add directory="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master"/>
-					<Add directory="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master"/>
+					<Add directory="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master"/>
+					<Add directory="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master"/>
 					<Add directory="/home/rene/.platformio/packages/framework-arduinoststm32/libraries/EEPROM/src"/>
 					<Add directory="/home/rene/.platformio/packages/framework-arduinoststm32/libraries/IWatchdog/src"/>
 					<Add directory="/home/rene/.platformio/packages/framework-arduinoststm32/libraries/Keyboard/src"/>
@@ -78,21 +78,21 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 Z_DUMMY_TARGET"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 Z_DUMMY_TARGET"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Z_DUMMY_TARGET/fast">
-				<Option output="/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Z_DUMMY_TARGET" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/rene/ksp/STM32/cmake-build-nucleo_f401re"/>
+				<Option output="/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Z_DUMMY_TARGET" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/home/rene/ksp/STM32/include"/>
-					<Add directory="/home/rene/ksp/STM32/src"/>
+					<Add directory="/home/rene/ksp/server_STM32/include"/>
+					<Add directory="/home/rene/ksp/server_STM32/src"/>
 					<Add directory="/home/rene/.platformio/packages/framework-arduinoststm32/libraries/SPI/src"/>
 					<Add directory="/home/rene/.platformio/packages/framework-arduinoststm32/cores/arduino/avr"/>
 					<Add directory="/home/rene/.platformio/packages/framework-arduinoststm32/cores/arduino/stm32"/>
@@ -110,8 +110,8 @@
 					<Add directory="/home/rene/.platformio/packages/framework-arduinoststm32/system/Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/gcc"/>
 					<Add directory="/home/rene/.platformio/packages/framework-arduinoststm32/cores/arduino"/>
 					<Add directory="/home/rene/.platformio/packages/framework-arduinoststm32/variants/NUCLEO_F401RE"/>
-					<Add directory="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master"/>
-					<Add directory="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master"/>
+					<Add directory="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master"/>
+					<Add directory="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master"/>
 					<Add directory="/home/rene/.platformio/packages/framework-arduinoststm32/libraries/EEPROM/src"/>
 					<Add directory="/home/rene/.platformio/packages/framework-arduinoststm32/libraries/IWatchdog/src"/>
 					<Add directory="/home/rene/.platformio/packages/framework-arduinoststm32/libraries/Keyboard/src"/>
@@ -135,534 +135,534 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 Z_DUMMY_TARGET/fast"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 Z_DUMMY_TARGET/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/home/rene/ksp/STM32/cmake-build-nucleo_f401re"/>
+				<Option working_dir="/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="PLATFORMIO_REBUILD_PROJECT_INDEX">
-				<Option working_dir="/home/rene/ksp/STM32/cmake-build-nucleo_f401re"/>
+				<Option working_dir="/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 PLATFORMIO_REBUILD_PROJECT_INDEX"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 PLATFORMIO_REBUILD_PROJECT_INDEX"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="PLATFORMIO_UPLOADFS">
-				<Option working_dir="/home/rene/ksp/STM32/cmake-build-nucleo_f401re"/>
+				<Option working_dir="/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 PLATFORMIO_UPLOADFS"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 PLATFORMIO_UPLOADFS"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="PLATFORMIO_PROGRAM">
-				<Option working_dir="/home/rene/ksp/STM32/cmake-build-nucleo_f401re"/>
+				<Option working_dir="/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 PLATFORMIO_PROGRAM"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 PLATFORMIO_PROGRAM"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="PLATFORMIO_BUILD_DEBUG">
-				<Option working_dir="/home/rene/ksp/STM32/cmake-build-nucleo_f401re"/>
+				<Option working_dir="/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 PLATFORMIO_BUILD_DEBUG"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 PLATFORMIO_BUILD_DEBUG"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="PLATFORMIO_BUILD_VERBOSE">
-				<Option working_dir="/home/rene/ksp/STM32/cmake-build-nucleo_f401re"/>
+				<Option working_dir="/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 PLATFORMIO_BUILD_VERBOSE"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 PLATFORMIO_BUILD_VERBOSE"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="PLATFORMIO_UPDATE_ALL">
-				<Option working_dir="/home/rene/ksp/STM32/cmake-build-nucleo_f401re"/>
+				<Option working_dir="/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 PLATFORMIO_UPDATE_ALL"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 PLATFORMIO_UPDATE_ALL"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="PLATFORMIO_BUILD">
-				<Option working_dir="/home/rene/ksp/STM32/cmake-build-nucleo_f401re"/>
+				<Option working_dir="/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 PLATFORMIO_BUILD"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 PLATFORMIO_BUILD"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="PLATFORMIO_MONITOR">
-				<Option working_dir="/home/rene/ksp/STM32/cmake-build-nucleo_f401re"/>
+				<Option working_dir="/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 PLATFORMIO_MONITOR"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 PLATFORMIO_MONITOR"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="PLATFORMIO_UPLOAD">
-				<Option working_dir="/home/rene/ksp/STM32/cmake-build-nucleo_f401re"/>
+				<Option working_dir="/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 PLATFORMIO_UPLOAD"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 PLATFORMIO_UPLOAD"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="PLATFORMIO_CLEAN">
-				<Option working_dir="/home/rene/ksp/STM32/cmake-build-nucleo_f401re"/>
+				<Option working_dir="/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 PLATFORMIO_CLEAN"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 PLATFORMIO_CLEAN"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="PLATFORMIO_DEVICE_LIST">
-				<Option working_dir="/home/rene/ksp/STM32/cmake-build-nucleo_f401re"/>
+				<Option working_dir="/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 PLATFORMIO_DEVICE_LIST"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 PLATFORMIO_DEVICE_LIST"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="PLATFORMIO_TEST">
-				<Option working_dir="/home/rene/ksp/STM32/cmake-build-nucleo_f401re"/>
+				<Option working_dir="/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 PLATFORMIO_TEST"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 PLATFORMIO_TEST"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/rene/ksp/server_STM32/cmake-build-nucleo_f401re/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master.zip">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master.zip">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/.gitignore">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/.gitignore">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/.travis.yml">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/.travis.yml">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Adafruit_GFX.cpp">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Adafruit_GFX.cpp">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Adafruit_GFX.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Adafruit_GFX.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Adafruit_SPITFT.cpp">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Adafruit_SPITFT.cpp">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Adafruit_SPITFT.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Adafruit_SPITFT.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Adafruit_SPITFT_Macros.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Adafruit_SPITFT_Macros.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMono12pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMono12pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMono18pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMono18pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMono24pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMono24pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMono9pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMono9pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMonoBold12pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMonoBold12pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMonoBold18pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMonoBold18pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMonoBold24pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMonoBold24pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMonoBold9pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMonoBold9pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMonoBoldOblique12pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMonoBoldOblique12pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMonoBoldOblique18pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMonoBoldOblique18pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMonoBoldOblique24pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMonoBoldOblique24pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMonoBoldOblique9pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMonoBoldOblique9pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMonoOblique12pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMonoOblique12pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMonoOblique18pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMonoOblique18pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMonoOblique24pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMonoOblique24pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMonoOblique9pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeMonoOblique9pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSans12pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSans12pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSans18pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSans18pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSans24pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSans24pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSans9pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSans9pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSansBold12pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSansBold12pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSansBold18pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSansBold18pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSansBold24pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSansBold24pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSansBold9pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSansBold9pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSansBoldOblique12pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSansBoldOblique12pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSansBoldOblique18pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSansBoldOblique18pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSansBoldOblique24pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSansBoldOblique24pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSansBoldOblique9pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSansBoldOblique9pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSansOblique12pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSansOblique12pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSansOblique18pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSansOblique18pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSansOblique24pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSansOblique24pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSansOblique9pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSansOblique9pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerif12pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerif12pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerif18pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerif18pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerif24pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerif24pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerif9pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerif9pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerifBold12pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerifBold12pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerifBold18pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerifBold18pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerifBold24pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerifBold24pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerifBold9pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerifBold9pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerifBoldItalic12pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerifBoldItalic12pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerifBoldItalic18pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerifBoldItalic18pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerifBoldItalic24pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerifBoldItalic24pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerifBoldItalic9pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerifBoldItalic9pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerifItalic12pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerifItalic12pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerifItalic18pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerifItalic18pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerifItalic24pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerifItalic24pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerifItalic9pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/FreeSerifItalic9pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/Org_01.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/Org_01.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/Picopixel.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/Picopixel.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/Tiny3x3a2pt7b.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/Tiny3x3a2pt7b.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/Fonts/TomThumb.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/Fonts/TomThumb.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/README.md">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/README.md">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/examples/mock_ili9341/mock_ili9341.ino">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/examples/mock_ili9341/mock_ili9341.ino">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/fontconvert/fontconvert.c">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/fontconvert/fontconvert.c">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/fontconvert/fontconvert_win.md">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/fontconvert/fontconvert_win.md">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/fontconvert/makefonts.sh">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/fontconvert/makefonts.sh">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/gfxfont.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/gfxfont.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/glcdfont.c">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/glcdfont.c">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/library.properties">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/library.properties">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-GFX-Library-master/license.txt">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-GFX-Library-master/license.txt">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master.zip">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master.zip">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/.github/ISSUE_TEMPLATE.md">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/.github/ISSUE_TEMPLATE.md">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/.github/PULL_REQUEST_TEMPLATE.md">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/.github/PULL_REQUEST_TEMPLATE.md">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/.gitignore">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/.gitignore">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/.travis.yml">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/.travis.yml">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/Adafruit_ST7735.cpp">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/Adafruit_ST7735.cpp">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/Adafruit_ST7735.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/Adafruit_ST7735.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/Adafruit_ST7789.cpp">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/Adafruit_ST7789.cpp">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/Adafruit_ST7789.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/Adafruit_ST7789.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/Adafruit_ST77xx.cpp">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/Adafruit_ST77xx.cpp">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/Adafruit_ST77xx.h">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/Adafruit_ST77xx.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/README.txt">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/README.txt">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/displayOnOffTest/displayOnOffTest.ino">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/displayOnOffTest/displayOnOffTest.ino">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest/graphicstest.ino">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest/graphicstest.ino">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_hallowing_m0/graphicstest_hallowing_m0.ino">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_hallowing_m0/graphicstest_hallowing_m0.ino">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_hallowing_m4/.due.test.skip">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_hallowing_m4/.due.test.skip">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_hallowing_m4/.esp32.test.skip">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_hallowing_m4/.esp32.test.skip">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_hallowing_m4/.esp8266.test.skip">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_hallowing_m4/.esp8266.test.skip">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_hallowing_m4/.leonardo.test.skip">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_hallowing_m4/.leonardo.test.skip">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_hallowing_m4/.m4.test.skip">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_hallowing_m4/.m4.test.skip">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_hallowing_m4/.mega2560.test.skip">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_hallowing_m4/.mega2560.test.skip">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_hallowing_m4/.uno.test.skip">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_hallowing_m4/.uno.test.skip">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_hallowing_m4/.zero.test.skip">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_hallowing_m4/.zero.test.skip">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_hallowing_m4/graphicstest_hallowing_m4.ino">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_hallowing_m4/graphicstest_hallowing_m4.ino">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_pybadge_pygamer/.due.test.skip">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_pybadge_pygamer/.due.test.skip">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_pybadge_pygamer/.esp32.test.skip">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_pybadge_pygamer/.esp32.test.skip">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_pybadge_pygamer/.esp8266.test.skip">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_pybadge_pygamer/.esp8266.test.skip">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_pybadge_pygamer/.leonardo.test.skip">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_pybadge_pygamer/.leonardo.test.skip">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_pybadge_pygamer/.m4.test.skip">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_pybadge_pygamer/.m4.test.skip">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_pybadge_pygamer/.mega2560.test.skip">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_pybadge_pygamer/.mega2560.test.skip">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_pybadge_pygamer/.uno.test.skip">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_pybadge_pygamer/.uno.test.skip">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_pybadge_pygamer/.zero.test.skip">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_pybadge_pygamer/.zero.test.skip">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_pybadge_pygamer/graphicstest_pybadge_pygamer.ino">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/graphicstest_pybadge_pygamer/graphicstest_pybadge_pygamer.ino">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/miniTFTWing/basic/.mega2560.test.skip">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/miniTFTWing/basic/.mega2560.test.skip">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/miniTFTWing/basic/basic.ino">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/miniTFTWing/basic/basic.ino">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/miniTFTWing/graphicstest/.mega2560.test.skip">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/miniTFTWing/graphicstest/.mega2560.test.skip">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/miniTFTWing/graphicstest/graphicstest.ino">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/miniTFTWing/graphicstest/graphicstest.ino">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/rotationtest/rotationtest.ino">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/rotationtest/rotationtest.ino">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/seesaw_shield18_test/seesaw_shield18_test.ino">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/seesaw_shield18_test/seesaw_shield18_test.ino">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/examples/shieldtest/shieldtest.ino">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/examples/shieldtest/shieldtest.ino">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/Adafruit-ST7735-Library-master/library.properties">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/Adafruit-ST7735-Library-master/library.properties">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/lib/tft_navball-master.zip">
+		<Unit filename="/home/rene/ksp/server_STM32/lib/tft_navball-master.zip">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/src/Comm.cpp">
+		<Unit filename="/home/rene/ksp/server_STM32/src/Comm.cpp">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/src/Comm.h">
+		<Unit filename="/home/rene/ksp/server_STM32/src/Comm.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/src/InputsManager.cpp">
+		<Unit filename="/home/rene/ksp/server_STM32/src/InputsManager.cpp">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/src/InputsManager.h">
+		<Unit filename="/home/rene/ksp/server_STM32/src/InputsManager.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/src/MAX/Bargraph.cpp">
+		<Unit filename="/home/rene/ksp/server_STM32/src/MAX/Bargraph.cpp">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/src/MAX/Bargraph.h">
+		<Unit filename="/home/rene/ksp/server_STM32/src/MAX/Bargraph.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/src/MAX/LED.cpp">
+		<Unit filename="/home/rene/ksp/server_STM32/src/MAX/LED.cpp">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/src/MAX/LED.h">
+		<Unit filename="/home/rene/ksp/server_STM32/src/MAX/LED.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/src/MAX/MAX7221.cpp">
+		<Unit filename="/home/rene/ksp/server_STM32/src/MAX/MAX7221.cpp">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/src/MAX/MAX7221.h">
+		<Unit filename="/home/rene/ksp/server_STM32/src/MAX/MAX7221.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/src/MAX/SevenSeg.cpp">
+		<Unit filename="/home/rene/ksp/server_STM32/src/MAX/SevenSeg.cpp">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/src/MAX/SevenSeg.h">
+		<Unit filename="/home/rene/ksp/server_STM32/src/MAX/SevenSeg.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/src/OutputsManager.cpp">
+		<Unit filename="/home/rene/ksp/server_STM32/src/OutputsManager.cpp">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/src/OutputsManager.h">
+		<Unit filename="/home/rene/ksp/server_STM32/src/OutputsManager.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/src/PinMap.h">
+		<Unit filename="/home/rene/ksp/server_STM32/src/PinMap.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/src/commTable.h">
+		<Unit filename="/home/rene/ksp/server_STM32/src/commTable.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/src/main.cpp">
+		<Unit filename="/home/rene/ksp/server_STM32/src/main.cpp">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/src/offsets.h">
+		<Unit filename="/home/rene/ksp/server_STM32/src/offsets.h">
 			<Option target="Z_DUMMY_TARGET"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/CMakeLists.txt">
+		<Unit filename="/home/rene/ksp/server_STM32/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
-		<Unit filename="/home/rene/ksp/STM32/CMakeListsPrivate.txt">
+		<Unit filename="/home/rene/ksp/server_STM32/CMakeListsPrivate.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

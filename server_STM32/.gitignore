@@ -2,3 +2,5 @@
 .pioenvs
 .piolibdeps
 CMakeListsPrivate.txt
+cmake-build-debug
+cmake-build-nucleo_f401re
