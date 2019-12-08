@@ -1,0 +1,15 @@
+/home/rene/ksp/STM32/cmake-build-nucleo_f401re/CMakeFiles/edit_cache.dir
+/home/rene/ksp/STM32/cmake-build-nucleo_f401re/CMakeFiles/Z_DUMMY_TARGET.dir
+/home/rene/ksp/STM32/cmake-build-nucleo_f401re/CMakeFiles/rebuild_cache.dir
+/home/rene/ksp/STM32/cmake-build-nucleo_f401re/CMakeFiles/PLATFORMIO_REBUILD_PROJECT_INDEX.dir
+/home/rene/ksp/STM32/cmake-build-nucleo_f401re/CMakeFiles/PLATFORMIO_UPLOADFS.dir
+/home/rene/ksp/STM32/cmake-build-nucleo_f401re/CMakeFiles/PLATFORMIO_PROGRAM.dir
+/home/rene/ksp/STM32/cmake-build-nucleo_f401re/CMakeFiles/PLATFORMIO_BUILD_DEBUG.dir
+/home/rene/ksp/STM32/cmake-build-nucleo_f401re/CMakeFiles/PLATFORMIO_BUILD_VERBOSE.dir
+/home/rene/ksp/STM32/cmake-build-nucleo_f401re/CMakeFiles/PLATFORMIO_UPDATE_ALL.dir
+/home/rene/ksp/STM32/cmake-build-nucleo_f401re/CMakeFiles/PLATFORMIO_BUILD.dir
+/home/rene/ksp/STM32/cmake-build-nucleo_f401re/CMakeFiles/PLATFORMIO_MONITOR.dir
+/home/rene/ksp/STM32/cmake-build-nucleo_f401re/CMakeFiles/PLATFORMIO_UPLOAD.dir
+/home/rene/ksp/STM32/cmake-build-nucleo_f401re/CMakeFiles/PLATFORMIO_CLEAN.dir
+/home/rene/ksp/STM32/cmake-build-nucleo_f401re/CMakeFiles/PLATFORMIO_DEVICE_LIST.dir
+/home/rene/ksp/STM32/cmake-build-nucleo_f401re/CMakeFiles/PLATFORMIO_TEST.dir

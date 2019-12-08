@@ -1,0 +1,4 @@
+/snap/clion/97/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=nucleo_f401re -G "CodeBlocks - Unix Makefiles" /home/rene/ksp/STM32
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/rene/ksp/STM32/cmake-build-nucleo_f401re
