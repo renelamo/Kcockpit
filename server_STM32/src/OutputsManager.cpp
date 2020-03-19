@@ -27,6 +27,7 @@ void initSPI(){
     SPI.setMISO(MISO_PIN);
     SPI.setMOSI(MOSI_PIN);
     SPI.setSCLK(CLOCK_PIN);
+    SPI.setDataMode(SPI_MODE_0);
     SPI.begin();
 }
 
@@ -79,19 +80,19 @@ void OutputsManager::setMET(double seconds) {
 }
 
 void OutputsManager::setElecCharge(int ratio) {
-    elecGraph->display(ratio);
+    elecGraph->display(ceil(ratio/2.0)); //ratio a une valeur entre 0 et 20
 }
 
 void OutputsManager::setFuelLevel(int ratio) {
-    fuelGraph->display(ratio);
+    fuelGraph->display(ceil(ratio/2.0));
 }
 
 void OutputsManager::setOxidLevel(int ratio) {
-    oxidGraph->display(ratio);
+    oxidGraph->display(ceil(ratio/2.0));
 }
 
 void OutputsManager::setMonoPLevel(int ratio) {
-    monoPGraph->display(ratio);
+    monoPGraph->display(ceil(ratio/2.0));
 }
 
 void OutputsManager::setActionGroupLeds(int data) {

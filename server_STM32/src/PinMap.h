@@ -5,8 +5,6 @@
 #ifndef STM32_PINMAP_H
 #define STM32_PINMAP_H
 
-#include "MAX/MAX7221.h"
-
 /////////Analogiques//////////////
 enum analogInputs {
     PITCH_PIN = PA0,
@@ -22,8 +20,8 @@ enum analogInputs {
 ////////SPI1///////////////////////
 enum SPIPins{
     CLOCK_PIN = PB3,
-    MOSI_PIN = PB5,
     MISO_PIN = PB4,
+    MOSI_PIN = PB5,
     BARGRAPH_PIN = PB13,
     ALT_PIN = PB14,
     PE_PIN = PB15,

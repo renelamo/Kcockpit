@@ -5,10 +5,10 @@
 #ifndef STM32_OUTPUTSMANAGER_H
 #define STM32_OUTPUTSMANAGER_H
 
-#include <MAX/MAX7221.h>
-#include <MAX/SevenSeg.h>
+#include <MAX7221.h>
+#include <SevenSeg.h>
 #include "Arduino.h"
-#include "MAX/Bargraph.h"
+#include <Bargraph.h>
 #include "PinMap.h"
 
 

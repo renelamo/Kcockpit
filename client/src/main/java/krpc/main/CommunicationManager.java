@@ -47,6 +47,15 @@ public class CommunicationManager implements CommTable {
     }
      */
 
+    boolean handShake() throws RPCException, IOException{
+        while (in.available()>0){
+            in.read();
+        }
+        STM32.write(HANDSHAKE_CODE);
+        waitSerial();
+        return in.read()==HANDSHAKE_CODE;
+    }
+
 
     ////////////////////// ANALOG INPUTS ///////////////////////////////////
     void getThrottle() throws RPCException, IOException{
@@ -176,22 +185,17 @@ public class CommunicationManager implements CommTable {
         int dataValue;
         waitSerial();
         dataValue=in.read();
-        boolean sas=dataValue%2==1;
+        boolean sas=(dataValue & 1)>0;
         Logger.DEBUG("sas="+sas);
-        dataValue/=2;
-        boolean rcs=dataValue%2==1;
+        boolean rcs=(dataValue & 2)>0;
         Logger.DEBUG("rcs="+rcs);
-        dataValue/=2;
-        boolean lights=dataValue%2==1;
+        boolean lights=(dataValue & 4)>0;
         Logger.DEBUG("lights="+lights);
-        dataValue/=2;
-        boolean gears=dataValue%2==1;
+        boolean gears=(dataValue & 8)>0;
         Logger.DEBUG("gears="+gears);
-        dataValue/=2;
-        boolean brakes=dataValue%2==1;
+        boolean brakes=(dataValue & 16)>0;
         Logger.DEBUG("brakes="+brakes);
-        dataValue/=2;
-        boolean stage = dataValue%2==1;
+        boolean stage = (dataValue & 32)>0;
         if(connectKrpc){
             control.setSAS(sas);
             control.setRCS(rcs);
@@ -270,7 +274,8 @@ public class CommunicationManager implements CommTable {
     ///////////////////////////////// 7 SEGMENTS /////////////////////////////////////////////
 
     void sendAlt() throws RPCException, IOException {
-        double alt = vessel.flight(vessel.getSurfaceReferenceFrame()).getSurfaceAltitude();
+        //double alt = vessel.flight(vessel.getSurfaceReferenceFrame()).getSurfaceAltitude();
+        double alt = 10;
         int log = (int) Math.log10(alt);
         int puissance10 = log>8 ? log-8 : 0;
         alt/=Math.pow(10, puissance10);

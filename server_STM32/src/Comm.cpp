@@ -11,6 +11,7 @@
 bool Comm::capt(OutputsManager* omgr) {
     while (!Serial.available());
     int code=Serial.read();
+    Serial.write(code);
     int arg1, arg2;
     switch (code){
         case NO_OP_CODE:
@@ -138,6 +139,7 @@ bool Comm::capt(OutputsManager* omgr) {
             return true;
 
         default:
+            digitalWrite(LED_BUILTIN, LOW);
             return false;
     }
 }

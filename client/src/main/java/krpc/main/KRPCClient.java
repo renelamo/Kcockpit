@@ -6,6 +6,7 @@ import krpc.client.RPCException;
 import krpc.client.services.*;
 import krpc.client.services.SpaceCenter.*;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -24,31 +25,33 @@ public class KRPCClient {
     public static void main(String[] args) {
         try {
             SerialPort commPort;
-            osName =System.getProperty("os.name");
-            Logger.INFO("Système "+ osName +" détecté");
+            osName = System.getProperty("os.name");
+            Logger.INFO("Système " + osName + " détecté");
 
+            boolean firstTime = true;
             do {
-                /*
-                try {
-                    Thread.sleep(8000); //FIXME: je sais plus pourquoi j'attends ici
-                }catch (Exception e){
-                    e.printStackTrace();
+                if (!firstTime) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-                 */
+                firstTime = false;
                 commPort = WaitFor.connectDevice();
 
                 commPort.openPort();
-                commPort.setBaudRate(115200);
+                commPort.setComPortParameters(115200, 8, 1, SerialPort.NO_PARITY);
                 commPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING | SerialPort.TIMEOUT_WRITE_BLOCKING, 1000, 1000);
                 in = commPort.getInputStream();
-                if(in==null){
-                    Logger.ERROR("Impossible de récupérer le flux entrant");
+                if (in == null) {
+                    Logger.ERROR("Impossible de récupérer le flux entrant, réessai plus tard");
                 }
             }
-            while (in==null);
+            while (in == null);
             STM32 = commPort.getOutputStream();
 
-            if(CommunicationManager.connectKrpc) {
+            if (CommunicationManager.connectKrpc) {
                 Connection connection = WaitFor.connectKrpc();
                 KRPC krpc = KRPC.newInstance(connection);
                 Logger.INFO("Connecté à KRPC version: " + krpc.getStatus().getVersion());
@@ -61,12 +64,17 @@ public class KRPCClient {
             commManager = new CommunicationManager();
 
             while (true) {
+                if (!commManager.handShake()) {
+                    Logger.ERROR("Handshake failed");
+                } else {
+                    Logger.DEBUG("Handshake successful");
+                }
                 commManager.sendElec();
                 commManager.sendFuel();
                 commManager.sendOxid();
                 commManager.sendMonoP();
                 commManager.sendMET();
-                commManager.sendAlt();
+                //commManager.sendAlt();
                 commManager.getPitch();
                 commManager.getRoll();
                 commManager.getYaw();
@@ -76,22 +84,24 @@ public class KRPCClient {
                 commManager.sendSAS();
                 commManager.getActionGroups();
                 commManager.sendActionGroups();
-                if(sendTimeForAPPE){
+                /*
+                if (sendTimeForAPPE) {
                     commManager.sendAPTime();
                     commManager.sendPETime();
                 } else {
                     commManager.sendAPAlt();
                     commManager.sendPEAlt();
                 }
+                */
             }
-        }
-        catch (RPCException rpc){
+        } catch (RPCException rpc) {
             Logger.ERROR("Encore une RPCException ¯\\_(ツ)_/¯");
-        }
-        catch (UnknownOSException e){
+        } catch (UnknownOSException e) {
             Logger.ERROR("Mais t'es sur quel OS PUTAING!!");
-        }
-        catch (Exception e){
+        } catch (IOException e) {
+            Logger.INFO("Device disconnected, exiting");
+            System.exit(0);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

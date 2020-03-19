@@ -6,7 +6,7 @@
 #define TEENSY_BARGRAPH_H
 
 
-#include "MAX7221.h"
+#include <MAX7221.h>
 
 
 class Bargraph {

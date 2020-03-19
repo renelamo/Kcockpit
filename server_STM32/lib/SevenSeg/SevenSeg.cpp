@@ -12,6 +12,10 @@
 SevenSeg::SevenSeg(MAX7221 *newHost) {
     host=newHost;
     host->setDecodeMode(FULL_DECODE);
+    for(DigitsRegister r:allRegisters){
+        host->setRegister(r, 0x0F);//On affiche un carractère vide, plutôt qu'un '0'
+    }
+    host->flush();
 }
 
 String SevenSeg::toString(float data){
