@@ -8,10 +8,9 @@
 #include "OutputsManager.h"
 #include "InputsManager.h"
 
-bool Comm::capt(OutputsManager* omgr) {
+bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
     while (!Serial.available());
     int code=Serial.read();
-    Serial.write(code);
     int arg1, arg2;
     switch (code){
         case NO_OP_CODE:
@@ -84,7 +83,7 @@ bool Comm::capt(OutputsManager* omgr) {
             OutputsManager::setActionGroupLeds(arg1);
             return true;
         case SAS_CODE_GET:
-            InputsManager::sendSAS();
+            imgr->sendSAS();
             return true;
         case ACTION_CODE_CODE_GET:
             InputsManager::sendActionGroup();

@@ -1,7 +1,7 @@
 package krpc.main;
 
 public class Logger {
-    public static final int logLevel = 3;
+    public static int logLevel = 3;
     public static void INFO(Object o) {
         if(logLevel>1) {
             System.out.println("\u001B[32m[INFO] " + o +"\u001B[0m");

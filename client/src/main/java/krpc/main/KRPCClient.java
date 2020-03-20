@@ -22,8 +22,18 @@ public class KRPCClient {
     public static boolean sendTimeForAPPE;
     static CommunicationManager commManager;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) {//arg1 = debugLevel, arg2 = connectKRPC
         try {
+            if(args.length>0){
+                Logger.logLevel = Integer.parseInt(args[0]);
+                Logger.INFO("Niveau de debug choisi: "+ args[0]);
+            }
+            if(args.length>1){
+                CommunicationManager.connectKrpc = Boolean.parseBoolean(args[1]);
+                if( ! Boolean.parseBoolean(args[1])){
+                    Logger.WARNING("Connection au serveur KRPC désactivée");
+                }
+            }
             SerialPort commPort;
             osName = System.getProperty("os.name");
             Logger.INFO("Système " + osName + " détecté");
@@ -74,7 +84,7 @@ public class KRPCClient {
                 commManager.sendOxid();
                 commManager.sendMonoP();
                 commManager.sendMET();
-                //commManager.sendAlt();
+                commManager.sendAlt();
                 commManager.getPitch();
                 commManager.getRoll();
                 commManager.getYaw();
@@ -103,6 +113,14 @@ public class KRPCClient {
             System.exit(0);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        finally {
+            try {
+                in.close();
+                STM32.close();
+            }catch (IOException e){
+                System.exit(0);
+            }
         }
     }
 }

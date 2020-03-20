@@ -30,7 +30,7 @@ public:
      * @deprecated
      */
     static void sendStage();
-    static void sendSAS();
+    void sendSAS();
 };
 
 #endif //STM32_INPUTSMANAGER_H

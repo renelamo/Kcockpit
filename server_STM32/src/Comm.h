@@ -11,7 +11,7 @@
 
 class Comm {
 public:
-    static bool capt(OutputsManager* outputsManager);
+    static bool capt(OutputsManager* outputsManager, InputsManager* inputsManager);
 };
 
 

@@ -178,5 +178,6 @@ void InputsManager::sendSAS() {
         out|=0b100000u;
     }
     Serial.write(out);
+    //Serial.write((int)out);//FIXME: peut-être comme ça?
     //Serial.flush();//FIXME peut être faut-il flush?
 }

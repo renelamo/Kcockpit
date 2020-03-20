@@ -25,7 +25,8 @@ void setup(){
 }
 
 void loop(){
-    Comm::capt(omgr);
+    Comm::capt(omgr, imgr);
+    Serial.flush();//Pour pas surcharger la série, on s'assure qu'elle ait fini d'écrire avant de continuer
 }
 
 

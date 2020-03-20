@@ -1,10 +1,15 @@
-apply plugin: 'java'
+plugins{
+    id 'application'
+}
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 version = '1.2.1'
 repositories{
     mavenCentral()
+}
+application{
+    mainClassName = 'krpc.main.KRPCClient'
 }
 dependencies{
     // https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java
