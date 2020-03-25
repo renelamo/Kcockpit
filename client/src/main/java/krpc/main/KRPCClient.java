@@ -75,9 +75,9 @@ public class KRPCClient {
 
             while (true) {
                 if (!commManager.handShake()) {
-                    Logger.ERROR("Handshake failed");
+                    Logger.ERROR("Echec du Handshake");
                 } else {
-                    Logger.DEBUG("Handshake successful");
+                    Logger.DEBUG("Handshake réussi");
                 }
                 commManager.sendElec();
                 commManager.sendFuel();
@@ -109,7 +109,7 @@ public class KRPCClient {
         } catch (UnknownOSException e) {
             Logger.ERROR("Mais t'es sur quel OS PUTAING!!");
         } catch (IOException e) {
-            Logger.INFO("Device disconnected, exiting");
+            Logger.INFO("Panneau déconnecté, terminaison");
             System.exit(0);
         } catch (Exception e) {
             e.printStackTrace();

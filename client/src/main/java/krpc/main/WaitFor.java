@@ -46,8 +46,8 @@ public class WaitFor {
                 Logger.ERROR("Le système "+ osName +" détecté est inconnu");
                 throw new UnknownOSException();
         }
-        Logger.DEBUG("ACM choisi");
-        Logger.INFO_START("Connexion au device.");
+        Logger.DEBUG("Préfixe ACM choisi");
+        Logger.INFO_START("Connexion au panneau en cours.");
         int i=0;
         while(!ACM0.exists()&&!ACM1.exists()){
             Thread.sleep(1000);
@@ -60,7 +60,7 @@ public class WaitFor {
             }
         }
         Logger.INFO_END();
-        Logger.INFO_START("Device connecté");
+        Logger.INFO_START("Connexion au panneau établie");
         if(ACM0.exists()) {
             System.out.println(" sur ACM0");
             Logger.INFO_END();

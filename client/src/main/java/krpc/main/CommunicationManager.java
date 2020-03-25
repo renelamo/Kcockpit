@@ -20,25 +20,25 @@ public class CommunicationManager implements CommTable {
     private static final float zCameraSpeed = 10f;//en m par seconde
     private static long lastTimeZ = System.currentTimeMillis();
 
-    private boolean waitSerial() throws IOException {
+    private void waitSerial() throws IOException {
         long entryTime = System.currentTimeMillis();
         while (in.available() < 1) {
             try {
                 Thread.sleep(1);
                 if (System.currentTimeMillis() > entryTime + 50) {
-                    return true;
+                    Logger.WARNING("Timeout sur la communication série");
+                    return;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        return false;
     }
 
     /*
     void getStage() throws RPCException, IOException{
         STM32.write(STAGE_CODE);
-        if(waitSerial()){Logger.WARNING("Timeout sur série");};
+        waitSerial();
         if(in.read() != 0) {
             control.activateNextStage();
             vessel = spaceCenter.getActiveVessel();
@@ -52,7 +52,7 @@ public class CommunicationManager implements CommTable {
             in.read();
         }
         STM32.write(HANDSHAKE_CODE);
-        if(waitSerial()){Logger.WARNING("Timeout sur série");};
+        waitSerial();
         return in.read() == HANDSHAKE_CODE;
     }
 
@@ -61,7 +61,7 @@ public class CommunicationManager implements CommTable {
     void getThrottle() throws RPCException, IOException {
         float throttleValue;
         STM32.write(THROTTLE_CODE);
-        if(waitSerial()){Logger.WARNING("Timeout sur série");};
+        waitSerial();
         throttleValue = (float) (in.read());
         throttleValue /= 255.0;
         if (connectKrpc) {
@@ -73,7 +73,7 @@ public class CommunicationManager implements CommTable {
     void getPitch() throws RPCException, IOException {
         float pitchValue;
         STM32.write(PITCH_CODE);
-        if(waitSerial()){Logger.WARNING("Timeout sur série");};
+        waitSerial();
         pitchValue = (float) (in.read());
         pitchValue -= 128;
         pitchValue /= 128;
@@ -86,7 +86,7 @@ public class CommunicationManager implements CommTable {
     void getYaw() throws RPCException, IOException {
         float yawValue;
         STM32.write(YAW_CODE);
-        if(waitSerial()){Logger.WARNING("Timeout sur série");};
+        waitSerial();
         yawValue = (float) (in.read());
         yawValue -= 128;
         yawValue /= 128;
@@ -99,7 +99,7 @@ public class CommunicationManager implements CommTable {
     void getRoll() throws RPCException, IOException {
         float rollValue;
         STM32.write(ROLL_CODE);
-        if(waitSerial()){Logger.WARNING("Timeout sur série");};
+        waitSerial();
         rollValue = (float) (in.read());
         rollValue -= 128;
         rollValue /= 128;
@@ -112,7 +112,7 @@ public class CommunicationManager implements CommTable {
     void getX() throws RPCException, IOException {
         float xValue;
         STM32.write(X_CODE);
-        if(waitSerial()){Logger.WARNING("Timeout sur série");};
+        waitSerial();
         xValue = (float) (in.read());
         xValue -= 128;
         xValue /= 128;
@@ -130,7 +130,7 @@ public class CommunicationManager implements CommTable {
     void getY() throws RPCException, IOException {
         float yValue;
         STM32.write(Y_CODE);
-        if(waitSerial()){Logger.WARNING("Timeout sur série");};
+        waitSerial();
         yValue = (float) (in.read());
         yValue -= 128;
         yValue /= 128;
@@ -147,7 +147,7 @@ public class CommunicationManager implements CommTable {
     void getZ() throws RPCException, IOException {
         float zValue;
         STM32.write(Z_CODE);
-        if(waitSerial()){Logger.WARNING("Timeout sur série");};
+        waitSerial();
         zValue = (float) (in.read());
         zValue -= 128;
         zValue /= 128;
@@ -165,7 +165,7 @@ public class CommunicationManager implements CommTable {
     void getT() throws RPCException, IOException {
         float tValue;
         STM32.write(T_CODE);
-        if(waitSerial()){Logger.WARNING("Timeout sur série");};
+        waitSerial();
         tValue = (float) (in.read());
         tValue -= 128;
         tValue /= 128;
@@ -183,7 +183,7 @@ public class CommunicationManager implements CommTable {
     void getSAS() throws RPCException, IOException {
         STM32.write(SAS_CODE_GET);
         int dataValue;
-        if(waitSerial()){Logger.WARNING("Timeout sur série");};
+        waitSerial();
         dataValue = in.read();
         boolean sas = (dataValue & 1) > 0;
         Logger.DEBUG("sas=" + sas);
@@ -238,7 +238,7 @@ public class CommunicationManager implements CommTable {
     void getActionGroups() throws IOException, RPCException {
         STM32.write(ACTIONS_CODE_GET);
         int dataValue;
-        if(waitSerial()){Logger.WARNING("Timeout sur série");};
+        waitSerial();
         dataValue = in.read();
         boolean custom1 = dataValue % 2 == 1;
         dataValue /= 2;
