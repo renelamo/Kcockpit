@@ -36,12 +36,12 @@ public:
     SevenSeg* periSegments;
 public:
     explicit OutputsManager();
-    static void setSASLeds(int data);
-    void setMET(double seconds);
+    void setMET(int64_t seconds);
     void setElecCharge(int ratio);
     void setFuelLevel(int ratio);
     void setOxidLevel(int ratio);
     void setMonoPLevel(int ratio);
+    static void setSASLeds(int data);
     static void setActionGroupLeds(int data);
     static void buzz(int freq);
 };

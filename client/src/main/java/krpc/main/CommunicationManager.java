@@ -2,9 +2,10 @@ package krpc.main;
 
 import krpc.client.RPCException;
 import krpc.client.services.SpaceCenter;
-import krpc.client.services.SpaceCenter.Camera;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 import static java.lang.Math.min;
 import static java.lang.Math.max;
@@ -12,7 +13,7 @@ import static krpc.main.KRPCClient.*;
 
 public class CommunicationManager implements CommTable {
 
-    static boolean connectKrpc = true;
+    static boolean connectKrpc = false;
     private static final float xCameraSpeed = 10f;//en ° par seconde
     private static long lastTimeX = System.currentTimeMillis();
     private static final float yCameraSpeed = 10f;//en ° par seconde
@@ -179,6 +180,7 @@ public class CommunicationManager implements CommTable {
         return max(min(data, max), min);
     }
 
+    //region action_groups
     //////////////////////////// ACTION GROUPS ////////////////////////////////////
     void getSAS() throws RPCException, IOException {
         STM32.write(SAS_CODE_GET);
@@ -274,33 +276,44 @@ public class CommunicationManager implements CommTable {
         STM32.write(ACTIONS_CODE_SET);
         STM32.write(out);
     }
-
+    //endregion
+    
     ///////////////////////////////// 7 SEGMENTS /////////////////////////////////////////////
 
     void sendAlt() throws RPCException, IOException {
-        double alt = 0;
+        long alt = 0;
         if (connectKrpc) {
-            alt = vessel.flight(vessel.getSurfaceReferenceFrame()).getSurfaceAltitude();
+            //TODO: Fix potential narrowing conversion
+            alt =(long) vessel.flight(vessel.getSurfaceReferenceFrame()).getSurfaceAltitude();
         }
-        int log = (int) Math.log10(alt);
-        int puissance10 = log > 8 ? log - 8 : 0;
-        alt /= Math.pow(10, puissance10);
+
+        STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder()).putLong(alt).array());
         STM32.write(ALTITUDE_CODE);
-        STM32.write(puissance10);
-        STM32.write((int) alt);
+
     }
 
     void sendMET() throws RPCException, IOException {
-        long out = 0;
-        if (connectKrpc)
-            out = (long) vessel.getMET();
+        long out;
+        if (connectKrpc) {
+            out = (long) vessel.getMET();//TODO fix potential narrowing conversion
+        }else {
+            out = (System.currentTimeMillis()-refTime)/100;
+        }
         STM32.write(MET_CODE);
-        STM32.write((int) (out >> 8));//MSB first
-        STM32.write((int) out);
+        STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder()).putLong(out).array());
         Logger.DEBUG("MET:" + out);
+        /*
+        for (byte b1 : buffer.array()){
+            String s1 = String.format("%8s", Integer.toBinaryString(b1 & 0xFF)).replace(' ', '0');
+            s1 += " " + Integer.toHexString(b1);
+            s1 += " " + b1;
+            System.out.println(s1);
+        }
+         */
     }
 
 
+    //region Ressources
     void sendElec() throws RPCException, IOException {
         float out = 0;
         if (connectKrpc)
@@ -312,12 +325,11 @@ public class CommunicationManager implements CommTable {
 
     void sendFuel() throws RPCException, IOException {
         float out = 0;
-        float max = 0;
         if (connectKrpc) {
             SpaceCenter.Resources resources = vessel.resourcesInDecoupleStage(control.getCurrentStage() - 1, false); //On récupère les ressources consommées dans ce stage, donc découplées au stage suivant (n-1)
             //SpaceCenter.Resources resources = vessel.getResources();
-            max = resources.max("SolidFuel") + resources.max("LiquidFuel");
-            if (max == 0) {
+            float max = resources.max("SolidFuel") + resources.max("LiquidFuel");
+            if (max == 0) { //Prevent dividing by 0 if no fuel tank detected
                 out = 0;
             } else {
                 out = 20 * (resources.amount("SolidFuel") + resources.amount("LiquidFuel")) / max;
@@ -345,7 +357,9 @@ public class CommunicationManager implements CommTable {
         STM32.write((int) ratio);
         Logger.DEBUG("Mono Propellant : " + ratio * 5 + "%");
     }
+    //endregion
 
+    //region AP_PE
     void sendAPAlt() throws IOException, RPCException {
         STM32.write(AP_ALT_CODE);
         STM32.write((int) vessel.getOrbit().getApoapsisAltitude());
@@ -366,4 +380,5 @@ public class CommunicationManager implements CommTable {
         STM32.write(PE_TIME_CODE);
         STM32.write((int) vessel.getOrbit().getTimeToPeriapsis());
     }
+    //endregion
 }

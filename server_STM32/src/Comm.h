@@ -5,7 +5,6 @@
 #ifndef STM32_COMM_H
 #define STM32_COMM_H
 
-
 #include "OutputsManager.h"
 #include "InputsManager.h"
 

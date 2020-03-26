@@ -20,6 +20,7 @@ public class KRPCClient {
     public static Camera camera;
     public static String osName;
     public static boolean sendTimeForAPPE;
+    public static long refTime = System.currentTimeMillis();
     static CommunicationManager commManager;
 
     public static void main(String[] args) {//arg1 = debugLevel, arg2 = connectKRPC
@@ -105,11 +106,11 @@ public class KRPCClient {
                 */
             }
         } catch (RPCException rpc) {
-            Logger.ERROR("Encore une RPCException ¯\\_(ツ)_/¯");
+            Logger.ERROR("Encore une RPCException ¯\\_(ツ)_/¯ (Le serveur KRPC est probablement stoppé)");
         } catch (UnknownOSException e) {
-            Logger.ERROR("Mais t'es sur quel OS PUTAING!!");
+            Logger.ERROR("Mais t'es sur quel OS PUTAIN!!");
         } catch (IOException e) {
-            Logger.INFO("Panneau déconnecté, terminaison");
+            Logger.INFO("Panneau déconnecté, fin d'execution");
             System.exit(0);
         } catch (Exception e) {
             e.printStackTrace();

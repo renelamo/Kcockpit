@@ -7,6 +7,17 @@ OutputsManager* omgr;
 InputsManager* imgr;
 HardwareTimer* timer;
 
+void print_sizes(){
+    Serial.print("long ");Serial.println(sizeof(long));
+    Serial.print("long long ");Serial.println(sizeof(long long));
+    Serial.print("float "); Serial.println(sizeof(float));
+    Serial.print("double "); Serial.println(sizeof(double));
+    Serial.print("int ");Serial.println(sizeof(int));
+    Serial.print("short ");Serial.println(sizeof(short));
+    Serial.print("char ");Serial.println(sizeof(char));
+    Serial.print("byte "); Serial.println(sizeof(byte));
+}
+
 void timerISR(HardwareTimer*){
     digitalToggle(LED_BUILTIN);
 }

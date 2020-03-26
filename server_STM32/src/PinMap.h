@@ -23,10 +23,12 @@ enum SPIPins{
     MISO_PIN = PB4,
     MOSI_PIN = PB5,
     BARGRAPH_PIN = PB13,
-    ALT_PIN = PB14,
+    //ALT_PIN = PB14,
+    ALT_PIN = PC4,
     PE_PIN = PB15,
     AP_PIN = PB1,
-    TIME_PIN = PC4,
+    //TIME_PIN = PC4,
+    TIME_PIN = PB14,
 };
 
 

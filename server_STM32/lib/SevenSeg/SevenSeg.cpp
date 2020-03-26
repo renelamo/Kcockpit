@@ -125,7 +125,7 @@ void smartTime(int y, int d,int h, int m, int s, bool negative, std::vector<char
 
 }
 
-void SevenSeg::printDate(long time) {
+void SevenSeg::printDate(int64_t time) {
     int s = time % SECONDS_PER_MINUTE;
     time /= SECONDS_PER_MINUTE;
     int min = time % MINUTES_PER_HOUR;

@@ -18,7 +18,7 @@ bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
         case HANDSHAKE_CODE:
             Serial.write(HANDSHAKE_CODE);
             return true;
-        case STAGE_CODE:
+        case STAGE_CODE: //deprecated
             InputsManager::sendStage();
             return true;
         case BUZZ_CODE:
@@ -27,12 +27,12 @@ bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
             OutputsManager::buzz(arg1);
             return true;
 
-/////////////////////////////// 7 SEGMENTS /////////////////////////////////////////////////
+////////////////////////////////// 7 SEGMENTS ///////////////////////////////////////////////
+//region 7_seg
         case ALTITUDE_CODE:
             while(!Serial.available());
-            arg1=Serial.read();
-            while(!Serial.available());
-            arg2=Serial.read();
+            byte buffer[4];
+            Serial.readBytes(buffer, 4);
             omgr->altitudeSegments->display((float)arg2*(float)pow(10, arg1));
             return true;
         case AP_ALT_CODE:
@@ -54,24 +54,27 @@ bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
             arg1=Serial.read();
             while(!Serial.available());
             arg2=Serial.read();
-            omgr->apoSegments->printDate((long) ( ((unsigned long)arg1) << 16u | (unsigned)arg2 ) );//FIXME: Idem ici
+            omgr->apoSegments->printDate((long) ( ((unsigned long)arg1) << 16u | (unsigned)arg2 ) );
             return true;
         case PE_TIME_CODE:
             while(!Serial.available());
             arg1=Serial.read();
             while(!Serial.available());
             arg2=Serial.read();
-            omgr->periSegments->printDate((long)(((unsigned long)arg1)<<16u|(unsigned)arg2));//FIXME: Idem ici
+            omgr->periSegments->printDate((long)(((unsigned long)arg1)<<16u|(unsigned)arg2));
             return true;
         case MET_CODE:
-            while(!Serial.available());
-            arg1=Serial.read();
-            while(!Serial.available());
-            arg2=Serial.read();
-            omgr->setMET(((unsigned long)arg1)<<16u|(unsigned)arg2);//Fixme: c'est peut-être 32 bits de décalage?
+            uint8_t buff[8];
+            Serial.readBytes(buff, 8);
+            //buff[0] poids fort
+            if(buff[0]==0){
+                digitalWrite(LED_BUILTIN, LOW);
+            }
+            omgr->setMET(*(int64_t*)(buff));
             return true;
-
-///////////////////////////////// ACTION GROUPS //////////////////////////////////////////////
+//endregion
+///////////////////////////////// ACTION GROUPS /////////////////////////////////////////////
+//region action_groups
         case SAS_CODE_SET:
             while(!Serial.available());
             arg1=Serial.read();
@@ -88,8 +91,9 @@ bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
         case ACTION_CODE_CODE_GET:
             InputsManager::sendActionGroup();
             return true;
-
-///////////////////////////////// BARGRAPHS //////////////////////////////////////////////////
+//endregion
+/////////////////////////////////// BARGRAPHS ///////////////////////////////////////////////
+//region bragraphs
         case ELEC_CODE:
             while(!Serial.available());
             arg1 = Serial.read();
@@ -110,8 +114,9 @@ bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
             arg1 = Serial.read();
             omgr->setMonoPLevel(arg1);
             return true;
-
-///////////////////////////////// ANALOG INPUTS ////////////////////////////////////////////
+//endregion
+///////////////////////////////// ANALOG INPUTS /////////////////////////////////////////////
+//region analog_inputs
         case THROTTLE_CODE:
             InputsManager::sendThrottle();
             return true;
@@ -136,19 +141,10 @@ bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
         case T_CODE:
             InputsManager::sendT();
             return true;
+            //endregion
 
         default:
             digitalWrite(LED_BUILTIN, LOW);
             return false;
     }
 }
-
-/*
-void Comm::handshake(){
-    do{
-        Serial.write(HANDSHAKE_CODE);
-        Serial.flush();
-        while (!Serial.available());
-    }while (Serial.read()!=HANDSHAKE_CODE);
-}
-*/

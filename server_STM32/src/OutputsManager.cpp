@@ -75,8 +75,8 @@ void OutputsManager::setSASLeds(int data) {
     digitalWrite(BRAKES_LED, (brakes?HIGH:LOW));
 }
 
-void OutputsManager::setMET(double seconds) {
-    METSegments->printDate((long)seconds);
+void OutputsManager::setMET(int64_t seconds) {
+    METSegments->printDate(seconds);
 }
 
 void OutputsManager::setElecCharge(int ratio) {
