@@ -25,16 +25,19 @@ public class KRPCClient {
 
     public static void main(String[] args) {//arg1 = debugLevel, arg2 = connectKRPC
         try {
-            if(args.length>0){
+            //region arguments
+            if (args.length > 0) {
                 Logger.logLevel = Integer.parseInt(args[0]);
-                Logger.INFO("Niveau de debug choisi: "+ args[0]);
+                Logger.INFO("Niveau de debug choisi: " + args[0]);
             }
-            if(args.length>1){
+            if (args.length > 1) {
                 CommunicationManager.connectKrpc = Boolean.parseBoolean(args[1]);
-                if( ! Boolean.parseBoolean(args[1])){
+                if (!Boolean.parseBoolean(args[1])) {
                     Logger.WARNING("Connection au serveur KRPC désactivée");
                 }
             }
+            //endregion arguments
+            //region connect serial
             SerialPort commPort;
             osName = System.getProperty("os.name");
             Logger.INFO("Système " + osName + " détecté");
@@ -61,7 +64,8 @@ public class KRPCClient {
             }
             while (in == null);
             STM32 = commPort.getOutputStream();
-
+            //endregion connect serial
+            //region connect krpc
             if (CommunicationManager.connectKrpc) {
                 Connection connection = WaitFor.connectKrpc();
                 KRPC krpc = KRPC.newInstance(connection);
@@ -73,6 +77,7 @@ public class KRPCClient {
             }
 
             commManager = new CommunicationManager();
+            //endregion connect krpc
 
             while (true) {
                 if (!commManager.handShake()) {
@@ -90,12 +95,10 @@ public class KRPCClient {
                 commManager.getRoll();
                 commManager.getYaw();
                 commManager.getThrottle();
-                //commManager.getStage();
                 commManager.getSAS();
                 commManager.sendSAS();
                 commManager.getActionGroups();
                 commManager.sendActionGroups();
-                /*
                 if (sendTimeForAPPE) {
                     commManager.sendAPTime();
                     commManager.sendPETime();
@@ -103,7 +106,6 @@ public class KRPCClient {
                     commManager.sendAPAlt();
                     commManager.sendPEAlt();
                 }
-                */
             }
         } catch (RPCException rpc) {
             Logger.ERROR("Encore une RPCException ¯\\_(ツ)_/¯ (Le serveur KRPC est probablement stoppé)");

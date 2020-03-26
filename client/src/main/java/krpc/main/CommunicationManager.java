@@ -36,18 +36,6 @@ public class CommunicationManager implements CommTable {
         }
     }
 
-    /*
-    void getStage() throws RPCException, IOException{
-        STM32.write(STAGE_CODE);
-        waitSerial();
-        if(in.read() != 0) {
-            control.activateNextStage();
-            vessel = spaceCenter.getActiveVessel();
-            control = vessel.getControl();
-        }
-    }
-     */
-
     boolean handShake() throws IOException {
         while (in.available() > 0) {
             in.read();
@@ -357,29 +345,35 @@ public class CommunicationManager implements CommTable {
     }
 
     void sendAPAlt() throws IOException, RPCException {
-        STM32.write(AP_ALT_CODE);
-        STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder())
-                .putLong((long) vessel.getOrbit().getApoapsisAltitude()).array());
+        if (connectKrpc) {
+            STM32.write(AP_ALT_CODE);
+            STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder())
+                    .putLong((long) vessel.getOrbit().getApoapsisAltitude()).array());
+        }
     }
 
     void sendAPTime() throws IOException, RPCException {
-        STM32.write(AP_TIME_CODE);
-        STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder())
-                .putLong((long) vessel.getOrbit().getTimeToApoapsis()).array());
+        if (connectKrpc) {
+            STM32.write(AP_TIME_CODE);
+            STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder())
+                    .putLong((long) vessel.getOrbit().getTimeToApoapsis()).array());
+        }
     }
 
     void sendPEAlt() throws IOException, RPCException {
-        STM32.write(PE_ALT_CODE);
-        STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder())
-                .putLong((long) vessel.getOrbit().getPeriapsisAltitude()).array());
-
+        if (connectKrpc) {
+            STM32.write(PE_ALT_CODE);
+            STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder())
+                    .putLong((long) vessel.getOrbit().getPeriapsisAltitude()).array());
+        }
     }
 
     void sendPETime() throws IOException, RPCException {
-        STM32.write(PE_TIME_CODE);
-        STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder())
-                .putLong((long) vessel.getOrbit().getTimeToPeriapsis()).array());
-
+        if (connectKrpc) {
+            STM32.write(PE_TIME_CODE);
+            STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder())
+                    .putLong((long) vessel.getOrbit().getTimeToPeriapsis()).array());
+        }
     }
     //endregion
 }
