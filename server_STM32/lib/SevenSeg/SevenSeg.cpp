@@ -57,6 +57,17 @@ void SevenSeg::display(float data) {
     }
 }
 
+void SevenSeg::printLong(int64_t data) {
+    int64_t modulo = 10;
+    for(DigitsRegister r:allRegisters){
+        host->setRegister(r, (data%modulo)/(modulo/10));
+        modulo*=10;
+    }
+    host->setRegister(d3, host->getRegister(d3)|DOT);
+    host->setRegister(d6, host->getRegister(d6)|DOT);
+    //if(data/(modulo/10)>0) => data trop grand pour être affiché
+    host->flush();
+}
 
 void smartTime(int y, int d,int h, int m, int s, bool negative, std::vector<char>* buff){
     bool noYear = true;

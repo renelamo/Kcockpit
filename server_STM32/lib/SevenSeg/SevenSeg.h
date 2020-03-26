@@ -47,6 +47,7 @@ private:
 public:
     explicit SevenSeg(MAX7221* newHost);
     void display(float data);
+    void printLong(int64_t data);
     void printDate(int64_t seconds);
 };
 

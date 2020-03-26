@@ -12,6 +12,7 @@ bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
     while (!Serial.available());
     int code=Serial.read();
     int arg1, arg2;
+    uint8_t buffer8[8];
     switch (code){
         case NO_OP_CODE:
             return true;
@@ -31,45 +32,33 @@ bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
 //region 7_seg
         case ALTITUDE_CODE:
             while(!Serial.available());
-            byte buffer[4];
-            Serial.readBytes(buffer, 4);
-            omgr->altitudeSegments->display((float)arg2*(float)pow(10, arg1));
+            Serial.readBytes(buffer8, 8);
+            omgr->altitudeSegments->printLong(*((__int64_t*)buffer8));
             return true;
         case AP_ALT_CODE:
             while(!Serial.available());
-            arg1=Serial.read();
-            while(!Serial.available());
-            arg2=Serial.read();
-            omgr->apoSegments->display((float)arg2*(float)pow(10, arg1));
+            Serial.readBytes(buffer8, 8);
+            omgr->apoSegments->printLong(*((int64_t*)buffer8));
             return true;
         case PE_ALT_CODE:
             while(!Serial.available());
-            arg1=Serial.read();
-            while(!Serial.available());
-            arg2=Serial.read();
-            omgr->periSegments->display((float)arg2*(float)pow(10, arg1));
+            Serial.readBytes(buffer8, 8);
+            omgr->periSegments->printLong(*((int64_t*)buffer8));
             return true;
         case AP_TIME_CODE:
             while(!Serial.available());
-            arg1=Serial.read();
-            while(!Serial.available());
-            arg2=Serial.read();
-            omgr->apoSegments->printDate((long) ( ((unsigned long)arg1) << 16u | (unsigned)arg2 ) );
+            Serial.readBytes(buffer8, 8);
+            omgr->apoSegments->printDate(*((int64_t*)buffer8));
             return true;
         case PE_TIME_CODE:
             while(!Serial.available());
-            arg1=Serial.read();
-            while(!Serial.available());
-            arg2=Serial.read();
-            omgr->periSegments->printDate((long)(((unsigned long)arg1)<<16u|(unsigned)arg2));
+            Serial.readBytes(buffer8, 8);
+            omgr->periSegments->printDate(*((int64_t*)buffer8));
             return true;
         case MET_CODE:
             uint8_t buff[8];
             Serial.readBytes(buff, 8);
             //buff[0] poids fort
-            if(buff[0]==0){
-                digitalWrite(LED_BUILTIN, LOW);
-            }
             omgr->setMET(*(int64_t*)(buff));
             return true;
 //endregion

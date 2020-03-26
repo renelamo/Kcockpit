@@ -48,7 +48,7 @@ public class CommunicationManager implements CommTable {
     }
      */
 
-    boolean handShake() throws RPCException, IOException {
+    boolean handShake() throws IOException {
         while (in.available() > 0) {
             in.read();
         }
@@ -59,6 +59,7 @@ public class CommunicationManager implements CommTable {
 
 
     ////////////////////// ANALOG INPUTS ///////////////////////////////////
+    //region analog
     void getThrottle() throws RPCException, IOException {
         float throttleValue;
         STM32.write(THROTTLE_CODE);
@@ -179,6 +180,8 @@ public class CommunicationManager implements CommTable {
     private float setInBounds(float data, float min, float max) {
         return max(min(data, max), min);
     }
+    //endregion
+
 
     //region action_groups
     //////////////////////////// ACTION GROUPS ////////////////////////////////////
@@ -216,7 +219,7 @@ public class CommunicationManager implements CommTable {
 
     void sendSAS() throws RPCException, IOException {
         byte out = 0x00;
-        if(connectKrpc) {
+        if (connectKrpc) {
             if (control.getSAS()) {
                 out += 1;
             }
@@ -265,7 +268,7 @@ public class CommunicationManager implements CommTable {
     void sendActionGroups() throws IOException, RPCException {
         byte out = 0x00;
         int toAdd = 1;
-        if(connectKrpc) {
+        if (connectKrpc) {
             for (int actionGroupNumber = 1; actionGroupNumber <= 5; ++actionGroupNumber) {
                 if (control.getActionGroup(actionGroupNumber)) {
                     out += toAdd;
@@ -277,43 +280,9 @@ public class CommunicationManager implements CommTable {
         STM32.write(out);
     }
     //endregion
-    
-    ///////////////////////////////// 7 SEGMENTS /////////////////////////////////////////////
-
-    void sendAlt() throws RPCException, IOException {
-        long alt = 0;
-        if (connectKrpc) {
-            //TODO: Fix potential narrowing conversion
-            alt =(long) vessel.flight(vessel.getSurfaceReferenceFrame()).getSurfaceAltitude();
-        }
-
-        STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder()).putLong(alt).array());
-        STM32.write(ALTITUDE_CODE);
-
-    }
-
-    void sendMET() throws RPCException, IOException {
-        long out;
-        if (connectKrpc) {
-            out = (long) vessel.getMET();//TODO fix potential narrowing conversion
-        }else {
-            out = (System.currentTimeMillis()-refTime)/100;
-        }
-        STM32.write(MET_CODE);
-        STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder()).putLong(out).array());
-        Logger.DEBUG("MET:" + out);
-        /*
-        for (byte b1 : buffer.array()){
-            String s1 = String.format("%8s", Integer.toBinaryString(b1 & 0xFF)).replace(' ', '0');
-            s1 += " " + Integer.toHexString(b1);
-            s1 += " " + b1;
-            System.out.println(s1);
-        }
-         */
-    }
 
 
-    //region Ressources
+    //region Bargraphs
     void sendElec() throws RPCException, IOException {
         float out = 0;
         if (connectKrpc)
@@ -359,26 +328,58 @@ public class CommunicationManager implements CommTable {
     }
     //endregion
 
-    //region AP_PE
+    ///////////////////////////////// 7 SEGMENTS /////////////////////////////////////////////
+
+    //region 7_seg
+    void sendAlt() throws RPCException, IOException {
+        long alt;
+        if (connectKrpc) {
+            //TODO: Fix potential narrowing conversion
+            alt = (long) vessel.flight(vessel.getSurfaceReferenceFrame()).getSurfaceAltitude();
+        } else {
+            alt = (long) (Math.PI * 10e8);
+        }
+        STM32.write(ALTITUDE_CODE);
+        STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder()).putLong(alt).array());
+        Logger.DEBUG("Altitude: " + alt);
+    }
+
+    void sendMET() throws RPCException, IOException {
+        long out;
+        if (connectKrpc) {
+            out = (long) vessel.getMET();//TODO fix potential narrowing conversion
+        } else {
+            out = (System.currentTimeMillis() - refTime) / 100;
+        }
+        STM32.write(MET_CODE);
+        STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder()).putLong(out).array());
+        Logger.DEBUG("MET:" + out);
+    }
+
     void sendAPAlt() throws IOException, RPCException {
         STM32.write(AP_ALT_CODE);
-        STM32.write((int) vessel.getOrbit().getApoapsisAltitude());
+        STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder())
+                .putLong((long) vessel.getOrbit().getApoapsisAltitude()).array());
     }
 
     void sendAPTime() throws IOException, RPCException {
         STM32.write(AP_TIME_CODE);
-        STM32.write((int) vessel.getOrbit().getTimeToApoapsis());
+        STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder())
+                .putLong((long) vessel.getOrbit().getTimeToApoapsis()).array());
     }
 
     void sendPEAlt() throws IOException, RPCException {
         STM32.write(PE_ALT_CODE);
-        STM32.write((int) vessel.getOrbit().getPeriapsisAltitude());
+        STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder())
+                .putLong((long) vessel.getOrbit().getPeriapsisAltitude()).array());
 
     }
 
     void sendPETime() throws IOException, RPCException {
         STM32.write(PE_TIME_CODE);
-        STM32.write((int) vessel.getOrbit().getTimeToPeriapsis());
+        STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder())
+                .putLong((long) vessel.getOrbit().getTimeToPeriapsis()).array());
+
     }
     //endregion
 }
