@@ -67,12 +67,15 @@ void OutputsManager::setSASLeds(int data) {
     bool gears= data%2;
     data/=2;
     bool brakes= data%2;
+    data/=2;
+    bool stage = data%2;
 
     digitalWrite(SAS_LED, (sas?HIGH:LOW));
     digitalWrite(RCS_LED, (rcs?HIGH:LOW));
     digitalWrite(LIGHTS_LED, (lights?HIGH:LOW));
     digitalWrite(GEARS_LED, (gears?HIGH:LOW));
     digitalWrite(BRAKES_LED, (brakes?HIGH:LOW));
+    digitalWrite(STAGE_LED, (stage?HIGH:LOW));
 }
 
 void OutputsManager::setMET(int64_t seconds) {
@@ -119,5 +122,46 @@ void OutputsManager::buzz(int freq) {
         return;
     }
     tone(BUZZ_PIN, freq);
+}
+
+void OutputsManager::wait(uint8_t state) {
+    uint8_t toWrite = 0b01000000u >> (state%6u);
+    for(DigitsRegister r:allRegisters){
+        altitudeMUX->setRegister(r, toWrite);
+        apoapsisMUX->setRegister(r, toWrite);
+        periapsisMUX->setRegister(r, toWrite);
+        timeMUX->setRegister(r, toWrite);
+        elecGraph->displayOne(state%10+1);
+        monoPGraph->displayOne(state%10+1);
+        fuelGraph->displayOne(state%10+1);
+        oxidGraph->displayOne(state%10+1);
+    }
+    altitudeMUX->flush();
+    apoapsisMUX->flush();
+    periapsisMUX->flush();
+    timeMUX->flush();
+}
+
+void OutputsManager::setWaitMode(bool waitMode) {
+    altitudeMUX->setDecodeMode(waitMode?NO_DECODE:FULL_DECODE);
+    apoapsisMUX->setDecodeMode(waitMode?NO_DECODE:FULL_DECODE);
+    periapsisMUX->setDecodeMode(waitMode?NO_DECODE:FULL_DECODE);
+    timeMUX->setDecodeMode(waitMode?NO_DECODE:FULL_DECODE);
+    if(!waitMode) {
+        oxidGraph->displayOne(0);
+        monoPGraph->displayOne(0);
+        elecGraph->displayOne(0);
+        fuelGraph->displayOne(0);
+        for(DigitsRegister r:allRegisters){
+            altitudeMUX->setRegister(r, BLANK);
+            apoapsisMUX->setRegister(r, BLANK);
+            periapsisMUX->setRegister(r, BLANK);
+            timeMUX->setRegister(r, BLANK);
+        }
+        timeMUX->flush();
+        apoapsisMUX->flush();
+        periapsisMUX->flush();
+        altitudeMUX->flush();
+    }
 }
 

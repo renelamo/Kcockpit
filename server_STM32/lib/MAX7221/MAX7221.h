@@ -46,11 +46,12 @@ class MAX7221 {
 protected:
     uint8_t state[8]{};
     uint8_t selectPin;
+    uint8_t position;
 
     void write(Register r, byte data);
 
 public:
-    explicit MAX7221(uint8_t pinSelect);
+    explicit MAX7221(uint8_t pinSelect, uint8_t position = 0);
     void sleep();
     void wake();
     void test();

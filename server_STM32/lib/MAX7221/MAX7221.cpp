@@ -4,17 +4,14 @@
 
 #include "MAX7221.h"
 
-MAX7221::MAX7221(uint8_t pinSelect) {
-    selectPin=pinSelect;
+MAX7221::MAX7221(uint8_t pinSelect, uint8_t position): selectPin(pinSelect), position(position) {
     pinMode(selectPin, OUTPUT_OPEN_DRAIN);
     /*
     for(int i = 0; i<8; ++i){
         state[i] = (uint8_t)0;
     }
      */
-    for(unsigned char & i : state){
-        i = (uint8_t)0;
-    }
+    memset(state, 0, sizeof(state));
     wake();
     setIntensity(15);
     write(SCAN_LIMIT, 0x07);
@@ -54,6 +51,9 @@ uint8_t MAX7221::getRegister(DigitsRegister digit) {
 
 void MAX7221::flushDigit(DigitsRegister digit) {
     digitalWrite(selectPin, LOW);
+    for(int i = 0; i<position; ++i){
+        SPI.transfer16(NO_OP<<8u | NO_OP);
+    }
     SPI.transfer16((unsigned)digit << 8u | state[digit - 1]);
     digitalWrite(selectPin, HIGH);
 }
@@ -71,6 +71,9 @@ void MAX7221::setIntensity(int newIntensity) {
 
 void MAX7221::write(Register r, uint8_t data) {
     digitalWrite(selectPin, LOW);
+    for(int i = 0; i<position; ++i){
+        SPI.transfer16(NO_OP<<8u | NO_OP);
+    }
     SPI.transfer16( (unsigned)r << 8u | data);
     digitalWrite(selectPin, HIGH);
 }

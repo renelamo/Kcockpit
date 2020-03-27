@@ -69,6 +69,13 @@ void SevenSeg::printLong(int64_t data) {
     host->flush();
 }
 
+void SevenSeg::printErr() {
+    for(DigitsRegister r:allRegisters){
+        host->setRegister(r, MINUS);
+    }
+    host->flush();
+}
+
 void smartTime(int y, int d,int h, int m, int s, bool negative, std::vector<char>* buff){
     bool noYear = true;
     if(y>0){

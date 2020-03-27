@@ -27,7 +27,8 @@ public class CommunicationManager implements CommTable {
             try {
                 Thread.sleep(1);
                 if (System.currentTimeMillis() > entryTime + 50) {
-                    Logger.WARNING("Timeout sur la communication série");
+                    Logger.WARNING("Timeout sur la communication série dans "+
+                            Thread.currentThread().getStackTrace()[Thread.currentThread().getStackTrace().length - 2].getMethodName());
                     return;
                 }
             } catch (Exception e) {
@@ -44,7 +45,6 @@ public class CommunicationManager implements CommTable {
         waitSerial();
         return in.read() == HANDSHAKE_CODE;
     }
-
 
     ////////////////////// ANALOG INPUTS ///////////////////////////////////
     //region analog
@@ -170,7 +170,6 @@ public class CommunicationManager implements CommTable {
     }
     //endregion
 
-
     //region action_groups
     //////////////////////////// ACTION GROUPS ////////////////////////////////////
     void getSAS() throws RPCException, IOException {
@@ -223,6 +222,9 @@ public class CommunicationManager implements CommTable {
             if (control.getBrakes()) {
                 out += 16;
             }
+            if(System.currentTimeMillis()/1000%2 == 0) {
+                out += 32;
+            }
         }
         STM32.write(SAS_CODE_SET);
         STM32.write(out);
@@ -268,7 +270,6 @@ public class CommunicationManager implements CommTable {
         STM32.write(out);
     }
     //endregion
-
 
     //region Bargraphs
     void sendElec() throws RPCException, IOException {
@@ -317,7 +318,6 @@ public class CommunicationManager implements CommTable {
     //endregion
 
     ///////////////////////////////// 7 SEGMENTS /////////////////////////////////////////////
-
     //region 7_seg
     void sendAlt() throws RPCException, IOException {
         long alt;

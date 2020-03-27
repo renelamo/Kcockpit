@@ -33,16 +33,25 @@ bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
         case ALTITUDE_CODE:
             while(!Serial.available());
             Serial.readBytes(buffer8, 8);
-            omgr->altitudeSegments->printLong(*((__int64_t*)buffer8));
+            //buff[0] poids fort
+            omgr->altitudeSegments->printLong(*((int64_t*)buffer8));
             return true;
         case AP_ALT_CODE:
             while(!Serial.available());
             Serial.readBytes(buffer8, 8);
+            if(buffer8[0] < 0){
+                omgr->apoSegments->printErr();
+                return true;
+            }
             omgr->apoSegments->printLong(*((int64_t*)buffer8));
             return true;
         case PE_ALT_CODE:
             while(!Serial.available());
             Serial.readBytes(buffer8, 8);
+            if(buffer8[0] < 0){
+                omgr->periSegments->printErr();
+                return true;
+            }
             omgr->periSegments->printLong(*((int64_t*)buffer8));
             return true;
         case AP_TIME_CODE:
@@ -58,7 +67,6 @@ bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
         case MET_CODE:
             uint8_t buff[8];
             Serial.readBytes(buff, 8);
-            //buff[0] poids fort
             omgr->setMET(*(int64_t*)(buff));
             return true;
 //endregion

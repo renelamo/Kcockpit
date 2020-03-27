@@ -41,6 +41,8 @@ public:
     void setFuelLevel(int ratio);
     void setOxidLevel(int ratio);
     void setMonoPLevel(int ratio);
+    void wait(uint8_t state);
+    void setWaitMode(bool waitMode);
     static void setSASLeds(int data);
     static void setActionGroupLeds(int data);
     static void buzz(int freq);

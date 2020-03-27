@@ -33,6 +33,13 @@ void setup(){
     timer->setOverflow(2, HERTZ_FORMAT);
     timer->resume();
     */
+    omgr->setWaitMode(true);
+    int i = 0;
+    while (!Serial.available()){
+        omgr->wait(i++);
+        delay(100);
+    }
+    omgr->setWaitMode(false);
 }
 
 void loop(){

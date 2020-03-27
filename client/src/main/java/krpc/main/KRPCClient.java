@@ -12,6 +12,7 @@ import java.io.OutputStream;
 
 
 public class KRPCClient {
+    //region variables
     public static Control control;
     public static InputStream in;
     public static OutputStream STM32;
@@ -22,6 +23,7 @@ public class KRPCClient {
     public static boolean sendTimeForAPPE;
     public static long refTime = System.currentTimeMillis();
     static CommunicationManager commManager;
+    //endregion variables
 
     public static void main(String[] args) {//arg1 = debugLevel, arg2 = connectKRPC
         try {
@@ -29,12 +31,14 @@ public class KRPCClient {
             if (args.length > 0) {
                 Logger.logLevel = Integer.parseInt(args[0]);
                 Logger.INFO("Niveau de debug choisi: " + args[0]);
+            } else {
+                Logger.INFO("Niveay de debug par défaut: " + Logger.logLevel);
             }
             if (args.length > 1) {
                 CommunicationManager.connectKrpc = Boolean.parseBoolean(args[1]);
-                if (!Boolean.parseBoolean(args[1])) {
-                    Logger.WARNING("Connection au serveur KRPC désactivée");
-                }
+            }
+            if (!CommunicationManager.connectKrpc) {
+                Logger.WARNING("Connection au serveur KRPC désactivée");
             }
             //endregion arguments
             //region connect serial
@@ -78,7 +82,7 @@ public class KRPCClient {
 
             commManager = new CommunicationManager();
             //endregion connect krpc
-
+            //region communicate
             while (true) {
                 if (!commManager.handShake()) {
                     Logger.ERROR("Echec du Handshake");
@@ -107,7 +111,10 @@ public class KRPCClient {
                     commManager.sendPEAlt();
                 }
             }
-        } catch (RPCException rpc) {
+            //endregion communicate
+        }
+        // region catch exceptions
+        catch (RPCException rpc) {
             Logger.ERROR("Encore une RPCException ¯\\_(ツ)_/¯ (Le serveur KRPC est probablement stoppé)");
         } catch (UnknownOSException e) {
             Logger.ERROR("Mais t'es sur quel OS PUTAIN!!");
@@ -116,14 +123,14 @@ public class KRPCClient {
             System.exit(0);
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             try {
                 in.close();
                 STM32.close();
-            }catch (IOException e){
+            } catch (IOException e) {
                 System.exit(0);
             }
         }
+        //endregion catch exceptions
     }
 }
