@@ -23,6 +23,7 @@ void timerISR(HardwareTimer*){
 }
 
 void setup(){
+    Serial.setTimeout(100);
     Serial.begin(115200, SERIAL_8N1);
     omgr = new OutputsManager();
     imgr = new InputsManager();

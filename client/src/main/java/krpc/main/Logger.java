@@ -1,32 +1,45 @@
 package krpc.main;
 
+import java.io.PrintStream;
+
 public class Logger {
-    public static int logLevel = 3;
-    public static void INFO(Object o) {
-        if(logLevel>1) {
-            System.out.println("\u001B[32m[INFO] " + o +"\u001B[0m");
+    public int logLevel = 3;
+    public PrintStream stream = System.out;
+
+    public Logger(int logLevel, PrintStream stream){
+        if(logLevel < 4 && logLevel >= 0) {
+            this.logLevel = logLevel;
+        }
+        if(stream != null) {
+            this.stream = stream;
         }
     }
-    public static void DEBUG(Object o) {
+
+    public void INFO(Object o) {
+        if(logLevel>1) {
+            stream.println("\u001B[32m[INFO] " + o +"\u001B[0m");
+        }
+    }
+    public void DEBUG(Object o) {
         if(logLevel>2) {
-            System.out.println("\u001B[34m[DEBUG] " + o +"\u001B[0m");
+            stream.println("\u001B[34m[DEBUG] " + o +"\u001B[0m");
         }
     }
-    public static void WARNING(Object o){
+    public void WARNING(Object o){
         if(logLevel>0) {
-            System.out.println("\u001B[33m[WARNING] " + o +"\u001B[0m");
+            stream.println("\u001B[33m[WARNING] " + o +"\u001B[0m");
         }
     }
-    public static void INFO_START(Object o) {
+    public void INFO_START(Object o) {
         if(logLevel>1) {
-            System.out.print("\u001B[32m[INFO] " + o);
-            System.out.flush();
+            stream.print("\u001B[32m[INFO] " + o);
+            stream.flush();
         }
     }
-    public static void INFO_END(){
+    public void INFO_END(){
         if(logLevel>1) {
-            System.out.println("\u001B[0m");
+            stream.println("\u001B[0m");
         }
     }
-    public static void ERROR(Object o) { System.out.println("\u001B[31m[ERROR] "+o +"\u001B[0m");}
+    public void ERROR(Object o) { stream.println("\u001B[31m[ERROR] "+o +"\u001B[0m");}
 }

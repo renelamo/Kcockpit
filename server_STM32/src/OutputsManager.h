@@ -13,8 +13,6 @@
 
 
 class OutputsManager {
-private:
-    static void initPins();
 public:
     DigitsRegister adOxydizer[2] = {d4,d5};
     DigitsRegister adFuel[2] = {d2,d3};
@@ -34,7 +32,7 @@ public:
     SevenSeg* METSegments;
     SevenSeg* apoSegments;
     SevenSeg* periSegments;
-public:
+
     explicit OutputsManager();
     void setMET(int64_t seconds);
     void setElecCharge(int ratio);

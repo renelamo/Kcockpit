@@ -16,9 +16,8 @@
 #define Z_CODE                  0x08
 #define T_CODE                  0x09
 
-#define SAS_CODE_SET            0x0A
+#define LEDS_CODE_SET            0x0A
 #define SAS_CODE_GET            0x0B
-#define ACTION_GROUP_CODE_SET   0x0C
 #define ACTION_CODE_CODE_GET    0x0D
 
 #define ALTITUDE_CODE           0x81

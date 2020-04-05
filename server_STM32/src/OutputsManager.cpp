@@ -5,7 +5,7 @@
 
 #include "Arduino.h"
 
-void OutputsManager::initPins(){
+void initPins(){
     pinMode(STAGE_LED, OUTPUT);
     pinMode(PRECISE_CONTROLS, OUTPUT);
     pinMode(BUZZ_PIN, OUTPUT);

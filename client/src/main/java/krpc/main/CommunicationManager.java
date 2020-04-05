@@ -9,26 +9,31 @@ import java.nio.ByteOrder;
 
 import static java.lang.Math.min;
 import static java.lang.Math.max;
-import static krpc.main.KRPCClient.*;
 
 public class CommunicationManager implements CommTable {
 
-    static boolean connectKrpc = false;
+    boolean connectKrpc = true;
     private static final float xCameraSpeed = 10f;//en ° par seconde
     private static long lastTimeX = System.currentTimeMillis();
     private static final float yCameraSpeed = 10f;//en ° par seconde
     private static long lastTimeY = System.currentTimeMillis();
     private static final float zCameraSpeed = 10f;//en m par seconde
     private static long lastTimeZ = System.currentTimeMillis();
+    private KRPCClient client;
 
-    private void waitSerial() throws IOException {
+    public CommunicationManager(KRPCClient client){
+        this.client = client;
+    }
+
+    private void waitSerial() throws IOException { //TODO: peut être que cette fonction est réalisée dans in.read()
         long entryTime = System.currentTimeMillis();
-        while (in.available() < 1) {
+        while (client.in.available() < 1) {
             try {
                 Thread.sleep(1);
                 if (System.currentTimeMillis() > entryTime + 50) {
-                    Logger.WARNING("Timeout sur la communication série dans "+
-                            Thread.currentThread().getStackTrace()[Thread.currentThread().getStackTrace().length - 2].getMethodName());
+                    client.logger.WARNING("Timeout sur la communication série dans \""+
+                            Thread.currentThread().getStackTrace()[2].getMethodName()+
+                            "\"");
                     return;
                 }
             } catch (Exception e) {
@@ -38,72 +43,72 @@ public class CommunicationManager implements CommTable {
     }
 
     boolean handShake() throws IOException {
-        while (in.available() > 0) {
-            in.read();
+        while (client.in.available() > 0) {
+            client.in.read();
         }
-        STM32.write(HANDSHAKE_CODE);
+        client.STM32.write(HANDSHAKE_CODE);
         waitSerial();
-        return in.read() == HANDSHAKE_CODE;
+        return client.in.read() == HANDSHAKE_CODE;
     }
 
     ////////////////////// ANALOG INPUTS ///////////////////////////////////
     //region analog
     void getThrottle() throws RPCException, IOException {
         float throttleValue;
-        STM32.write(THROTTLE_CODE);
+        client.STM32.write(THROTTLE_CODE);
         waitSerial();
-        throttleValue = (float) (in.read());
+        throttleValue = (float) (client.in.read());
         throttleValue /= 255.0;
         if (connectKrpc) {
-            control.setThrottle(throttleValue);
+            client.control.setThrottle(throttleValue);
         }
-        Logger.DEBUG("Throttle=" + throttleValue);
+        client.logger.DEBUG("Throttle=" + throttleValue);
     }
 
     void getPitch() throws RPCException, IOException {
         float pitchValue;
-        STM32.write(PITCH_CODE);
+        client.STM32.write(PITCH_CODE);
         waitSerial();
-        pitchValue = (float) (in.read());
+        pitchValue = (float) (client.in.read());
         pitchValue -= 128;
         pitchValue /= 128;
         if (connectKrpc) {
-            control.setPitch(pitchValue);
+            client.control.setPitch(pitchValue);
         }
-        Logger.DEBUG("Pitch=" + pitchValue);
+        client.logger.DEBUG("Pitch=" + pitchValue);
     }
 
     void getYaw() throws RPCException, IOException {
         float yawValue;
-        STM32.write(YAW_CODE);
+        client.STM32.write(YAW_CODE);
         waitSerial();
-        yawValue = (float) (in.read());
+        yawValue = (float) (client.in.read());
         yawValue -= 128;
         yawValue /= 128;
         if (connectKrpc) {
-            control.setYaw(yawValue);
+            client.control.setYaw(yawValue);
         }
-        Logger.DEBUG("Yaw=" + yawValue);
+        client.logger.DEBUG("Yaw=" + yawValue);
     }
 
     void getRoll() throws RPCException, IOException {
         float rollValue;
-        STM32.write(ROLL_CODE);
+        client.STM32.write(ROLL_CODE);
         waitSerial();
-        rollValue = (float) (in.read());
+        rollValue = (float) (client.in.read());
         rollValue -= 128;
         rollValue /= 128;
         if (connectKrpc) {
-            control.setRoll(rollValue);
+            client.control.setRoll(rollValue);
         }
-        Logger.DEBUG("Roll=" + rollValue);
+        client.logger.DEBUG("Roll=" + rollValue);
     }
 
     void getX() throws RPCException, IOException {
         float xValue;
-        STM32.write(X_CODE);
+        client.STM32.write(X_CODE);
         waitSerial();
-        xValue = (float) (in.read());
+        xValue = (float) (client.in.read());
         xValue -= 128;
         xValue /= 128;
         if (connectKrpc) {
@@ -111,34 +116,34 @@ public class CommunicationManager implements CommTable {
             float deltaTime = ((time - lastTimeX) / 1000f);
             lastTimeX = time;
 
-            float val = camera.getPitch() + xValue * xCameraSpeed * deltaTime;
-            camera.setPitch(setInBounds(val, camera.getMinPitch(), camera.getMaxPitch()));
+            float val = client.camera.getPitch() + xValue * xCameraSpeed * deltaTime;
+            client.camera.setPitch(setInBounds(val, client.camera.getMinPitch(), client.camera.getMaxPitch()));
         }
-        Logger.DEBUG("X=" + xValue);
+        client.logger.DEBUG("X=" + xValue);
     }
 
     void getY() throws RPCException, IOException {
         float yValue;
-        STM32.write(Y_CODE);
+        client.STM32.write(Y_CODE);
         waitSerial();
-        yValue = (float) (in.read());
+        yValue = (float) (client.in.read());
         yValue -= 128;
         yValue /= 128;
         if (connectKrpc) {
             long time = System.currentTimeMillis();
             float deltaTime = ((time - lastTimeY) / 1000f);
             lastTimeY = time;
-            float val = camera.getHeading() + yValue * deltaTime * yCameraSpeed;
-            camera.setHeading(val % 360);
+            float val = client.camera.getHeading() + yValue * deltaTime * yCameraSpeed;
+            client.camera.setHeading(val % 360);
         }
-        Logger.DEBUG("Y=" + yValue);
+        client.logger.DEBUG("Y=" + yValue);
     }
 
     void getZ() throws RPCException, IOException {
         float zValue;
-        STM32.write(Z_CODE);
+        client.STM32.write(Z_CODE);
         waitSerial();
-        zValue = (float) (in.read());
+        zValue = (float) (client.in.read());
         zValue -= 128;
         zValue /= 128;
         if (connectKrpc) {
@@ -146,23 +151,23 @@ public class CommunicationManager implements CommTable {
             float deltaTime = ((time - lastTimeZ) / 1000f);
             lastTimeZ = time;
 
-            float val = camera.getDistance() + zValue * zCameraSpeed * deltaTime;
-            camera.setDistance(setInBounds(val, camera.getMinDistance(), camera.getMaxDistance()));
+            float val = client.camera.getDistance() + zValue * zCameraSpeed * deltaTime;
+            client.camera.setDistance(setInBounds(val, client.camera.getMinDistance(), client.camera.getMaxDistance()));
         }
-        Logger.DEBUG("Z=" + zValue);
+        client.logger.DEBUG("Z=" + zValue);
     }
 
     void getT() throws RPCException, IOException {
         float tValue;
-        STM32.write(T_CODE);
+        client.STM32.write(T_CODE);
         waitSerial();
-        tValue = (float) (in.read());
+        tValue = (float) (client.in.read());
         tValue -= 128;
         tValue /= 128;
         if (connectKrpc) {
-            //control.setRoll(tValue);//TODO: trouver une utilité à cette fonction
+            //client.control.setRoll(tValue);//TODO: trouver une utilité à cette fonction
         }
-        Logger.DEBUG("T=" + tValue);
+        client.logger.DEBUG("T=" + tValue);
     }
 
     private float setInBounds(float data, float min, float max) {
@@ -173,68 +178,79 @@ public class CommunicationManager implements CommTable {
     //region action_groups
     //////////////////////////// ACTION GROUPS ////////////////////////////////////
     void getSAS() throws RPCException, IOException {
-        STM32.write(SAS_CODE_GET);
+        client.STM32.write(SAS_CODE_GET);
         int dataValue;
         waitSerial();
-        dataValue = in.read();
+        dataValue = client.in.read();
         boolean sas = (dataValue & 1) > 0;
-        Logger.DEBUG("sas=" + sas);
+        client.logger.DEBUG("sas=" + sas);
         boolean rcs = (dataValue & 2) > 0;
-        Logger.DEBUG("rcs=" + rcs);
+        client.logger.DEBUG("rcs=" + rcs);
         boolean lights = (dataValue & 4) > 0;
-        Logger.DEBUG("lights=" + lights);
+        client.logger.DEBUG("lights=" + lights);
         boolean gears = (dataValue & 8) > 0;
-        Logger.DEBUG("gears=" + gears);
+        client.logger.DEBUG("gears=" + gears);
         boolean brakes = (dataValue & 16) > 0;
-        Logger.DEBUG("brakes=" + brakes);
+        client.logger.DEBUG("brakes=" + brakes);
         boolean stage = (dataValue & 32) > 0;
         if (connectKrpc) {
-            control.setSAS(sas);
-            control.setRCS(rcs);
-            control.setLights(lights);
-            control.setGear(gears);
-            control.setLegs(gears);
-            control.setWheels(gears);
-            control.setBrakes(brakes);
+            client.control.setSAS(sas);
+            client.control.setRCS(rcs);
+            client.control.setLights(lights);
+            client.control.setGear(gears);
+            client.control.setLegs(gears);
+            client.control.setWheels(gears);
+            client.control.setBrakes(brakes);
             if (stage) {
-                control.activateNextStage();
-                vessel = spaceCenter.getActiveVessel();
-                control = vessel.getControl();
+                client.control.activateNextStage();
+                client.vessel = client.spaceCenter.getActiveVessel();
+                client.control = client.vessel.getControl();
             }
         }
     }
 
-    void sendSAS() throws RPCException, IOException {
-        byte out = 0x00;
+    void sendLEDs() throws RPCException, IOException {
+        int out = 0x00;
         if (connectKrpc) {
-            if (control.getSAS()) {
+            if (client.control.getSAS()) {
                 out += 1;
             }
-            if (control.getRCS()) {
+            if (client.control.getRCS()) {
                 out += 2;
             }
-            if (control.getLights()) {
+            if (client.control.getLights()) {
                 out += 4;
             }
-            if (control.getGear()) {
+            if (client.control.getGear()) {
                 out += 8;
             }
-            if (control.getBrakes()) {
+            if (client.control.getBrakes()) {
                 out += 16;
             }
-            if(System.currentTimeMillis()/1000%2 == 0) {
-                out += 32;
+        }
+        if((System.currentTimeMillis()/500)%2 == 0) {
+            out += 32;
+        }
+
+        int toAdd = 1<<8;
+        if (connectKrpc) {
+            for (int actionGroupNumber = 1; actionGroupNumber <= 5; ++actionGroupNumber) {
+                if (client.control.getActionGroup(actionGroupNumber)) {
+                    out += toAdd;
+                }
+                toAdd *= 2;
             }
         }
-        STM32.write(SAS_CODE_SET);
-        STM32.write(out);
+        client.STM32.write(LEDS_CODE_SET);
+        client.STM32.write(ByteBuffer.allocate(2).order(ByteOrder.nativeOrder()).putInt(out).array());
+        client.logger.DEBUG("LEDs data: "+out);
     }
 
     void getActionGroups() throws IOException, RPCException {
-        STM32.write(ACTIONS_CODE_GET);
+        client.STM32.write(ACTIONS_CODE_GET);
         int dataValue;
         waitSerial();
-        dataValue = in.read();
+        dataValue = client.in.read();
         boolean custom1 = dataValue % 2 == 1;
         dataValue /= 2;
         boolean custom2 = dataValue % 2 == 1;
@@ -245,29 +261,14 @@ public class CommunicationManager implements CommTable {
         dataValue /= 2;
         boolean custom5 = dataValue % 2 == 1;
         dataValue /= 2;
-        sendTimeForAPPE = dataValue % 2 == 1;
+        client.sendTimeForAPPE = dataValue % 2 == 1;
         if (connectKrpc) {
-            control.setActionGroup(1, custom1);
-            control.setActionGroup(2, custom2);
-            control.setActionGroup(3, custom3);
-            control.setActionGroup(4, custom4);
-            control.setActionGroup(5, custom5);
+            client.control.setActionGroup(1, custom1);
+            client.control.setActionGroup(2, custom2);
+            client.control.setActionGroup(3, custom3);
+            client.control.setActionGroup(4, custom4);
+            client.control.setActionGroup(5, custom5);
         }
-    }
-
-    void sendActionGroups() throws IOException, RPCException {
-        byte out = 0x00;
-        int toAdd = 1;
-        if (connectKrpc) {
-            for (int actionGroupNumber = 1; actionGroupNumber <= 5; ++actionGroupNumber) {
-                if (control.getActionGroup(actionGroupNumber)) {
-                    out += toAdd;
-                }
-                toAdd *= 2;
-            }
-        }
-        STM32.write(ACTIONS_CODE_SET);
-        STM32.write(out);
     }
     //endregion
 
@@ -275,17 +276,17 @@ public class CommunicationManager implements CommTable {
     void sendElec() throws RPCException, IOException {
         float out = 0;
         if (connectKrpc)
-            out = 20 * vessel.getResources().amount("ElectricCharge") / vessel.getResources().max("ElectricCharge");
-        STM32.write(ELEC_CODE);
-        STM32.write((int) out);
-        Logger.DEBUG("Elec : " + out * 5 + "%");
+            out = 20 * client.vessel.getResources().amount("ElectricCharge") / client.vessel.getResources().max("ElectricCharge");
+        client.STM32.write(ELEC_CODE);
+        client.STM32.write((int) out);
+        client.logger.DEBUG("Elec : " + out * 5 + "%");
     }
 
     void sendFuel() throws RPCException, IOException {
         float out = 0;
         if (connectKrpc) {
-            SpaceCenter.Resources resources = vessel.resourcesInDecoupleStage(control.getCurrentStage() - 1, false); //On récupère les ressources consommées dans ce stage, donc découplées au stage suivant (n-1)
-            //SpaceCenter.Resources resources = vessel.getResources();
+            SpaceCenter.Resources resources = client.vessel.resourcesInDecoupleStage(client.control.getCurrentStage() - 1, false); //On récupère les ressources consommées dans ce stage, donc découplées au stage suivant (n-1)
+            //SpaceCenter.Resources resources = client.vessel.getResources();
             float max = resources.max("SolidFuel") + resources.max("LiquidFuel");
             if (max == 0) { //Prevent dividing by 0 if no fuel tank detected
                 out = 0;
@@ -293,27 +294,27 @@ public class CommunicationManager implements CommTable {
                 out = 20 * (resources.amount("SolidFuel") + resources.amount("LiquidFuel")) / max;
             }
         }
-        STM32.write(FUEL_CODE);
-        STM32.write((int) out);
-        Logger.DEBUG("Fuel : " + out * 5 + "%");
+        client.STM32.write(FUEL_CODE);
+        client.STM32.write((int) out);
+        client.logger.DEBUG("Fuel : " + out * 5 + "%");
     }
 
     void sendOxid() throws RPCException, IOException {
         float ratio = 0;
         if (connectKrpc)
-            ratio = 20 * vessel.getResources().amount("Oxidizer") / vessel.getResources().max("Oxidizer");
-        STM32.write(OXID_CODE);
-        STM32.write((int) ratio);
-        Logger.DEBUG("Oxidizer : " + ratio * 5 + "%");
+            ratio = 20 * client.vessel.getResources().amount("Oxidizer") / client.vessel.getResources().max("Oxidizer");
+        client.STM32.write(OXID_CODE);
+        client.STM32.write((int) ratio);
+        client.logger.DEBUG("Oxidizer : " + ratio * 5 + "%");
     }
 
     void sendMonoP() throws RPCException, IOException {
         float ratio = 0;
         if (connectKrpc)
-            ratio = 20 * vessel.getResources().amount("MonoPropellant") / vessel.getResources().max("MonoPropellant");
-        STM32.write(MONOP_CODE);
-        STM32.write((int) ratio);
-        Logger.DEBUG("Mono Propellant : " + ratio * 5 + "%");
+            ratio = 20 * client.vessel.getResources().amount("MonoPropellant") / client.vessel.getResources().max("MonoPropellant");
+        client.STM32.write(MONOP_CODE);
+        client.STM32.write((int) ratio);
+        client.logger.DEBUG("Mono Propellant : " + ratio * 5 + "%");
     }
     //endregion
 
@@ -323,56 +324,56 @@ public class CommunicationManager implements CommTable {
         long alt;
         if (connectKrpc) {
             //TODO: Fix potential narrowing conversion
-            alt = (long) vessel.flight(vessel.getSurfaceReferenceFrame()).getSurfaceAltitude();
+            alt = (long) client.vessel.flight(client.vessel.getSurfaceReferenceFrame()).getSurfaceAltitude();
         } else {
             alt = (long) (Math.PI * 10e8);
         }
-        STM32.write(ALTITUDE_CODE);
-        STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder()).putLong(alt).array());
-        Logger.DEBUG("Altitude: " + alt);
+        client.STM32.write(ALTITUDE_CODE);
+        client.STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder()).putLong(alt).array());
+        client.logger.DEBUG("Altitude: " + alt);
     }
 
     void sendMET() throws RPCException, IOException {
         long out;
         if (connectKrpc) {
-            out = (long) vessel.getMET();//TODO fix potential narrowing conversion
+            out = (long) client.vessel.getMET();//TODO fix potential narrowing conversion
         } else {
-            out = (System.currentTimeMillis() - refTime) / 100;
+            out = (System.currentTimeMillis() - client.refTime) / 100;
         }
-        STM32.write(MET_CODE);
-        STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder()).putLong(out).array());
-        Logger.DEBUG("MET:" + out);
+        client.STM32.write(MET_CODE);
+        client.STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder()).putLong(out).array());
+        client.logger.DEBUG("MET:" + out);
     }
 
     void sendAPAlt() throws IOException, RPCException {
         if (connectKrpc) {
-            STM32.write(AP_ALT_CODE);
-            STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder())
-                    .putLong((long) vessel.getOrbit().getApoapsisAltitude()).array());
+            client.STM32.write(AP_ALT_CODE);
+            client.STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder())
+                    .putLong((long) client.vessel.getOrbit().getApoapsisAltitude()).array());
         }
     }
 
     void sendAPTime() throws IOException, RPCException {
         if (connectKrpc) {
-            STM32.write(AP_TIME_CODE);
-            STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder())
-                    .putLong((long) vessel.getOrbit().getTimeToApoapsis()).array());
+            client.STM32.write(AP_TIME_CODE);
+            client.STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder())
+                    .putLong((long) client.vessel.getOrbit().getTimeToApoapsis()).array());
         }
     }
 
     void sendPEAlt() throws IOException, RPCException {
         if (connectKrpc) {
-            STM32.write(PE_ALT_CODE);
-            STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder())
-                    .putLong((long) vessel.getOrbit().getPeriapsisAltitude()).array());
+            client.STM32.write(PE_ALT_CODE);
+            client.STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder())
+                    .putLong((long) client.vessel.getOrbit().getPeriapsisAltitude()).array());
         }
     }
 
     void sendPETime() throws IOException, RPCException {
         if (connectKrpc) {
-            STM32.write(PE_TIME_CODE);
-            STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder())
-                    .putLong((long) vessel.getOrbit().getTimeToPeriapsis()).array());
+            client.STM32.write(PE_TIME_CODE);
+            client.STM32.write(ByteBuffer.allocate(Long.BYTES).order(ByteOrder.nativeOrder())
+                    .putLong((long) client.vessel.getOrbit().getTimeToPeriapsis()).array());
         }
     }
     //endregion

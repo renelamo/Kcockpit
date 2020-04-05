@@ -72,15 +72,11 @@ bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
 //endregion
 ///////////////////////////////// ACTION GROUPS /////////////////////////////////////////////
 //region action_groups
-        case SAS_CODE_SET:
+        case LEDS_CODE_SET:
             while(!Serial.available());
-            arg1=Serial.read();
-            OutputsManager::setSASLeds(arg1);
-            return true;
-        case ACTION_GROUP_CODE_SET:
-            while(!Serial.available());
-            arg1 = Serial.read();
-            OutputsManager::setActionGroupLeds(arg1);
+            Serial.readBytes(buffer8, 2);
+            OutputsManager::setSASLeds(buffer8[0]);
+            OutputsManager::setActionGroupLeds(buffer8[1]);
             return true;
         case SAS_CODE_GET:
             imgr->sendSAS();
@@ -139,9 +135,7 @@ bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
             InputsManager::sendT();
             return true;
             //endregion
-
         default:
-            digitalWrite(LED_BUILTIN, LOW);
             return false;
     }
 }

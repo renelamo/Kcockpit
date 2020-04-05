@@ -51,10 +51,10 @@ uint8_t MAX7221::getRegister(DigitsRegister digit) {
 
 void MAX7221::flushDigit(DigitsRegister digit) {
     digitalWrite(selectPin, LOW);
-    for(int i = 0; i<position; ++i){
-        SPI.transfer16(NO_OP<<8u | NO_OP);
-    }
     SPI.transfer16((unsigned)digit << 8u | state[digit - 1]);
+    for(int i = 0; i<position; ++i){
+        SPI.transfer16(NO_OP<<8u);
+    }
     digitalWrite(selectPin, HIGH);
 }
 
@@ -71,9 +71,9 @@ void MAX7221::setIntensity(int newIntensity) {
 
 void MAX7221::write(Register r, uint8_t data) {
     digitalWrite(selectPin, LOW);
-    for(int i = 0; i<position; ++i){
-        SPI.transfer16(NO_OP<<8u | NO_OP);
-    }
     SPI.transfer16( (unsigned)r << 8u | data);
+    for(int i = 0; i<position; ++i){
+        SPI.transfer16(NO_OP<<8u);
+    }
     digitalWrite(selectPin, HIGH);
 }
