@@ -10,10 +10,9 @@ public interface CommTable {
     byte X_CODE             = 0x06;
     byte Y_CODE             = 0x07;
     byte Z_CODE             = 0x08;
-    byte T_CODE             = 0x09;
-    byte SAS_CODE_SET       = 0x0A;
-    byte SAS_CODE_GET       = 0x0B;
-    byte ACTIONS_CODE_SET   = 0x0C;
+    byte T_CODE = 0x09;
+    byte LEDS_CODE_SET = 0x0A;
+    byte SAS_CODE_GET = 0x0B;
     byte ACTIONS_CODE_GET   = 0x0D;
 
     int ALTITUDE_CODE       = 0x81;
