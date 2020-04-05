@@ -41,8 +41,7 @@ public:
     void setMonoPLevel(int ratio);
     void wait(uint8_t state);
     void setWaitMode(bool waitMode);
-    static void setSASLeds(int data);
-    static void setActionGroupLeds(int data);
+    static void setSASLeds(uint16_t data);
     static void buzz(int freq);
 };
 

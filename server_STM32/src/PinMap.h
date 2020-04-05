@@ -29,6 +29,7 @@ enum SPIPins{
     AP_PIN = PB1,
     TIME_PIN = PC4,
     //TIME_PIN = PB14,
+    LED_PIN = PA14,
 };
 
 
@@ -57,23 +58,5 @@ enum ActionGroupsPins{
 
 //Todo: assigner un pin au buzzer
 #define BUZZ_PIN PC14
-
-enum ActionGroupsLeds{
-    CUSTOM_LED_1 = PC10,
-    CUSTOM_LED_2 = PC11,
-    CUSTOM_LED_3 = PC12,
-    CUSTOM_LED_4 = PD2,
-    CUSTOM_LED_5 = PA13,
-    SAS_LED = PA12,
-    RCS_LED = PA11,
-    LIGHTS_LED = PB12,
-    GEARS_LED = PB9,
-    BRAKES_LED = PA6,
-};
-
-enum Leds{
-    STAGE_LED = PA5,
-    PRECISE_CONTROLS = PA14,
-};
 
 #endif

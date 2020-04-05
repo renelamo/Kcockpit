@@ -5,25 +5,8 @@
 
 #include "Arduino.h"
 
-void initPins(){
-    pinMode(STAGE_LED, OUTPUT);
-    pinMode(PRECISE_CONTROLS, OUTPUT);
-    pinMode(BUZZ_PIN, OUTPUT);
-
-    pinMode(SAS_LED, OUTPUT);
-    pinMode(RCS_LED, OUTPUT);
-    pinMode(LIGHTS_LED, OUTPUT);
-    pinMode(GEARS_LED, OUTPUT);
-    pinMode(BRAKES_LED, OUTPUT);
-
-    pinMode(CUSTOM_LED_1, OUTPUT);
-    pinMode(CUSTOM_LED_2, OUTPUT);
-    pinMode(CUSTOM_LED_3, OUTPUT);
-    pinMode(CUSTOM_LED_4, OUTPUT);
-    pinMode(CUSTOM_LED_5, OUTPUT);
-}
-
 void initSPI(){
+    pinMode(LED_PIN, OUTPUT);
     SPI.setMISO(MISO_PIN);
     SPI.setMOSI(MOSI_PIN);
     SPI.setSCLK(CLOCK_PIN);
@@ -33,8 +16,8 @@ void initSPI(){
 
 
 OutputsManager::OutputsManager() {
-    initPins();
     initSPI();
+    pinMode(BUZZ_PIN, OUTPUT);
 
     bargraphs = new MAX7221(BARGRAPH_PIN);
     bargraphs->setIntensity(6);//Pour pas se brûler la rétine
@@ -57,25 +40,11 @@ OutputsManager::OutputsManager() {
 }
 
 
-void OutputsManager::setSASLeds(int data) {
-    bool sas= data%2;
-    data/=2;
-    bool rcs= data%2;
-    data/=2;
-    bool lights= data%2;
-    data/=2;
-    bool gears= data%2;
-    data/=2;
-    bool brakes= data%2;
-    data/=2;
-    bool stage = data%2;
+void OutputsManager::setSASLeds(uint16_t data) {
+    digitalWrite(LED_PIN, LOW);
+    SPI.transfer16(data);
+    digitalWrite(LED_PIN, HIGH);
 
-    digitalWrite(SAS_LED, (sas?HIGH:LOW));
-    digitalWrite(RCS_LED, (rcs?HIGH:LOW));
-    digitalWrite(LIGHTS_LED, (lights?HIGH:LOW));
-    digitalWrite(GEARS_LED, (gears?HIGH:LOW));
-    digitalWrite(BRAKES_LED, (brakes?HIGH:LOW));
-    digitalWrite(STAGE_LED, (stage?HIGH:LOW));
 }
 
 void OutputsManager::setMET(int64_t seconds) {
@@ -96,24 +65,6 @@ void OutputsManager::setOxidLevel(int ratio) {
 
 void OutputsManager::setMonoPLevel(int ratio) {
     monoPGraph->display(ceil(ratio/2.0));
-}
-
-void OutputsManager::setActionGroupLeds(int data) {
-    bool sas= data%2;
-    data/=2;
-    bool rcs= data%2;
-    data/=2;
-    bool lights= data%2;
-    data/=2;
-    bool gears= data%2;
-    data/=2;
-    bool brakes= data%2;
-
-    digitalWrite(CUSTOM_LED_1, (sas?HIGH:LOW));
-    digitalWrite(CUSTOM_LED_2, (rcs?HIGH:LOW));
-    digitalWrite(CUSTOM_LED_3, (lights?HIGH:LOW));
-    digitalWrite(CUSTOM_LED_4, (gears?HIGH:LOW));
-    digitalWrite(CUSTOM_LED_5, (brakes?HIGH:LOW));
 }
 
 void OutputsManager::buzz(int freq) {

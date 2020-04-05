@@ -75,8 +75,7 @@ bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
         case LEDS_CODE_SET:
             while(!Serial.available());
             Serial.readBytes(buffer8, 2);
-            OutputsManager::setSASLeds(buffer8[0]);
-            OutputsManager::setActionGroupLeds(buffer8[1]);
+            OutputsManager::setSASLeds(*((uint16_t*)buffer8));
             return true;
         case SAS_CODE_GET:
             imgr->sendSAS();
