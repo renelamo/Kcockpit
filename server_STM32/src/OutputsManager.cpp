@@ -29,7 +29,8 @@ OutputsManager::OutputsManager() {
     altitudeMUX = new MAX7221(ALT_PIN);
     altitudeSegments = new SevenSeg(altitudeMUX);
 
-    timeMUX = new MAX7221(TIME_PIN);
+    //timeMUX = new MAX7221(TIME_PIN);
+    timeMUX = new MAX7221(BARGRAPH_PIN, 1);
     METSegments = new SevenSeg(timeMUX);
 
     apoapsisMUX = new MAX7221(AP_PIN);
