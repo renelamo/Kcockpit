@@ -3,6 +3,7 @@ package krpc.gui;
 import com.fazecast.jSerialComm.SerialPort;
 import krpc.client.RPCException;
 import krpc.main.KRPCClient;
+import krpc.main.Logger;
 import krpc.main.UnknownOSException;
 
 import javax.swing.*;
@@ -63,7 +64,7 @@ public class window {
         window window = new window();
         JFrame frame = new JFrame("KRPC client");
         window.client = new KRPCClient();
-        window.client.logger.logLevel = 2;
+        window.client.logger.logLevel = Logger.LogLevel.Debug;
         window.client.logger.stream = new TextAreaPrintStream(window.logTextArea, System.out);
         frame.setContentPane(window.panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

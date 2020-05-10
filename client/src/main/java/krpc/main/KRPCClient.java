@@ -14,7 +14,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 
-public class KRPCClient {
+public class KRPCClient implements AutoCloseable {
     //region variables
     public Control control;
     public InputStream in;
@@ -28,6 +28,11 @@ public class KRPCClient {
     CommunicationManager commManager;
     public Logger logger;
     //endregion variables
+
+    public KRPCClient() {
+        logger = new Logger(Logger.LogLevel.Debug, System.out);
+        commManager = new CommunicationManager(this);
+    }
 
     public static void main(String[] args) {//arg1 = debugLevel, arg2 = connectKRPC
         KRPCClient client = new KRPCClient();
@@ -45,49 +50,54 @@ public class KRPCClient {
                 e.printStackTrace();
             }
         });
+
+        //region args
+        if (args.length > 0) {
+            client.logger.logLevel = Logger.LogLevel.valueOf(args[0]);
+            client.logger.INFO("Niveau de debug choisi: " + client.logger.logLevel.name());
+        } else {
+            client.logger.INFO("Niveau de debug par défaut: " + client.logger.logLevel);
+        }
+        if (args.length > 1) {
+            client.commManager.connectKrpc = Boolean.parseBoolean(args[1]);
+        }
+        if (!client.commManager.connectKrpc) {
+            client.logger.WARNING("Connection au serveur KRPC désactivée");
+        }
+        //endregion args
+
+        //region init
         try {
-            //region arguments
-            if (args.length > 0) {
-                client.logger.logLevel = Integer.parseInt(args[0]);
-                client.logger.INFO("Niveau de debug choisi: " + args[0]);
-            } else {
-                client.logger.INFO("Niveay de debug par défaut: " + client.logger.logLevel);
-            }
-            if (args.length > 1) {
-                client.commManager.connectKrpc = Boolean.parseBoolean(args[1]);
-            }
-            if (!client.commManager.connectKrpc) {
-                client.logger.WARNING("Connection au serveur KRPC désactivée");
-            }
-            //endregion arguments
             client.connectSerial();
             client.connectKRPC();
-            client.communicate();
-        }
-        // region catch exceptions
-        catch (RPCException rpc) {
+        } catch (RPCException rpc) {
             client.logger.ERROR("Encore une RPCException ¯\\_(ツ)_/¯ (Le serveur KRPC est probablement stoppé)");
         } catch (UnknownOSException e) {
             client.logger.ERROR("Mais t'es sur quel OS PUTAIN!!");
-        } catch (IOException e) {
-            client.logger.INFO("Panneau déconnecté, fin d'execution");
-            System.exit(0);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
+        }
+        //endregion init
+
+        while (true) {
             try {
-                client.in.close();
-                client.STM32.close();
+                client.communicate();
             } catch (IOException e) {
-                System.exit(0);
+                client.logger.WARNING("Panneau déconnecté, tentative de reconnection");
+                try {
+                    client.connectSerial();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            } catch (RPCException e) {
+                client.logger.WARNING("KRPC déconnecté, tentative de reconnection");
+                try {
+                    client.connectKRPC();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
             }
         }
-        //endregion catch exceptions
-    }
-
-    public KRPCClient() {
-        logger = new Logger(3, System.out);
-        commManager = new CommunicationManager(this);
     }
 
     public void connectSerial() throws UnknownOSException, InterruptedException {
@@ -246,5 +256,11 @@ public class KRPCClient {
         System.out.println(" sur ACM1");
         logger.INFO_END();
         return SerialPort.getCommPort(ACM1.getAbsolutePath());
+    }
+
+    @Override
+    public void close() throws Exception {
+        in.close();
+        STM32.close();
     }
 }

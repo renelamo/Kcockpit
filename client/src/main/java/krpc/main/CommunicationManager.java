@@ -210,7 +210,7 @@ public class CommunicationManager implements CommTable {
     }
 
     void sendLEDs() throws RPCException, IOException {
-        int out = 0x00;
+        short out = 0x00;
         if (connectKrpc) {
             if (client.control.getSAS()) {
                 out += 1;
@@ -242,8 +242,8 @@ public class CommunicationManager implements CommTable {
             }
         }
         client.STM32.write(LEDS_CODE_SET);
-        client.STM32.write(ByteBuffer.allocate(2).order(ByteOrder.nativeOrder()).putInt(out).array());
-        client.logger.DEBUG("LEDs data: "+out);
+        client.STM32.write(ByteBuffer.allocate(2).order(ByteOrder.nativeOrder()).putShort(out).array());
+        client.logger.DEBUG("LEDs data: " + out);
     }
 
     void getActionGroups() throws IOException, RPCException {
