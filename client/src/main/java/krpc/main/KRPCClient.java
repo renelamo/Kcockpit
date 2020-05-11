@@ -46,7 +46,8 @@ public class KRPCClient implements AutoCloseable {
                 }
                 client.logger.INFO("Fin de l'execution");
                 System.exit(0);
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 e.printStackTrace();
             }
         });
@@ -66,37 +67,31 @@ public class KRPCClient implements AutoCloseable {
         }
         //endregion args
 
-        //region init
         try {
             client.connectSerial();
             client.connectKRPC();
-        } catch (RPCException rpc) {
-            client.logger.ERROR("Encore une RPCException ¯\\_(ツ)_/¯ (Le serveur KRPC est probablement stoppé)");
-        } catch (UnknownOSException e) {
-            client.logger.ERROR("Mais t'es sur quel OS PUTAIN!!");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        //endregion init
-
-        while (true) {
-            try {
-                client.communicate();
-            } catch (IOException e) {
-                client.logger.WARNING("Panneau déconnecté, tentative de reconnection");
+            while (true) {
                 try {
-                    client.connectSerial();
-                } catch (Exception e1) {
-                    e1.printStackTrace();
+                    client.communicate();
                 }
-            } catch (RPCException e) {
-                client.logger.WARNING("KRPC déconnecté, tentative de reconnection");
-                try {
+                catch (IOException e) {
+                    client.logger.WARNING("Panneau déconnecté, tentative de reconnection");
+                    client.connectSerial();
+                }
+                catch (RPCException e) {
+                    client.logger.WARNING("KRPC déconnecté, tentative de reconnection");
                     client.connectKRPC();
-                } catch (Exception e1) {
-                    e1.printStackTrace();
                 }
             }
+        }
+        catch (RPCException rpc) {
+            client.logger.ERROR("Encore une RPCException ¯\\_(ツ)_/¯");
+        }
+        catch (UnknownOSException e) {
+            client.logger.ERROR("Mais t'es sur quel OS PUTAIN!!");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -110,7 +105,8 @@ public class KRPCClient implements AutoCloseable {
             if (!firstTime) {
                 try {
                     Thread.sleep(1000);
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     e.printStackTrace();
                 }
             } else {
@@ -140,7 +136,8 @@ public class KRPCClient implements AutoCloseable {
                 try {
                     connection = Connection.newInstance("KControls");
                     break;
-                } catch (java.io.IOException e) {
+                }
+                catch (java.io.IOException e) {
                     if (i < 2) {
                         System.out.print(".");
                         ++i;
@@ -164,7 +161,8 @@ public class KRPCClient implements AutoCloseable {
                     System.out.println();
                     logger.INFO("Vaisseau commandé: " + vessel.getName());
                     break;
-                } catch (RPCException e) {
+                }
+                catch (RPCException e) {
                     if (first) {
                         logger.INFO_START("Recherche du vaisseau actif.");
                         first = false;

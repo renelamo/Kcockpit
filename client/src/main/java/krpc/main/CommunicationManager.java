@@ -7,21 +7,20 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-import static java.lang.Math.min;
-import static java.lang.Math.max;
+import static java.lang.Math.*;
 
 public class CommunicationManager implements CommTable {
 
     boolean connectKrpc = true;
-    private static final float xCameraSpeed = 10f;//en ° par seconde
-    private static long lastTimeX = System.currentTimeMillis();
-    private static final float yCameraSpeed = 10f;//en ° par seconde
-    private static long lastTimeY = System.currentTimeMillis();
-    private static final float zCameraSpeed = 10f;//en m par seconde
-    private static long lastTimeZ = System.currentTimeMillis();
+    private final float xCameraSpeed = 10f;//en ° par seconde
+    private final float yCameraSpeed = 10f;//en ° par seconde
+    private final float zCameraSpeed = 10f;//en m par seconde
+    private long lastTimeX = System.currentTimeMillis();
+    private long lastTimeY = System.currentTimeMillis();
+    private long lastTimeZ = System.currentTimeMillis();
     private KRPCClient client;
 
-    public CommunicationManager(KRPCClient client){
+    public CommunicationManager(KRPCClient client) {
         this.client = client;
     }
 
@@ -117,7 +116,7 @@ public class CommunicationManager implements CommTable {
             lastTimeX = time;
 
             float val = client.camera.getPitch() + xValue * xCameraSpeed * deltaTime;
-            client.camera.setPitch(setInBounds(val, client.camera.getMinPitch(), client.camera.getMaxPitch()));
+            client.camera.setPitch(crop(val, client.camera.getMinPitch(), client.camera.getMaxPitch()));
         }
         client.logger.DEBUG("X=" + xValue);
     }
@@ -152,7 +151,7 @@ public class CommunicationManager implements CommTable {
             lastTimeZ = time;
 
             float val = client.camera.getDistance() + zValue * zCameraSpeed * deltaTime;
-            client.camera.setDistance(setInBounds(val, client.camera.getMinDistance(), client.camera.getMaxDistance()));
+            client.camera.setDistance(crop(val, client.camera.getMinDistance(), client.camera.getMaxDistance()));
         }
         client.logger.DEBUG("Z=" + zValue);
     }
@@ -170,8 +169,52 @@ public class CommunicationManager implements CommTable {
         client.logger.DEBUG("T=" + tValue);
     }
 
-    private float setInBounds(float data, float min, float max) {
+    private float crop(float data, float min, float max) {
         return max(min(data, max), min);
+    }
+
+    /**
+     * Ajoute des deadZones à data aux extrémités et au centre de la plage de valeurs
+     *
+     * @param data Valeur à tester
+     * @param p1   Valeur maximale de data pour retourner-1
+     * @param p2   Valeur minimale de data pour retourner 0
+     * @param p3   Valeur maximale de data pour retourner 0
+     * @param p4   Valeur minimale de data pour retourner 1
+     * @return Un flottant entre -1 et 1
+     */
+    private float deadZones(int data, int p1, int p2, int p3, int p4) {
+        if (data <= p1) {
+            return -1;
+        }
+        if (data <= p2) {
+            return ((float) data - p2) / (p2 - p1);
+        }
+        if (data <= p3) {
+            return 0;
+        }
+        if (data <= p4) {
+            return ((float) data - p3) / (p4 - p3);
+        }
+        return 1;
+    }
+
+    /**
+     * Ajoute des deadZones à data aux extrémités de la plage de valeurs
+     *
+     * @param data Valeur à tester
+     * @param p1   Valeur maximale de data pour retourner 0
+     * @param p2   Valeur minimale de data pour retourner 1
+     * @return Un flottant entre 0 et 1
+     */
+    private float deadZones(int data, int p1, int p2) {
+        if (data <= p1) {
+            return 0;
+        }
+        if (data <= p2) {
+            return ((float) data - p1) / (p2 - p1);
+        }
+        return 1;
     }
     //endregion
 
