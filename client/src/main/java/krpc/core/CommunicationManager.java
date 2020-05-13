@@ -19,14 +19,26 @@ public class CommunicationManager implements CommTable {
     private long lastTimeX = System.currentTimeMillis();
     private long lastTimeY = System.currentTimeMillis();
     private long lastTimeZ = System.currentTimeMillis();
-    private KRPCClient client;
-    private AnalogQueue throttleQueue;
-    private AnalogQueue pitchQueue;
+    private final KRPCClient client;
+    private final AnalogQueue throttleQueue;
+    private final AnalogQueue pitchQueue;
+    private final AnalogQueue yawQueue;
+    private final AnalogQueue rollQueue;
+    private final AnalogQueue xQueue;
+    private final AnalogQueue yQueue;
+    private final AnalogQueue zQueue;
+    private final AnalogQueue tQueue;
 
     CommunicationManager(KRPCClient client) {
         this.client = client;
         throttleQueue = new AnalogQueue(queueSize);//TODO: import des valeurs de deadzone
         pitchQueue = new AnalogQueue(queueSize);
+        yawQueue = new AnalogQueue(queueSize);
+        rollQueue = new AnalogQueue(queueSize);
+        xQueue = new AnalogQueue(queueSize);
+        yQueue = new AnalogQueue(queueSize);
+        zQueue = new AnalogQueue(queueSize);
+        tQueue = new AnalogQueue(queueSize);
     }
 
     boolean handShake() throws IOException {
@@ -62,98 +74,84 @@ public class CommunicationManager implements CommTable {
         return pitchValue;
     }
 
-    //TODO: redéfinir toutes les fonctions getAnalog comme getThrottle
-
-    void getYaw() throws RPCException, IOException {
-        float yawValue;
+    int getYaw() throws RPCException, IOException {
         client.STM32.write(YAW_CODE);
-
-        yawValue = (float) (client.in.read());
-        yawValue -= 128;
-        yawValue /= 128;
+        int yawValue = client.in.read();
+        float newVal = yawQueue.push(yawValue).getVal();
         if (connectKrpc) {
-            client.control.setYaw(yawValue);
+            client.control.setYaw(newVal);
         }
-        client.logger.DEBUG("Yaw=" + yawValue);
+        client.logger.DEBUG("Yaw=" + newVal);
+        return yawValue;
     }
 
-    void getRoll() throws RPCException, IOException {
-        float rollValue;
+    int getRoll() throws RPCException, IOException {
         client.STM32.write(ROLL_CODE);
-
-        rollValue = (float) (client.in.read());
-        rollValue -= 128;
-        rollValue /= 128;
+        int rollValue = client.in.read();
+        float newVal = yawQueue.push(rollValue).getVal();
         if (connectKrpc) {
-            client.control.setRoll(rollValue);
+            client.control.setRoll(newVal);
         }
-        client.logger.DEBUG("Roll=" + rollValue);
+        client.logger.DEBUG("Roll=" + newVal);
+        return rollValue;
     }
 
-    void getX() throws RPCException, IOException {
-        float xValue;
+    int getX() throws RPCException, IOException {
         client.STM32.write(X_CODE);
-
-        xValue = (float) (client.in.read());
-        xValue -= 128;
-        xValue /= 128;
+        int xValue = client.in.read();
+        float newVal = xQueue.push(xValue).getVal();
         if (connectKrpc) {
             long time = System.nanoTime();
             float deltaTime = ((time - lastTimeX) / 1000f);
             lastTimeX = time;
 
-            float val = client.camera.getPitch() + xValue * xCameraSpeed * deltaTime;
+            float val = client.camera.getPitch() + newVal * xCameraSpeed * deltaTime;
             client.camera.setPitch(crop(val, client.camera.getMinPitch(), client.camera.getMaxPitch()));
         }
-        client.logger.DEBUG("X=" + xValue);
+        client.logger.DEBUG("X=" + newVal);
+        return xValue;
     }
 
-    void getY() throws RPCException, IOException {
-        float yValue;
+    int getY() throws RPCException, IOException {
         client.STM32.write(Y_CODE);
-
-        yValue = (float) (client.in.read());
-        yValue -= 128;
-        yValue /= 128;
+        int yValue = client.in.read();
+        float newVal = yQueue.push(yValue).getVal();
         if (connectKrpc) {
             long time = System.currentTimeMillis();
             float deltaTime = ((time - lastTimeY) / 1000f);
             lastTimeY = time;
-            float val = client.camera.getHeading() + yValue * deltaTime * yCameraSpeed;
+            float val = client.camera.getHeading() + newVal * deltaTime * yCameraSpeed;
             client.camera.setHeading(val % 360);
         }
-        client.logger.DEBUG("Y=" + yValue);
+        client.logger.DEBUG("Y=" + newVal);
+        return yValue;
     }
 
-    void getZ() throws RPCException, IOException {
-        float zValue;
+    int getZ() throws RPCException, IOException {
         client.STM32.write(Z_CODE);
-
-        zValue = (float) (client.in.read());
-        zValue -= 128;
-        zValue /= 128;
+        int zValue = client.in.read();
+        float newVal = zQueue.push(zValue).getVal();
         if (connectKrpc) {
             long time = System.nanoTime();
             float deltaTime = ((time - lastTimeZ) / 1000f);
             lastTimeZ = time;
 
-            float val = client.camera.getDistance() + zValue * zCameraSpeed * deltaTime;
+            float val = client.camera.getDistance() + newVal * zCameraSpeed * deltaTime;
             client.camera.setDistance(crop(val, client.camera.getMinDistance(), client.camera.getMaxDistance()));
         }
-        client.logger.DEBUG("Z=" + zValue);
+        client.logger.DEBUG("Z=" + newVal);
+        return zValue;
     }
 
-    void getT() throws RPCException, IOException {
-        float tValue;
+    int getT() throws RPCException, IOException {
         client.STM32.write(T_CODE);
-
-        tValue = (float) (client.in.read());
-        tValue -= 128;
-        tValue /= 128;
+        int tValue = client.in.read();
+        float newVal = tQueue.push(tValue).getVal();
         if (connectKrpc) {
             //client.control.setRoll(tValue);//TODO: trouver une utilité à cette fonction
         }
-        client.logger.DEBUG("T=" + tValue);
+        client.logger.DEBUG("T=" + newVal);
+        return tValue;
     }
 
     private float crop(float data, float min, float max) {
