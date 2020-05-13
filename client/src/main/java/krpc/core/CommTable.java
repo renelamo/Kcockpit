@@ -1,4 +1,4 @@
-package krpc.main;
+package krpc.core;
 
 public interface CommTable {
     byte HANDSHAKE_CODE     = 0x00;

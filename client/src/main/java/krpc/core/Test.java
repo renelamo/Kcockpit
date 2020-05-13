@@ -1,4 +1,4 @@
-package krpc.main;
+package krpc.core;
 
 import krpc.client.Connection;
 import krpc.client.services.SpaceCenter;

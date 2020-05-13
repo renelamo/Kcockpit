@@ -1,4 +1,4 @@
-package krpc.main;
+package krpc.core;
 
 import krpc.client.RPCException;
 import krpc.client.services.SpaceCenter;
@@ -11,34 +11,22 @@ import static java.lang.Math.*;
 
 public class CommunicationManager implements CommTable {
 
-    boolean connectKrpc = true;
+    private final short queueSize = 5;
     private final float xCameraSpeed = 10f;//en ° par seconde
     private final float yCameraSpeed = 10f;//en ° par seconde
     private final float zCameraSpeed = 10f;//en m par seconde
+    boolean connectKrpc = false;
     private long lastTimeX = System.currentTimeMillis();
     private long lastTimeY = System.currentTimeMillis();
     private long lastTimeZ = System.currentTimeMillis();
     private KRPCClient client;
+    private AnalogQueue throttleQueue;
+    private AnalogQueue pitchQueue;
 
-    public CommunicationManager(KRPCClient client) {
+    CommunicationManager(KRPCClient client) {
         this.client = client;
-    }
-
-    private void waitSerial() throws IOException { //TODO: peut être que cette fonction est réalisée dans in.read()
-        long entryTime = System.currentTimeMillis();
-        while (client.in.available() < 1) {
-            try {
-                Thread.sleep(1);
-                if (System.currentTimeMillis() > entryTime + 50) {
-                    client.logger.WARNING("Timeout sur la communication série dans \""+
-                            Thread.currentThread().getStackTrace()[2].getMethodName()+
-                            "\"");
-                    return;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        throttleQueue = new AnalogQueue(queueSize);//TODO: import des valeurs de deadzone
+        pitchQueue = new AnalogQueue(queueSize);
     }
 
     boolean handShake() throws IOException {
@@ -46,41 +34,40 @@ public class CommunicationManager implements CommTable {
             client.in.read();
         }
         client.STM32.write(HANDSHAKE_CODE);
-        waitSerial();
+
         return client.in.read() == HANDSHAKE_CODE;
     }
 
     ////////////////////// ANALOG INPUTS ///////////////////////////////////
     //region analog
-    void getThrottle() throws RPCException, IOException {
-        float throttleValue;
+    public int getThrottle() throws RPCException, IOException {
         client.STM32.write(THROTTLE_CODE);
-        waitSerial();
-        throttleValue = (float) (client.in.read());
-        throttleValue /= 255.0;
+        int throttleValue = client.in.read();
+        float newVal = throttleQueue.push(throttleValue).getVal();
         if (connectKrpc) {
-            client.control.setThrottle(throttleValue);
+            client.control.setThrottle(newVal);
         }
-        client.logger.DEBUG("Throttle=" + throttleValue);
+        client.logger.DEBUG("Throttle=" + newVal);
+        return throttleValue;
     }
 
-    void getPitch() throws RPCException, IOException {
-        float pitchValue;
+    public int getPitch() throws RPCException, IOException {
         client.STM32.write(PITCH_CODE);
-        waitSerial();
-        pitchValue = (float) (client.in.read());
-        pitchValue -= 128;
-        pitchValue /= 128;
+        int pitchValue = client.in.read();
+        float newVal = pitchQueue.push(pitchValue).getVal();
         if (connectKrpc) {
-            client.control.setPitch(pitchValue);
+            client.control.setPitch(newVal);
         }
-        client.logger.DEBUG("Pitch=" + pitchValue);
+        client.logger.DEBUG("Pitch=" + newVal);
+        return pitchValue;
     }
+
+    //TODO: redéfinir toutes les fonctions getAnalog comme getThrottle
 
     void getYaw() throws RPCException, IOException {
         float yawValue;
         client.STM32.write(YAW_CODE);
-        waitSerial();
+
         yawValue = (float) (client.in.read());
         yawValue -= 128;
         yawValue /= 128;
@@ -93,7 +80,7 @@ public class CommunicationManager implements CommTable {
     void getRoll() throws RPCException, IOException {
         float rollValue;
         client.STM32.write(ROLL_CODE);
-        waitSerial();
+
         rollValue = (float) (client.in.read());
         rollValue -= 128;
         rollValue /= 128;
@@ -106,7 +93,7 @@ public class CommunicationManager implements CommTable {
     void getX() throws RPCException, IOException {
         float xValue;
         client.STM32.write(X_CODE);
-        waitSerial();
+
         xValue = (float) (client.in.read());
         xValue -= 128;
         xValue /= 128;
@@ -124,7 +111,7 @@ public class CommunicationManager implements CommTable {
     void getY() throws RPCException, IOException {
         float yValue;
         client.STM32.write(Y_CODE);
-        waitSerial();
+
         yValue = (float) (client.in.read());
         yValue -= 128;
         yValue /= 128;
@@ -141,7 +128,7 @@ public class CommunicationManager implements CommTable {
     void getZ() throws RPCException, IOException {
         float zValue;
         client.STM32.write(Z_CODE);
-        waitSerial();
+
         zValue = (float) (client.in.read());
         zValue -= 128;
         zValue /= 128;
@@ -159,7 +146,7 @@ public class CommunicationManager implements CommTable {
     void getT() throws RPCException, IOException {
         float tValue;
         client.STM32.write(T_CODE);
-        waitSerial();
+
         tValue = (float) (client.in.read());
         tValue -= 128;
         tValue /= 128;
@@ -173,49 +160,6 @@ public class CommunicationManager implements CommTable {
         return max(min(data, max), min);
     }
 
-    /**
-     * Ajoute des deadZones à data aux extrémités et au centre de la plage de valeurs
-     *
-     * @param data Valeur à tester
-     * @param p1   Valeur maximale de data pour retourner-1
-     * @param p2   Valeur minimale de data pour retourner 0
-     * @param p3   Valeur maximale de data pour retourner 0
-     * @param p4   Valeur minimale de data pour retourner 1
-     * @return Un flottant entre -1 et 1
-     */
-    private float deadZones(int data, int p1, int p2, int p3, int p4) {
-        if (data <= p1) {
-            return -1;
-        }
-        if (data <= p2) {
-            return ((float) data - p2) / (p2 - p1);
-        }
-        if (data <= p3) {
-            return 0;
-        }
-        if (data <= p4) {
-            return ((float) data - p3) / (p4 - p3);
-        }
-        return 1;
-    }
-
-    /**
-     * Ajoute des deadZones à data aux extrémités de la plage de valeurs
-     *
-     * @param data Valeur à tester
-     * @param p1   Valeur maximale de data pour retourner 0
-     * @param p2   Valeur minimale de data pour retourner 1
-     * @return Un flottant entre 0 et 1
-     */
-    private float deadZones(int data, int p1, int p2) {
-        if (data <= p1) {
-            return 0;
-        }
-        if (data <= p2) {
-            return ((float) data - p1) / (p2 - p1);
-        }
-        return 1;
-    }
     //endregion
 
     //region action_groups
@@ -223,7 +167,7 @@ public class CommunicationManager implements CommTable {
     void getSAS() throws RPCException, IOException {
         client.STM32.write(SAS_CODE_GET);
         int dataValue;
-        waitSerial();
+
         dataValue = client.in.read();
         boolean sas = (dataValue & 1) > 0;
         client.logger.DEBUG("sas=" + sas);
@@ -271,11 +215,11 @@ public class CommunicationManager implements CommTable {
                 out += 16;
             }
         }
-        if((System.currentTimeMillis()/500)%2 == 0) {
+        if ((System.currentTimeMillis() / 500) % 2 == 0) {
             out += 32;
         }
 
-        int toAdd = 1<<8;
+        int toAdd = 1 << 8;
         if (connectKrpc) {
             for (int actionGroupNumber = 1; actionGroupNumber <= 5; ++actionGroupNumber) {
                 if (client.control.getActionGroup(actionGroupNumber)) {
@@ -292,7 +236,7 @@ public class CommunicationManager implements CommTable {
     void getActionGroups() throws IOException, RPCException {
         client.STM32.write(ACTIONS_CODE_GET);
         int dataValue;
-        waitSerial();
+
         dataValue = client.in.read();
         boolean custom1 = dataValue % 2 == 1;
         dataValue /= 2;

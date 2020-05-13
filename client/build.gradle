@@ -9,7 +9,7 @@ repositories{
     mavenCentral()
 }
 application{
-    mainClassName = 'krpc.main.KRPCClient'
+    mainClassName = 'krpc.core.KRPCClient'
 }
 dependencies{
     // https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java

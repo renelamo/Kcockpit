@@ -2,12 +2,11 @@ package krpc.gui;
 
 import com.fazecast.jSerialComm.SerialPort;
 import krpc.client.RPCException;
-import krpc.main.KRPCClient;
-import krpc.main.Logger;
-import krpc.main.UnknownOSException;
+import krpc.core.KRPCClient;
+import krpc.core.Logger;
+import krpc.core.UnknownOSException;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

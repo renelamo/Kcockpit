@@ -1,4 +1,4 @@
-package krpc.main;
+package krpc.core;
 
 public class UnknownOSException extends Exception {
     UnknownOSException(){

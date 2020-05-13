@@ -1,12 +1,13 @@
-package krpc.main;
+package krpc.core;
 
 import java.io.PrintStream;
 
-public class Logger {
+public class Logger extends java.util.logging.Logger {
     public LogLevel logLevel = LogLevel.Debug;
     public PrintStream stream = System.out;
 
     public Logger(LogLevel logLevel, PrintStream stream) {
+        super("Kockpit Logger", null);
         this.logLevel = logLevel;
         if (stream != null) {
             this.stream = stream;
@@ -57,7 +58,7 @@ public class Logger {
         }
 
         boolean filter(LogLevel reference) {
-            return this.level <= reference.level;
+            return this.level >= reference.level;
         }
     }
 

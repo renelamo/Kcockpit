@@ -1,12 +1,11 @@
-package krpc.main;
+package krpc.core;
 
 import com.fazecast.jSerialComm.*;
 import krpc.client.Connection;
 import krpc.client.RPCException;
 import krpc.client.services.*;
 import krpc.client.services.SpaceCenter.*;
-import sun.misc.Signal;
-import sun.misc.SignalHandler;
+//import sun.misc.Signal;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,17 +14,18 @@ import java.io.OutputStream;
 
 
 public class KRPCClient implements AutoCloseable {
+    public CommunicationManager commManager;
     //region variables
-    public Control control;
-    public InputStream in;
-    public OutputStream STM32;
-    public Vessel vessel;
-    public SpaceCenter spaceCenter;
-    public Camera camera;
-    public String osName;
-    public boolean sendTimeForAPPE;
-    public long refTime = System.currentTimeMillis();
-    CommunicationManager commManager;
+    Control control;
+    InputStream in;
+    OutputStream STM32;
+    Vessel vessel;
+    SpaceCenter spaceCenter;
+    Camera camera;
+    String osName;
+    boolean sendTimeForAPPE;
+    boolean connectKrpc = true;
+    long refTime = System.currentTimeMillis();
     public Logger logger;
     //endregion variables
 
@@ -36,6 +36,7 @@ public class KRPCClient implements AutoCloseable {
 
     public static void main(String[] args) {//arg1 = debugLevel, arg2 = connectKRPC
         KRPCClient client = new KRPCClient();
+        /*
         Signal.handle(new Signal("INT"), signal -> {
             try {
                 if (client.in != null) {
@@ -50,26 +51,28 @@ public class KRPCClient implements AutoCloseable {
             catch (IOException e) {
                 e.printStackTrace();
             }
-        });
+        });//*/
 
         //region args
         if (args.length > 0) {
             client.logger.logLevel = Logger.LogLevel.valueOf(args[0]);
             client.logger.INFO("Niveau de debug choisi: " + client.logger.logLevel.name());
+            System.out.println();
         } else {
             client.logger.INFO("Niveau de debug par défaut: " + client.logger.logLevel);
         }
         if (args.length > 1) {
-            client.commManager.connectKrpc = Boolean.parseBoolean(args[1]);
+            client.connectKrpc = Boolean.parseBoolean(args[1]);
         }
-        if (!client.commManager.connectKrpc) {
+        if (!client.connectKrpc) {
             client.logger.WARNING("Connection au serveur KRPC désactivée");
         }
         //endregion args
 
         try {
             client.connectSerial();
-            client.connectKRPC();
+            if (client.connectKrpc)
+                client.connectKRPC();
             while (true) {
                 try {
                     client.communicate();
@@ -80,7 +83,8 @@ public class KRPCClient implements AutoCloseable {
                 }
                 catch (RPCException e) {
                     client.logger.WARNING("KRPC déconnecté, tentative de reconnection");
-                    client.connectKRPC();
+                    if (client.connectKrpc)
+                        client.connectKRPC();
                 }
             }
         }
@@ -117,7 +121,8 @@ public class KRPCClient implements AutoCloseable {
 
             commPort.openPort();
             commPort.setComPortParameters(115200, 8, 1, SerialPort.NO_PARITY);
-            commPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING | SerialPort.TIMEOUT_WRITE_BLOCKING, 100, 100);
+            commPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING | SerialPort.TIMEOUT_WRITE_BLOCKING,
+                    100/*impossible de descendre en dessous de 100 ms sur les systèmes Unix*/, 100);
             in = commPort.getInputStream();
             if (in == null) {
                 logger.ERROR("Impossible de récupérer le flux entrant, réessai plus tard");
@@ -128,16 +133,17 @@ public class KRPCClient implements AutoCloseable {
     }
 
     public void connectKRPC() throws RPCException, InterruptedException {
-        if (commManager.connectKrpc) {
-            int i = 0;
-            logger.INFO_START("Connexion à krpc en cours.");
-            Connection connection;
-            while (true) {
-                try {
-                    connection = Connection.newInstance("KControls");
-                    break;
-                }
-                catch (java.io.IOException e) {
+        commManager.connectKrpc = true;
+        int i = 0;
+        logger.INFO_START("Connexion à krpc en cours.");
+        Connection connection;
+        while (true) {
+            try {
+                connection = Connection.newInstance("KControls");
+                break;
+            }
+            catch (java.io.IOException e) {
+                if (logger.logLevel.filter(Logger.LogLevel.Info)) {
                     if (i < 2) {
                         System.out.print(".");
                         ++i;
@@ -145,43 +151,43 @@ public class KRPCClient implements AutoCloseable {
                         System.out.print("\b\b  \b\b");
                         i = 0;
                     }
-                    Thread.sleep(1000);
                 }
+                Thread.sleep(1000);
             }
-            logger.INFO_END();
-            KRPC krpc = KRPC.newInstance(connection);
-            logger.INFO("Connecté à KRPC version: " + krpc.getStatus().getVersion());
-            spaceCenter = SpaceCenter.newInstance(connection);
-            i = 0;
-            boolean first = true;
-            SpaceCenter.Vessel out;
-            while (true) {
-                try {
-                    vessel = spaceCenter.getActiveVessel();
-                    System.out.println();
-                    logger.INFO("Vaisseau commandé: " + vessel.getName());
-                    break;
-                }
-                catch (RPCException e) {
-                    if (first) {
-                        logger.INFO_START("Recherche du vaisseau actif.");
-                        first = false;
-                    } else {
-                        if (i < 2) {
-                            System.out.print(".");
-                            ++i;
-                        } else {
-                            System.out.print("\b\b  \b\b");
-                            i = 0;
-                        }
-                    }
-                    Thread.sleep(1000);
-
-                }
-            }
-            control = vessel.getControl();
-            camera = spaceCenter.getCamera();
         }
+        logger.INFO_END();
+        KRPC krpc = KRPC.newInstance(connection);
+        logger.INFO("Connecté à KRPC version: " + krpc.getStatus().getVersion());
+        spaceCenter = SpaceCenter.newInstance(connection);
+        i = 0;
+        boolean first = true;
+        SpaceCenter.Vessel out;
+        while (true) {
+            try {
+                vessel = spaceCenter.getActiveVessel();
+                System.out.println();
+                logger.INFO("Vaisseau commandé: " + vessel.getName());
+                break;
+            }
+            catch (RPCException e) {
+                if (first) {
+                    logger.INFO_START("Recherche du vaisseau actif.");
+                    first = false;
+                } else {
+                    if (i < 2) {
+                        System.out.print(".");
+                        ++i;
+                    } else {
+                        System.out.print("\b\b  \b\b");
+                        i = 0;
+                    }
+                }
+                Thread.sleep(1000);
+
+            }
+        }
+        control = vessel.getControl();
+        camera = spaceCenter.getCamera();
     }
 
     public void communicate() throws IOException, RPCException {
@@ -236,12 +242,14 @@ public class KRPCClient implements AutoCloseable {
         int i = 0;
         while (!ACM0.exists() && !ACM1.exists()) {
             Thread.sleep(1000);
-            if (i < 2) {
-                System.out.print(".");
-                ++i;
-            } else {
-                System.out.print("\b\b  \b\b");
-                i = 0;
+            if (logger.logLevel.filter(Logger.LogLevel.Info)) {
+                if (i < 2) {
+                    System.out.print(".");
+                    ++i;
+                } else {
+                    System.out.print("\b\b  \b\b");
+                    i = 0;
+                }
             }
         }
         logger.INFO_END();
