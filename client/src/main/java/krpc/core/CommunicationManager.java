@@ -88,7 +88,7 @@ public class CommunicationManager implements CommTable {
     int getRoll() throws RPCException, IOException {
         client.STM32.write(ROLL_CODE);
         int rollValue = client.in.read();
-        float newVal = yawQueue.push(rollValue).getVal();
+        float newVal = rollQueue.push(rollValue).getVal();
         if (connectKrpc) {
             client.control.setRoll(newVal);
         }

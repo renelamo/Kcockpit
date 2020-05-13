@@ -3,7 +3,7 @@ package krpc.core;
 import java.io.PrintStream;
 
 public class Logger extends java.util.logging.Logger {
-    public LogLevel logLevel = LogLevel.Debug;
+    public LogLevel logLevel;
     public PrintStream stream = System.out;
 
     public Logger(LogLevel logLevel, PrintStream stream) {

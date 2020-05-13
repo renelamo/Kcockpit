@@ -1,26 +1,19 @@
 package krpc.jfx;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.VBox;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
-import krpc.core.CommTable;
 
 public class AnalogCalibrator extends VBox {
-    private TextField max;
-    private int maxVal;
-    private TextField min;
-    private int minVal;
-    private TextField center;
-    private int centerVal;
-    private ProgressBar progressBar;
-    private TextField current;
+    private final TextField max;
+    private final TextField min;
+    private final TextField center;
+    private final ProgressBar progressBar;
+    private final TextField current;
 
     AnalogCalibrator(String nom) {
         super();
@@ -48,19 +41,13 @@ public class AnalogCalibrator extends VBox {
     }
 
     void Update(int newVal) {
-        if (max.getText().equals("")) {
-            max.setText(String.valueOf(newVal));
-        } else {
-            max.setText(String.valueOf(Math.max(newVal, Integer.parseInt(max.getText()))));
-        }
-        if (min.getText().equals("")) {
-            min.setText(String.valueOf(newVal));
-        } else {
-            min.setText(String.valueOf(Math.min(newVal, Integer.parseInt(max.getText()))));
-        }
+        int maxVal = max.getText().equals("") ? newVal : Math.max(newVal, Integer.parseInt(max.getText()));
+        int minVal = min.getText().equals("") ? newVal : Math.min(newVal, Integer.parseInt(min.getText()));
+        max.setText(String.valueOf(maxVal));
+        min.setText(String.valueOf(minVal));
         current.setText(String.valueOf(newVal));
-//TODO: implémenter l'update des affichages
         progressBar.setProgress(((float) newVal - minVal) / (maxVal - minVal));
+        //TODO: implémenter l'update des affichages
     }
 
     void Reset() {

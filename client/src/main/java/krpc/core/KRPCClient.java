@@ -161,7 +161,6 @@ public class KRPCClient implements AutoCloseable {
         spaceCenter = SpaceCenter.newInstance(connection);
         i = 0;
         boolean first = true;
-        SpaceCenter.Vessel out;
         while (true) {
             try {
                 vessel = spaceCenter.getActiveVessel();

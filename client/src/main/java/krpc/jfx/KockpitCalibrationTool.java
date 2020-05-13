@@ -5,8 +5,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -22,13 +20,13 @@ public class KockpitCalibrationTool extends Application {
     private final AnalogCalibrator yCalibrator = new AnalogCalibrator("Y");
     private final AnalogCalibrator zCalibrator = new AnalogCalibrator("Z");
     private final AnalogCalibrator tCalibrator = new AnalogCalibrator("T");
-    private Thread updateValues = new Thread(() -> {
+    private final Thread updateValues = new Thread(() -> {
         KRPCClient client = new KRPCClient();
         client.logger.INFO("Démarrage du thread de communication série");
         try {
             client.connectSerial();
             //TODO: implémenter l'actualisation des valeurs d'affichage en boucle
-            //pitchCalibrator.Update(client.commManager.getPitch());
+            pitchCalibrator.Update(client.commManager.getPitch());
         }
         catch (InterruptedException e) {
             System.out.println();
@@ -44,7 +42,7 @@ public class KockpitCalibrationTool extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         BorderPane root = new BorderPane();
 
         //region left
@@ -101,11 +99,8 @@ public class KockpitCalibrationTool extends Application {
         Scene scene = new Scene(root, 800, 300);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Kockpit Calibration Tool");
+        primaryStage.setOnCloseRequest((windowEvent) -> updateValues.interrupt());
         primaryStage.show();
-
         updateValues.start();
-        primaryStage.setOnCloseRequest((windowEvent) -> {
-            updateValues.interrupt();
-        });
     }
 }
