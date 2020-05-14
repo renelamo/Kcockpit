@@ -26,6 +26,16 @@ public class KockpitCalibrationTool extends Application {
     private AnalogCalibrator yCalibrator;
     private AnalogCalibrator zCalibrator;
     private AnalogCalibrator tCalibrator;
+    private AnalogCalibrator[] calibrators = {
+            throttleCalibrator,
+            pitchCalibrator,
+            yawCalibrator,
+            rollCalibrator,
+            xCalibrator,
+            yCalibrator,
+            zCalibrator,
+            tCalibrator
+    };
     private final Thread updateValues = new Thread(() -> {
         client.logger.INFO("Démarrage du thread de communication série");
         try {
@@ -67,9 +77,10 @@ public class KockpitCalibrationTool extends Application {
         root.setLeft(leftVBox);
         //endregion
 
+        //TODO: gérer Throttle
         //region center
         JSONObject calibrations = client.getCalibration();
-        throttleCalibrator = new AnalogCalibrator("Throttle", (JSONObject) calibrations.get("throttle"));
+        throttleCalibrator = new AnalogCalibrator("Throttle", (JSONObject) calibrations.get("throttle"), true);
         pitchCalibrator = new AnalogCalibrator("Pitch", (JSONObject) calibrations.get("pitch"));
         yawCalibrator = new AnalogCalibrator("Yaw", (JSONObject) calibrations.get("yaw"));
         rollCalibrator = new AnalogCalibrator("Roll", (JSONObject) calibrations.get("roll"));
@@ -92,14 +103,9 @@ public class KockpitCalibrationTool extends Application {
         //region bottom
         Button reset = new Button("Reset");
         reset.setOnAction((actionEvent -> {
-            throttleCalibrator.Reset();
-            pitchCalibrator.Reset();
-            yawCalibrator.Reset();
-            rollCalibrator.Reset();
-            xCalibrator.Reset();
-            yCalibrator.Reset();
-            zCalibrator.Reset();
-            tCalibrator.Reset();
+            for (AnalogCalibrator cal : calibrators) {
+                cal.Reset();
+            }
         }));
         Button quit = new Button("Exit");
         quit.setOnAction((actionEvent) -> {
@@ -126,8 +132,26 @@ public class KockpitCalibrationTool extends Application {
                 client.logger.ERROR("Impossible d'écrire dans le fichier de sauvegarde");
             }
         });
-        //TODO: implémenter la sauvegarde des valeurs
-        HBox bottom = new HBox(save, reset, quit);
+        Button setP = new Button("Autoset Point Values");
+        setP.setOnAction(event -> {
+            for (AnalogCalibrator cal : calibrators) {
+                cal.autoFillP(10);
+            }
+        });
+        Button setC = new Button("Fix center values");
+        setC.setOnAction(event -> {
+            for (AnalogCalibrator cal : calibrators) {
+                cal.fixCenter();
+            }
+        });
+
+        HBox bottom = new HBox(
+                setP,
+                setC,
+                save,
+                reset,
+                quit
+        );
         bottom.setSpacing(10);
         bottom.setPadding(new Insets(5));
         root.setBottom(bottom);

@@ -20,6 +20,7 @@ public class AnalogCalibrator extends VBox {
     private final ProgressBar progressBar;
     private final TextField current;
     private String p1Val, p2Val, p3Val, p4Val;
+    private boolean simple;
 
     AnalogCalibrator(String nom, JSONObject calibrationData) {
         this(nom, calibrationData, false);
@@ -27,6 +28,7 @@ public class AnalogCalibrator extends VBox {
 
     AnalogCalibrator(String nom, JSONObject calibrationData, boolean simple) {
         super();
+        this.simple = simple;
         setPadding(new Insets(5));
         setSpacing(5);
         Label name = new Label(nom);
@@ -121,12 +123,17 @@ public class AnalogCalibrator extends VBox {
     void autoFillP(int offset) {
         if (!p1.modified)
             p1.setText(String.valueOf(Integer.parseInt(min.getText()) + offset));
-        if (!p2.modified)
-            p2.setText(String.valueOf(Integer.parseInt(center.getText()) - offset));
-        if (!p3.modified)
-            p3.setText(String.valueOf(Integer.parseInt(center.getText()) + offset));
-        if (!p4.modified)
-            p4.setText(String.valueOf(Integer.parseInt(max.getText()) - offset));
+        if (!simple) {
+            if (!p2.modified)
+                p2.setText(String.valueOf(Integer.parseInt(center.getText()) - offset));
+            if (!p3.modified)
+                p3.setText(String.valueOf(Integer.parseInt(center.getText()) + offset));
+            if (!p4.modified)
+                p4.setText(String.valueOf(Integer.parseInt(max.getText()) - offset));
+        } else {
+            if (!p2.modified)
+                p2.setText(String.valueOf(Integer.parseInt(max.getText()) - offset));
+        }
     }
 
     JSONObject getJson() {
@@ -151,6 +158,10 @@ public class AnalogCalibrator extends VBox {
         p4.modified = false;
         center.modified = false;
         Reset();
+    }
+
+    void fixCenter() {
+        center.modified = true;
     }
 
     private void setFormatCheck(TextField field) {
