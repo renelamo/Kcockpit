@@ -19,8 +19,13 @@ public class AnalogCalibrator extends VBox {
     private final modifiableTextField min;
     private final ProgressBar progressBar;
     private final TextField current;
+    private String p1Val, p2Val, p3Val, p4Val;
 
     AnalogCalibrator(String nom, JSONObject calibrationData) {
+        this(nom, calibrationData, false);
+    }
+
+    AnalogCalibrator(String nom, JSONObject calibrationData, boolean simple) {
         super();
         setPadding(new Insets(5));
         setSpacing(5);
@@ -29,10 +34,14 @@ public class AnalogCalibrator extends VBox {
             min = new modifiableTextField((String) calibrationData.get("min"));
             max = new modifiableTextField((String) calibrationData.get("max"));
             center = new modifiableTextField((String) calibrationData.get("center"));
-            p1 = new modifiableTextField((String) calibrationData.get("p1"));
-            p2 = new modifiableTextField((String) calibrationData.get("p2"));
-            p3 = new modifiableTextField((String) calibrationData.get("p3"));
-            p4 = new modifiableTextField((String) calibrationData.get("p4"));
+            p1Val = (String) calibrationData.get("p1");
+            p2Val = (String) calibrationData.get("p2");
+            p3Val = (String) calibrationData.get("p3");
+            p4Val = (String) calibrationData.get("p4");
+            p1 = new modifiableTextField(p1Val);
+            p2 = new modifiableTextField(p2Val);
+            p3 = new modifiableTextField(p3Val);
+            p4 = new modifiableTextField(p4Val);
         } else {
             max = new modifiableTextField("");
             center = new modifiableTextField("");
@@ -60,7 +69,11 @@ public class AnalogCalibrator extends VBox {
         */
         current = new TextField("");
         current.setDisable(true);
-        getChildren().addAll(name, max, p4, p3, center, p2, p1, min,/* progressBar,*/ current);
+        if (simple) {
+            getChildren().addAll(name, max, p2, p1, min, current);
+        } else {
+            getChildren().addAll(name, max, p4, p3, center, p2, p1, min,/* progressBar,*/ current);
+        }
     }
 
     void Reset() {
@@ -70,6 +83,14 @@ public class AnalogCalibrator extends VBox {
             max.setText("");
         if (!center.modified)
             center.setText("");
+        if (!p1.modified)
+            p1.setText(p1Val);
+        if (!p2.modified)
+            p2.setText(p2Val);
+        if (!p3.modified)
+            p3.setText(p3Val);
+        if (!p4.modified)
+            p4.setText(p4Val);
         current.setText("");
         progressBar.setProgress(0);
     }
@@ -80,7 +101,32 @@ public class AnalogCalibrator extends VBox {
         max.setText(String.valueOf(maxVal));
         min.setText(String.valueOf(minVal));
         current.setText(String.valueOf(newVal));
+        if (!center.modified)
+            center.setText(String.valueOf((Integer.parseInt(max.getText()) - Integer.parseInt(min.getText())) / 2));
+        if (!p1.modified) {
+            p1.setText(min.getText());
+        }
+        if (!p2.modified) {
+            p2.setText(center.getText());
+        }
+        if (!p3.modified) {
+            p3.setText(center.getText());
+        }
+        if (!p4.modified) {
+            p4.setText(max.getText());
+        }
         progressBar.setProgress(((float) newVal - minVal) / (maxVal - minVal));
+    }
+
+    void autoFillP(int offset) {
+        if (!p1.modified)
+            p1.setText(String.valueOf(Integer.parseInt(min.getText()) + offset));
+        if (!p2.modified)
+            p2.setText(String.valueOf(Integer.parseInt(center.getText()) - offset));
+        if (!p3.modified)
+            p3.setText(String.valueOf(Integer.parseInt(center.getText()) + offset));
+        if (!p4.modified)
+            p4.setText(String.valueOf(Integer.parseInt(max.getText()) - offset));
     }
 
     JSONObject getJson() {
@@ -96,19 +142,34 @@ public class AnalogCalibrator extends VBox {
         return out;
     }
 
-    private class modifiableTextField extends TextField {
-        boolean modified = false;
-
-        modifiableTextField(String s) {
-            super(s);
-        }
+    void ResetAll() {
+        min.modified = false;
+        max.modified = false;
+        p1.modified = false;
+        p2.modified = false;
+        p3.modified = false;
+        p4.modified = false;
+        center.modified = false;
+        Reset();
     }
 
     private void setFormatCheck(TextField field) {
         field.textProperty().addListener((observableValue, oldValue, newValue) -> {
             if (!newValue.matches("\\d{0,3}") || (!newValue.equals("") && Integer.parseInt(newValue) > 255)) {
                 field.setText(oldValue);
+            } else {
+                if (field instanceof modifiableTextField) {
+                    ((modifiableTextField) field).modified = true;
+                }
             }
         });
+    }
+
+    private static class modifiableTextField extends TextField {
+        boolean modified = false;
+
+        modifiableTextField(String s) {
+            super(s);
+        }
     }
 }
