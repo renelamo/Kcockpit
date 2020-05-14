@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
+import org.json.simple.JSONObject;
 
 public class AnalogCalibrator extends VBox {
     private final TextField max;
@@ -55,6 +56,14 @@ public class AnalogCalibrator extends VBox {
         max.setText("");
         center.setText("");
         progressBar.setProgress(0);
+    }
+
+    JSONObject getJson() {
+        JSONObject out = new JSONObject();
+        out.put("max", max.getText());
+        out.put("min", min.getText());
+        out.put("center", center.getText());
+        return out;
     }
 
     private void setFormatCheck(TextField field) {

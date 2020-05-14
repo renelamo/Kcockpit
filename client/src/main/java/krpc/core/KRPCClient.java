@@ -5,7 +5,6 @@ import krpc.client.Connection;
 import krpc.client.RPCException;
 import krpc.client.services.*;
 import krpc.client.services.SpaceCenter.*;
-//import sun.misc.Signal;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,8 +35,7 @@ public class KRPCClient implements AutoCloseable {
 
     public static void main(String[] args) {//arg1 = debugLevel, arg2 = connectKRPC
         KRPCClient client = new KRPCClient();
-        /*
-        Signal.handle(new Signal("INT"), signal -> {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
                 if (client.in != null) {
                     client.in.close();
@@ -45,13 +43,13 @@ public class KRPCClient implements AutoCloseable {
                 if (client.STM32 != null) {
                     client.STM32.close();
                 }
-                client.logger.INFO("Fin de l'execution");
-                System.exit(0);
+                System.out.println();
+                client.logger.INFO("Processus arrêté par l'utilisateur");
             }
             catch (IOException e) {
                 e.printStackTrace();
             }
-        });//*/
+        }));
 
         //region args
         if (args.length > 0) {

@@ -2,7 +2,13 @@ package krpc.core;
 
 import krpc.client.RPCException;
 import krpc.client.services.SpaceCenter;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -31,14 +37,41 @@ public class CommunicationManager implements CommTable {
 
     CommunicationManager(KRPCClient client) {
         this.client = client;
-        throttleQueue = new AnalogQueue(queueSize);//TODO: import des valeurs de deadzone
-        pitchQueue = new AnalogQueue(queueSize);
-        yawQueue = new AnalogQueue(queueSize);
-        rollQueue = new AnalogQueue(queueSize);
-        xQueue = new AnalogQueue(queueSize);
-        yQueue = new AnalogQueue(queueSize);
-        zQueue = new AnalogQueue(queueSize);
-        tQueue = new AnalogQueue(queueSize);
+        JSONObject calibrations = null;
+        try (FileReader reader = new FileReader("employees.json")) {
+            //Read JSON file
+            JSONParser jsonParser = new JSONParser();
+            calibrations = (JSONObject) jsonParser.parse(reader);
+        }
+        catch (FileNotFoundException e) {
+            client.logger.ERROR("Impossible de trouver le fichier de calibration");
+        }
+        catch (IOException e) {
+            client.logger.ERROR("Impossible d'ouvrir le fichier de calibration");
+        }
+        catch (ParseException e) {
+            client.logger.ERROR("Erreur de syntaxe dans le fichier de calibration");
+        }
+        if (calibrations == null) {
+            client.logger.WARNING("Utilisation des valeurs de calibration par défaut");
+            throttleQueue = new AnalogQueue(queueSize);
+            pitchQueue = new AnalogQueue(queueSize);
+            yawQueue = new AnalogQueue(queueSize);
+            rollQueue = new AnalogQueue(queueSize);
+            xQueue = new AnalogQueue(queueSize);
+            yQueue = new AnalogQueue(queueSize);
+            zQueue = new AnalogQueue(queueSize);
+            tQueue = new AnalogQueue(queueSize);
+        } else {
+            throttleQueue = new AnalogQueue(queueSize, (JSONObject) calibrations.get("throttle"));
+            pitchQueue = new AnalogQueue(queueSize, (JSONObject) calibrations.get("pitch"));
+            yawQueue = new AnalogQueue(queueSize, (JSONObject) calibrations.get("yaw"));
+            rollQueue = new AnalogQueue(queueSize, (JSONObject) calibrations.get("roll"));
+            xQueue = new AnalogQueue(queueSize, (JSONObject) calibrations.get("x"));
+            yQueue = new AnalogQueue(queueSize, (JSONObject) calibrations.get("y"));
+            zQueue = new AnalogQueue(queueSize, (JSONObject) calibrations.get("z"));
+            tQueue = new AnalogQueue(queueSize, (JSONObject) calibrations.get("t"));
+        }
     }
 
     boolean handShake() throws IOException {

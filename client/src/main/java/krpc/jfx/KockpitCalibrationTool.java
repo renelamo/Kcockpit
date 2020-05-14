@@ -10,6 +10,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import krpc.core.KRPCClient;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class KockpitCalibrationTool extends Application {
     private final AnalogCalibrator throttleCalibrator = new AnalogCalibrator("Throttle");
@@ -89,6 +94,24 @@ public class KockpitCalibrationTool extends Application {
             primaryStage.close();
         });
         Button save = new Button("Save");
+        save.setOnAction((actionEvent) -> {
+            JSONObject toWrite = new JSONObject();
+            toWrite.put("pitch", pitchCalibrator.getJson());
+            toWrite.put("yaw", yawCalibrator.getJson());
+            toWrite.put("roll", rollCalibrator.getJson());
+            toWrite.put("x", xCalibrator.getJson());
+            toWrite.put("y", yCalibrator.getJson());
+            toWrite.put("z", zCalibrator.getJson());
+            toWrite.put("t", tCalibrator.getJson());
+
+            try (FileWriter file = new FileWriter("kalibration.json")) {
+                file.write(toWrite.toJSONString());
+                file.flush();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         //TODO: implémenter la sauvegarde des valeurs
         HBox bottom = new HBox(save, reset, quit);
         bottom.setSpacing(10);

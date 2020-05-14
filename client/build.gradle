@@ -1,9 +1,15 @@
 plugins{
     id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
 }
 
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
+javafx {
+    version = "14"
+    modules = [ 'javafx.controls' ]
+}
+
+sourceCompatibility = '1.13'
+targetCompatibility = '1.13'
 version = '1.2.1'
 repositories{
     mavenCentral()
@@ -14,6 +20,9 @@ application{
 dependencies{
     // https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java
     compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.7.0'
+
+    // https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
+    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
     
 // https://mvnrepository.com/artifact/com.fazecast/jSerialComm
     //compile 'com.fazecast:jSerialComm:[2.0.0,3.0.0)'
