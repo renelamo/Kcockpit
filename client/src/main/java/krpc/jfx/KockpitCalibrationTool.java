@@ -17,16 +17,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class KockpitCalibrationTool extends Application {
-    private final AnalogCalibrator throttleCalibrator = new AnalogCalibrator("Throttle");
-    private final AnalogCalibrator pitchCalibrator = new AnalogCalibrator("Pitch");
-    private final AnalogCalibrator yawCalibrator = new AnalogCalibrator("Yaw");
-    private final AnalogCalibrator rollCalibrator = new AnalogCalibrator("Roll");
-    private final AnalogCalibrator xCalibrator = new AnalogCalibrator("X");
-    private final AnalogCalibrator yCalibrator = new AnalogCalibrator("Y");
-    private final AnalogCalibrator zCalibrator = new AnalogCalibrator("Z");
-    private final AnalogCalibrator tCalibrator = new AnalogCalibrator("T");
+    private final KRPCClient client = new KRPCClient();
+    private AnalogCalibrator throttleCalibrator;
+    private AnalogCalibrator pitchCalibrator;
+    private AnalogCalibrator yawCalibrator;
+    private AnalogCalibrator rollCalibrator;
+    private AnalogCalibrator xCalibrator;
+    private AnalogCalibrator yCalibrator;
+    private AnalogCalibrator zCalibrator;
+    private AnalogCalibrator tCalibrator;
     private final Thread updateValues = new Thread(() -> {
-        KRPCClient client = new KRPCClient();
         client.logger.INFO("Démarrage du thread de communication série");
         try {
             client.connectSerial();
@@ -54,8 +54,12 @@ public class KockpitCalibrationTool extends Application {
         VBox leftVBox = new VBox(
                 new Label("Axe:"),
                 new Label("Valeur max:"),
-                new Label("Valeur min:"),
+                new Label("p4"),
+                new Label("p3"),
                 new Label("Valeur centrale:"),
+                new Label("p2"),
+                new Label("p1"),
+                new Label("Valeur min:"),
                 new Label("Valeur actuelle:")
         );
         leftVBox.setSpacing(15);
@@ -64,6 +68,15 @@ public class KockpitCalibrationTool extends Application {
         //endregion
 
         //region center
+        JSONObject calibrations = client.getCalibration();
+        throttleCalibrator = new AnalogCalibrator("Throttle", (JSONObject) calibrations.get("throttle"));
+        pitchCalibrator = new AnalogCalibrator("Pitch", (JSONObject) calibrations.get("pitch"));
+        yawCalibrator = new AnalogCalibrator("Yaw", (JSONObject) calibrations.get("yaw"));
+        rollCalibrator = new AnalogCalibrator("Roll", (JSONObject) calibrations.get("roll"));
+        xCalibrator = new AnalogCalibrator("X", (JSONObject) calibrations.get("x"));
+        yCalibrator = new AnalogCalibrator("Y", (JSONObject) calibrations.get("y"));
+        zCalibrator = new AnalogCalibrator("Z", (JSONObject) calibrations.get("z"));
+        tCalibrator = new AnalogCalibrator("T", (JSONObject) calibrations.get("t"));
         root.setCenter(new HBox(
                 throttleCalibrator,
                 pitchCalibrator,
@@ -95,6 +108,7 @@ public class KockpitCalibrationTool extends Application {
         });
         Button save = new Button("Save");
         save.setOnAction((actionEvent) -> {
+            client.logger.INFO("Sauvegarde des valeurs de calibration");
             JSONObject toWrite = new JSONObject();
             toWrite.put("pitch", pitchCalibrator.getJson());
             toWrite.put("yaw", yawCalibrator.getJson());
@@ -109,7 +123,7 @@ public class KockpitCalibrationTool extends Application {
                 file.flush();
             }
             catch (IOException e) {
-                e.printStackTrace();
+                client.logger.ERROR("Impossible d'écrire dans le fichier de sauvegarde");
             }
         });
         //TODO: implémenter la sauvegarde des valeurs

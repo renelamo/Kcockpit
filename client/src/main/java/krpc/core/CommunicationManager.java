@@ -26,31 +26,43 @@ public class CommunicationManager implements CommTable {
     private long lastTimeY = System.currentTimeMillis();
     private long lastTimeZ = System.currentTimeMillis();
     private final KRPCClient client;
-    private final AnalogQueue throttleQueue;
-    private final AnalogQueue pitchQueue;
-    private final AnalogQueue yawQueue;
-    private final AnalogQueue rollQueue;
-    private final AnalogQueue xQueue;
-    private final AnalogQueue yQueue;
-    private final AnalogQueue zQueue;
-    private final AnalogQueue tQueue;
+    JSONObject calibrations;
+    private AnalogQueue throttleQueue;
+    private AnalogQueue pitchQueue;
+    private AnalogQueue yawQueue;
+    private AnalogQueue rollQueue;
+    private AnalogQueue xQueue;
+    private AnalogQueue yQueue;
+    private AnalogQueue zQueue;
+    private AnalogQueue tQueue;
 
     CommunicationManager(KRPCClient client) {
         this.client = client;
-        JSONObject calibrations = null;
-        try (FileReader reader = new FileReader("employees.json")) {
+        client.logger.INFO("Chargement du fichier de calibration");
+        try (FileReader reader = new FileReader("kalibration.json")) {
             //Read JSON file
             JSONParser jsonParser = new JSONParser();
             calibrations = (JSONObject) jsonParser.parse(reader);
+            throttleQueue = new AnalogQueue(queueSize, (JSONObject) calibrations.get("throttle"));
+            pitchQueue = new AnalogQueue(queueSize, (JSONObject) calibrations.get("pitch"));
+            yawQueue = new AnalogQueue(queueSize, (JSONObject) calibrations.get("yaw"));
+            rollQueue = new AnalogQueue(queueSize, (JSONObject) calibrations.get("roll"));
+            xQueue = new AnalogQueue(queueSize, (JSONObject) calibrations.get("x"));
+            yQueue = new AnalogQueue(queueSize, (JSONObject) calibrations.get("y"));
+            zQueue = new AnalogQueue(queueSize, (JSONObject) calibrations.get("z"));
+            tQueue = new AnalogQueue(queueSize, (JSONObject) calibrations.get("t"));
         }
         catch (FileNotFoundException e) {
             client.logger.ERROR("Impossible de trouver le fichier de calibration");
+            calibrations = null;
         }
         catch (IOException e) {
             client.logger.ERROR("Impossible d'ouvrir le fichier de calibration");
+            calibrations = null;
         }
-        catch (ParseException e) {
+        catch (ParseException | NumberFormatException e) {
             client.logger.ERROR("Erreur de syntaxe dans le fichier de calibration");
+            calibrations = null;
         }
         if (calibrations == null) {
             client.logger.WARNING("Utilisation des valeurs de calibration par défaut");
@@ -62,15 +74,6 @@ public class CommunicationManager implements CommTable {
             yQueue = new AnalogQueue(queueSize);
             zQueue = new AnalogQueue(queueSize);
             tQueue = new AnalogQueue(queueSize);
-        } else {
-            throttleQueue = new AnalogQueue(queueSize, (JSONObject) calibrations.get("throttle"));
-            pitchQueue = new AnalogQueue(queueSize, (JSONObject) calibrations.get("pitch"));
-            yawQueue = new AnalogQueue(queueSize, (JSONObject) calibrations.get("yaw"));
-            rollQueue = new AnalogQueue(queueSize, (JSONObject) calibrations.get("roll"));
-            xQueue = new AnalogQueue(queueSize, (JSONObject) calibrations.get("x"));
-            yQueue = new AnalogQueue(queueSize, (JSONObject) calibrations.get("y"));
-            zQueue = new AnalogQueue(queueSize, (JSONObject) calibrations.get("z"));
-            tQueue = new AnalogQueue(queueSize, (JSONObject) calibrations.get("t"));
         }
     }
 

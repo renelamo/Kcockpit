@@ -3,9 +3,10 @@ package krpc.core;
 import krpc.jfx.AnalogCalibrator;
 import org.json.simple.JSONObject;
 
+import java.util.Arrays;
+
 //Queue that stores analog values to calculate a mean on it
 class AnalogQueue {
-    private short occupied = 0;
     private short pos = 0;
     private int[] array;
 
@@ -21,7 +22,9 @@ class AnalogQueue {
             p1 = 0;
             p2 = p3 = 127;
             p4 = 255;
+            Arrays.fill(array, 127);
         } else {
+            Arrays.fill(array, Integer.parseInt((String) calibration.get("center")));
             p1 = Integer.parseInt((String) calibration.get("p1"));
             p2 = Integer.parseInt((String) calibration.get("p2"));
             if (!calibration.get("p3").equals("")) {
@@ -38,9 +41,6 @@ class AnalogQueue {
     public AnalogQueue push(int value) {
         array[pos++] = value;
         pos %= array.length;
-        if (occupied < array.length) {
-            occupied++;
-        }
         return this;
     }
 
@@ -49,7 +49,7 @@ class AnalogQueue {
         for (int val : array) {
             out += val;
         }
-        return (int) (out / occupied);
+        return (int) (out / array.length);
     }
 
     private float deadZonesDoubles() {

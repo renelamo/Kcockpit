@@ -5,6 +5,7 @@ import krpc.client.Connection;
 import krpc.client.RPCException;
 import krpc.client.services.*;
 import krpc.client.services.SpaceCenter.*;
+import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -265,5 +266,9 @@ public class KRPCClient implements AutoCloseable {
     public void close() throws Exception {
         in.close();
         STM32.close();
+    }
+
+    public JSONObject getCalibration() {
+        return commManager.calibrations;
     }
 }
