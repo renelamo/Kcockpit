@@ -7,9 +7,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 //import javafx.scene.transform.Rotate;
 //import javafx.scene.transform.Translate;
+import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
-
-import javax.xml.namespace.QName;
 
 public class AnalogCalibrator extends VBox {
     private final modifiableTextField max;
@@ -25,12 +24,8 @@ public class AnalogCalibrator extends VBox {
     private modifiableTextField center;
 
     AnalogCalibrator(String nom, JSONObject calibrationData) {
-        this(nom, calibrationData, false);
-    }
-
-    AnalogCalibrator(String nom, JSONObject calibrationData, boolean simple) {
         super();
-        this.simple = simple;
+        simple = StringUtils.capitalize(nom).equals("Throttle");
         setPadding(new Insets(5));
         setSpacing(5);
         Label name = new Label(nom);
@@ -58,8 +53,8 @@ public class AnalogCalibrator extends VBox {
             p4 = new modifiableTextField("");
             setFormatCheck(p3);
             setFormatCheck(p4);
+            setFormatCheck(center);
         }
-        setFormatCheck(center);
         setFormatCheck(min);
         setFormatCheck(max);
         setFormatCheck(p1);
@@ -87,16 +82,18 @@ public class AnalogCalibrator extends VBox {
             min.setText("");
         if (!max.modified)
             max.setText("");
-        if (!center.modified)
-            center.setText("");
         if (!p1.modified)
             p1.setText(p1Val);
         if (!p2.modified)
             p2.setText(p2Val);
-        if (!p3.modified)
-            p3.setText(p3Val);
-        if (!p4.modified)
-            p4.setText(p4Val);
+        if (!simple) {
+            if (!p3.modified)
+                p3.setText(p3Val);
+            if (!p4.modified)
+                p4.setText(p4Val);
+            if (!center.modified)
+                center.setText("");
+        }
         current.setText("");
         progressBar.setProgress(0);
     }
@@ -107,19 +104,22 @@ public class AnalogCalibrator extends VBox {
         max.setText(String.valueOf(maxVal));
         min.setText(String.valueOf(minVal));
         current.setText(String.valueOf(newVal));
-        if (!center.modified)
-            center.setText(String.valueOf((Integer.parseInt(max.getText()) - Integer.parseInt(min.getText())) / 2));
         if (!p1.modified) {
             p1.setText(min.getText());
         }
         if (!p2.modified) {
             p2.setText(center.getText());
         }
-        if (!p3.modified) {
-            p3.setText(center.getText());
-        }
-        if (!p4.modified) {
-            p4.setText(max.getText());
+        if (!simple) {
+            if (!p3.modified) {
+                p3.setText(center.getText());
+            }
+            if (!p4.modified) {
+                p4.setText(max.getText());
+            }
+            if (!center.modified) {
+                center.setText(String.valueOf((Integer.parseInt(max.getText()) - Integer.parseInt(min.getText())) / 2));
+            }
         }
         progressBar.setProgress(((float) newVal - minVal) / (maxVal - minVal));
     }
@@ -162,14 +162,17 @@ public class AnalogCalibrator extends VBox {
         max.modified = false;
         p1.modified = false;
         p2.modified = false;
-        p3.modified = false;
-        p4.modified = false;
-        center.modified = false;
+        if (!simple) {
+            p3.modified = false;
+            p4.modified = false;
+            center.modified = false;
+        }
         Reset();
     }
 
     void fixCenter() {
-        center.modified = true;
+        if (!simple)
+            center.modified = true;
     }
 
     private void setFormatCheck(TextField field) {

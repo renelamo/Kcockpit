@@ -101,9 +101,13 @@ public class KockpitCalibrationTool extends Application {
         //TODO: gérer Throttle
         //region center
         JSONObject calibrations = client.getCalibration();
-
-        calibrators.forEach((name, analogCalibrator) ->
-                calibrators.put(name, new AnalogCalibrator(StringUtils.capitalize(name), (JSONObject) calibrations.get(name))));
+        if (calibrations != null) {
+            calibrators.forEach((name, analogCalibrator) ->
+                    calibrators.put(name, new AnalogCalibrator(StringUtils.capitalize(name), (JSONObject) calibrations.get(name))));
+        } else {
+            calibrators.forEach((name, analogCalibrator) ->
+                    calibrators.put(name, new AnalogCalibrator(StringUtils.capitalize(name), null)));
+        }
 
         HBox centerHBox = new HBox();
         calibrators.forEach((s, analogCalibrator) -> centerHBox.getChildren().add(analogCalibrator));
@@ -113,6 +117,8 @@ public class KockpitCalibrationTool extends Application {
         //region bottom
         Button reset = new Button("Reset");
         reset.setOnAction((actionEvent -> calibrators.forEach((name, analogCalibrator) -> analogCalibrator.Reset())));
+        Button resetAll = new Button("Reset everything");
+        resetAll.setOnAction(event -> calibrators.forEach((s, analogCalibrator) -> analogCalibrator.ResetAll()));
         Button quit = new Button("Exit");
         quit.setOnAction((actionEvent) -> {
             updateValues.interrupt();
@@ -141,6 +147,7 @@ public class KockpitCalibrationTool extends Application {
                 setP,
                 setC,
                 reset,
+                resetAll,
                 save,
                 quit
         );
@@ -149,7 +156,7 @@ public class KockpitCalibrationTool extends Application {
         root.setBottom(bottom);
         //endregion
 
-        Scene scene = new Scene(root, 800, 300);
+        Scene scene = new Scene(root, 800, 400);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Kockpit Calibration Tool");
         primaryStage.setOnCloseRequest((windowEvent) -> updateValues.interrupt());

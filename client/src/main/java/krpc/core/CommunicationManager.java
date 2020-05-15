@@ -66,7 +66,7 @@ public class CommunicationManager implements CommTable {
         }
         if (calibrations == null) {
             client.logger.WARNING("Utilisation des valeurs de calibration par défaut");
-            throttleQueue = new AnalogQueue(queueSize);
+            throttleQueue = new AnalogQueue(queueSize, true);
             pitchQueue = new AnalogQueue(queueSize);
             yawQueue = new AnalogQueue(queueSize);
             rollQueue = new AnalogQueue(queueSize);
@@ -110,7 +110,7 @@ public class CommunicationManager implements CommTable {
         return pitchValue;
     }
 
-    int getYaw() throws RPCException, IOException {
+    public int getYaw() throws RPCException, IOException {
         client.STM32.write(YAW_CODE);
         int yawValue = client.in.read();
         float newVal = yawQueue.push(yawValue).getVal();
@@ -121,7 +121,7 @@ public class CommunicationManager implements CommTable {
         return yawValue;
     }
 
-    int getRoll() throws RPCException, IOException {
+    public int getRoll() throws RPCException, IOException {
         client.STM32.write(ROLL_CODE);
         int rollValue = client.in.read();
         float newVal = rollQueue.push(rollValue).getVal();
@@ -132,7 +132,7 @@ public class CommunicationManager implements CommTable {
         return rollValue;
     }
 
-    int getX() throws RPCException, IOException {
+    public int getX() throws RPCException, IOException {
         client.STM32.write(X_CODE);
         int xValue = client.in.read();
         float newVal = xQueue.push(xValue).getVal();
@@ -148,7 +148,7 @@ public class CommunicationManager implements CommTable {
         return xValue;
     }
 
-    int getY() throws RPCException, IOException {
+    public int getY() throws RPCException, IOException {
         client.STM32.write(Y_CODE);
         int yValue = client.in.read();
         float newVal = yQueue.push(yValue).getVal();
@@ -163,7 +163,7 @@ public class CommunicationManager implements CommTable {
         return yValue;
     }
 
-    int getZ() throws RPCException, IOException {
+    public int getZ() throws RPCException, IOException {
         client.STM32.write(Z_CODE);
         int zValue = client.in.read();
         float newVal = zQueue.push(zValue).getVal();
@@ -179,7 +179,7 @@ public class CommunicationManager implements CommTable {
         return zValue;
     }
 
-    int getT() throws RPCException, IOException {
+    public int getT() throws RPCException, IOException {
         client.STM32.write(T_CODE);
         int tValue = client.in.read();
         float newVal = tQueue.push(tValue).getVal();

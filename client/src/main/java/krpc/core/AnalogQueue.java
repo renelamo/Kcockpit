@@ -16,26 +16,40 @@ class AnalogQueue {
     public int p3 = -1;
     public int p4;
 
-    public AnalogQueue(short size, JSONObject calibration) {
+    public AnalogQueue(short size, JSONObject calibration, boolean isThrottle) {
         array = new int[size];
         if (calibration == null) {
             p1 = 0;
             p2 = p3 = 127;
             p4 = 255;
             Arrays.fill(array, 127);
+            if (isThrottle) {
+                p2 = p3 = 255;
+                Arrays.fill(array, 0);
+            }
         } else {
-            Arrays.fill(array, Integer.parseInt((String) calibration.get("center")));
             p1 = Integer.parseInt((String) calibration.get("p1"));
             p2 = Integer.parseInt((String) calibration.get("p2"));
             if (!calibration.get("p3").equals("")) {
+                Arrays.fill(array, Integer.parseInt((String) calibration.get("center")));
                 p3 = Integer.parseInt((String) calibration.get("p3"));
                 p4 = Integer.parseInt((String) calibration.get("p4"));
+            } else {
+                Arrays.fill(array, p1);
             }
         }
     }
 
+    public AnalogQueue(short size, boolean isThrottle) {
+        this(size, null, isThrottle);
+    }
+
+    public AnalogQueue(short size, JSONObject calibration) {
+        this(size, calibration, false);
+    }
+
     public AnalogQueue(short size) {
-        this(size, null);
+        this(size, null, false);
     }
 
     public AnalogQueue push(int value) {
