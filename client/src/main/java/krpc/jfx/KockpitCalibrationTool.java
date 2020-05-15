@@ -31,48 +31,38 @@ public class KockpitCalibrationTool extends Application {
         client.logger.INFO("Démarrage du thread de communication série");
         try {
             client.connectSerial();
+            do {
+                try {
+                    calibrators.forEach((axisName, analogCalibrator) -> {
+                        try {
+                            Method getValue = client.commManager.getClass().getMethod("get" + StringUtils.capitalize(axisName));
+                            analogCalibrator.Update((Integer) getValue.invoke(client.commManager));
+                        }
+                        catch (NoSuchMethodException | IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                        catch (InvocationTargetException e) {
+                            if (e.getCause() instanceof IOException) {
+                                throw new UncheckedIOException((IOException) e.getCause());
+                            } else {
+                                e.getCause().printStackTrace();
+                            }
+                        }
+                    });
+                }
+                catch (UncheckedIOException e) {
+                    client.logger.WARNING("Panneau déconnecté, tentative de reconnection");
+                    client.connectSerial();
+                }
+            } while (true);
         }
         catch (UnknownOSException e) {
             client.logger.ERROR("OS non reconnu");
         }
         catch (InterruptedException e) {
             client.logger.INFO("Interruption du thread de communication série");
+            Thread.currentThread().interrupt();
         }
-        do {
-            try {
-                calibrators.forEach((axisName, analogCalibrator) -> {
-                    try {
-                        Method getValue = client.commManager.getClass().getMethod("get" + StringUtils.capitalize(axisName));
-                        analogCalibrator.Update((Integer) getValue.invoke(client.commManager));
-                    }
-                    catch (NoSuchMethodException | IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
-                    catch (InvocationTargetException e) {
-                        if (e.getCause() instanceof IOException) {
-                            throw new UncheckedIOException((IOException) e.getCause());
-                        } else {
-                            e.getCause().printStackTrace();
-                        }
-                    }
-                });
-            }
-            catch (UncheckedIOException e) {
-                try {
-                    client.logger.WARNING("Panneau déconnecté, tentative de reconnection");
-                    client.connectSerial();
-                }
-                catch (UnknownOSException e2) {
-                    e.printStackTrace();
-                }
-                catch (InterruptedException e2) {
-                    client.logger.INFO("Interruption du thread de communication série");
-                }
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        } while (true);
     });
 
     public static void main(String[] args) {
@@ -90,6 +80,7 @@ public class KockpitCalibrationTool extends Application {
         calibrators.put("y", null);
         calibrators.put("z", null);
         calibrators.put("t", null);
+
         //region left
         VBox leftVBox = new VBox(
                 new Label("Axe:"),
