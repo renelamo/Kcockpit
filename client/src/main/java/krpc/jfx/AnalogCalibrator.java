@@ -5,22 +5,24 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Translate;
+//import javafx.scene.transform.Rotate;
+//import javafx.scene.transform.Translate;
 import org.json.simple.JSONObject;
+
+import javax.xml.namespace.QName;
 
 public class AnalogCalibrator extends VBox {
     private final modifiableTextField max;
-    private final modifiableTextField p4;
-    private final modifiableTextField p3;
-    private final modifiableTextField center;
+    private final boolean simple;
+    private modifiableTextField p4 = null;
+    private modifiableTextField p3 = null;
     private final modifiableTextField p2;
     private final modifiableTextField p1;
     private final modifiableTextField min;
     private final ProgressBar progressBar;
     private final TextField current;
     private String p1Val, p2Val, p3Val, p4Val;
-    private boolean simple;
+    private modifiableTextField center;
 
     AnalogCalibrator(String nom, JSONObject calibrationData) {
         this(nom, calibrationData, false);
@@ -35,15 +37,17 @@ public class AnalogCalibrator extends VBox {
         if (calibrationData != null) {
             min = new modifiableTextField((String) calibrationData.get("min"));
             max = new modifiableTextField((String) calibrationData.get("max"));
-            center = new modifiableTextField((String) calibrationData.get("center"));
             p1Val = (String) calibrationData.get("p1");
             p2Val = (String) calibrationData.get("p2");
-            p3Val = (String) calibrationData.get("p3");
-            p4Val = (String) calibrationData.get("p4");
             p1 = new modifiableTextField(p1Val);
             p2 = new modifiableTextField(p2Val);
-            p3 = new modifiableTextField(p3Val);
-            p4 = new modifiableTextField(p4Val);
+            if (!simple) {
+                p3Val = (String) calibrationData.get("p3");
+                p4Val = (String) calibrationData.get("p4");
+                center = new modifiableTextField((String) calibrationData.get("center"));
+                p3 = new modifiableTextField(p3Val);
+                p4 = new modifiableTextField(p4Val);
+            }
         } else {
             max = new modifiableTextField("");
             center = new modifiableTextField("");
@@ -52,14 +56,14 @@ public class AnalogCalibrator extends VBox {
             p2 = new modifiableTextField("");
             p3 = new modifiableTextField("");
             p4 = new modifiableTextField("");
+            setFormatCheck(p3);
+            setFormatCheck(p4);
         }
         setFormatCheck(center);
         setFormatCheck(min);
         setFormatCheck(max);
         setFormatCheck(p1);
         setFormatCheck(p2);
-        setFormatCheck(p3);
-        setFormatCheck(p4);
 
         progressBar = new ProgressBar(0.5);
         /*
@@ -141,11 +145,15 @@ public class AnalogCalibrator extends VBox {
         JSONObject out = new JSONObject();
         out.put("max", max.getText());
         out.put("min", min.getText());
-        out.put("center", center.getText());
         out.put("p1", p1.getText());
         out.put("p2", p2.getText());
-        out.put("p3", p3.getText());
-        out.put("p4", p4.getText());
+        if (!simple) {
+            out.put("center", center.getText());
+            out.put("p3", p3.getText());
+            out.put("p4", p4.getText());
+        } else {
+            out.put("p3", "");
+        }
         return out;
     }
 

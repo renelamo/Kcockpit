@@ -9,47 +9,70 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import krpc.client.RPCException;
 import krpc.core.KRPCClient;
+import krpc.core.UnknownOSException;
+import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.LinkedHashMap;
 
 public class KockpitCalibrationTool extends Application {
     private final KRPCClient client = new KRPCClient();
-    private AnalogCalibrator throttleCalibrator;
-    private AnalogCalibrator pitchCalibrator;
-    private AnalogCalibrator yawCalibrator;
-    private AnalogCalibrator rollCalibrator;
-    private AnalogCalibrator xCalibrator;
-    private AnalogCalibrator yCalibrator;
-    private AnalogCalibrator zCalibrator;
-    private AnalogCalibrator tCalibrator;
-    private AnalogCalibrator[] calibrators = {
-            throttleCalibrator,
-            pitchCalibrator,
-            yawCalibrator,
-            rollCalibrator,
-            xCalibrator,
-            yCalibrator,
-            zCalibrator,
-            tCalibrator
-    };
+    private final LinkedHashMap<String, AnalogCalibrator> calibrators = new LinkedHashMap<>(8);
+
     private final Thread updateValues = new Thread(() -> {
         client.logger.INFO("Démarrage du thread de communication série");
         try {
             client.connectSerial();
-            //TODO: implémenter l'actualisation des valeurs d'affichage en boucle
-            pitchCalibrator.Update(client.commManager.getPitch());
+        }
+        catch (UnknownOSException e) {
+            client.logger.ERROR("OS non reconnu");
         }
         catch (InterruptedException e) {
-            System.out.println();
             client.logger.INFO("Interruption du thread de communication série");
         }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        do {
+            try {
+                calibrators.forEach((axisName, analogCalibrator) -> {
+                    try {
+                        Method getValue = client.commManager.getClass().getMethod("get" + StringUtils.capitalize(axisName));
+                        analogCalibrator.Update((Integer) getValue.invoke(client.commManager));
+                    }
+                    catch (NoSuchMethodException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                    catch (InvocationTargetException e) {
+                        if (e.getCause() instanceof IOException) {
+                            throw new UncheckedIOException((IOException) e.getCause());
+                        } else {
+                            e.getCause().printStackTrace();
+                        }
+                    }
+                });
+            }
+            catch (UncheckedIOException e) {
+                try {
+                    client.logger.WARNING("Panneau déconnecté, tentative de reconnection");
+                    client.connectSerial();
+                }
+                catch (UnknownOSException e2) {
+                    e.printStackTrace();
+                }
+                catch (InterruptedException e2) {
+                    client.logger.INFO("Interruption du thread de communication série");
+                }
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        } while (true);
     });
 
     public static void main(String[] args) {
@@ -59,7 +82,14 @@ public class KockpitCalibrationTool extends Application {
     @Override
     public void start(Stage primaryStage) {
         BorderPane root = new BorderPane();
-
+        calibrators.put("throttle", null);
+        calibrators.put("pitch", null);
+        calibrators.put("yaw", null);
+        calibrators.put("roll", null);
+        calibrators.put("x", null);
+        calibrators.put("y", null);
+        calibrators.put("z", null);
+        calibrators.put("t", null);
         //region left
         VBox leftVBox = new VBox(
                 new Label("Axe:"),
@@ -72,7 +102,7 @@ public class KockpitCalibrationTool extends Application {
                 new Label("Valeur min:"),
                 new Label("Valeur actuelle:")
         );
-        leftVBox.setSpacing(15);
+        leftVBox.setSpacing(14.5);
         leftVBox.setPadding(new Insets(5));
         root.setLeft(leftVBox);
         //endregion
@@ -80,33 +110,18 @@ public class KockpitCalibrationTool extends Application {
         //TODO: gérer Throttle
         //region center
         JSONObject calibrations = client.getCalibration();
-        throttleCalibrator = new AnalogCalibrator("Throttle", (JSONObject) calibrations.get("throttle"), true);
-        pitchCalibrator = new AnalogCalibrator("Pitch", (JSONObject) calibrations.get("pitch"));
-        yawCalibrator = new AnalogCalibrator("Yaw", (JSONObject) calibrations.get("yaw"));
-        rollCalibrator = new AnalogCalibrator("Roll", (JSONObject) calibrations.get("roll"));
-        xCalibrator = new AnalogCalibrator("X", (JSONObject) calibrations.get("x"));
-        yCalibrator = new AnalogCalibrator("Y", (JSONObject) calibrations.get("y"));
-        zCalibrator = new AnalogCalibrator("Z", (JSONObject) calibrations.get("z"));
-        tCalibrator = new AnalogCalibrator("T", (JSONObject) calibrations.get("t"));
-        root.setCenter(new HBox(
-                throttleCalibrator,
-                pitchCalibrator,
-                yawCalibrator,
-                rollCalibrator,
-                xCalibrator,
-                yCalibrator,
-                zCalibrator,
-                tCalibrator
-        ));
+
+        calibrators.forEach((name, analogCalibrator) ->
+                calibrators.put(name, new AnalogCalibrator(StringUtils.capitalize(name), (JSONObject) calibrations.get(name))));
+
+        HBox centerHBox = new HBox();
+        calibrators.forEach((s, analogCalibrator) -> centerHBox.getChildren().add(analogCalibrator));
+        root.setCenter(centerHBox);
         //endregion
 
         //region bottom
         Button reset = new Button("Reset");
-        reset.setOnAction((actionEvent -> {
-            for (AnalogCalibrator cal : calibrators) {
-                cal.Reset();
-            }
-        }));
+        reset.setOnAction((actionEvent -> calibrators.forEach((name, analogCalibrator) -> analogCalibrator.Reset())));
         Button quit = new Button("Exit");
         quit.setOnAction((actionEvent) -> {
             updateValues.interrupt();
@@ -116,13 +131,8 @@ public class KockpitCalibrationTool extends Application {
         save.setOnAction((actionEvent) -> {
             client.logger.INFO("Sauvegarde des valeurs de calibration");
             JSONObject toWrite = new JSONObject();
-            toWrite.put("pitch", pitchCalibrator.getJson());
-            toWrite.put("yaw", yawCalibrator.getJson());
-            toWrite.put("roll", rollCalibrator.getJson());
-            toWrite.put("x", xCalibrator.getJson());
-            toWrite.put("y", yCalibrator.getJson());
-            toWrite.put("z", zCalibrator.getJson());
-            toWrite.put("t", tCalibrator.getJson());
+
+            calibrators.forEach((name, analogCalibrator) -> toWrite.put(name, analogCalibrator.getJson()));
 
             try (FileWriter file = new FileWriter("kalibration.json")) {
                 file.write(toWrite.toJSONString());
@@ -133,23 +143,14 @@ public class KockpitCalibrationTool extends Application {
             }
         });
         Button setP = new Button("Autoset Point Values");
-        setP.setOnAction(event -> {
-            for (AnalogCalibrator cal : calibrators) {
-                cal.autoFillP(10);
-            }
-        });
+        setP.setOnAction(event -> calibrators.forEach((s, analogCalibrator) -> analogCalibrator.autoFillP(10)));
         Button setC = new Button("Fix center values");
-        setC.setOnAction(event -> {
-            for (AnalogCalibrator cal : calibrators) {
-                cal.fixCenter();
-            }
-        });
-
+        setC.setOnAction(event -> calibrators.forEach((s, analogCalibrator) -> analogCalibrator.fixCenter()));
         HBox bottom = new HBox(
                 setP,
                 setC,
-                save,
                 reset,
+                save,
                 quit
         );
         bottom.setSpacing(10);

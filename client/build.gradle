@@ -18,6 +18,8 @@ application{
     mainClassName = 'krpc.core.KRPCClient'
 }
 dependencies{
+    compile 'org.apache.commons:commons-lang3:3.6'
+
     // https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java
     compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.7.0'
 
