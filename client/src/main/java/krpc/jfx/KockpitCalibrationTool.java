@@ -1,13 +1,15 @@
 package krpc.jfx;
 
 import javafx.application.Application;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.*;
+import javafx.stage.Modality;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import krpc.client.RPCException;
 import krpc.core.KRPCClient;
@@ -117,6 +119,7 @@ public class KockpitCalibrationTool extends Application {
         //region bottom
         Button reset = new Button("Reset");
         reset.setOnAction((actionEvent -> calibrators.forEach((name, analogCalibrator) -> analogCalibrator.Reset())));
+        reset.setCancelButton(true);
         Button resetAll = new Button("Reset everything");
         resetAll.setOnAction(event -> calibrators.forEach((s, analogCalibrator) -> analogCalibrator.ResetAll()));
         Button quit = new Button("Exit");
@@ -125,6 +128,7 @@ public class KockpitCalibrationTool extends Application {
             primaryStage.close();
         });
         Button save = new Button("Save");
+        save.setDefaultButton(true);
         save.setOnAction((actionEvent) -> {
             client.logger.INFO("Sauvegarde des valeurs de calibration");
             JSONObject toWrite = new JSONObject();
@@ -140,7 +144,42 @@ public class KockpitCalibrationTool extends Application {
             }
         });
         Button setP = new Button("Autoset Point Values");
-        setP.setOnAction(event -> calibrators.forEach((s, analogCalibrator) -> analogCalibrator.autoFillP(10)));
+        setP.setOnAction(event -> {
+            Stage popup = new Stage();
+            popup.initModality(Modality.APPLICATION_MODAL);
+            popup.initOwner(primaryStage);
+            TextField textInput = new TextField("10");
+            textInput.textProperty().addListener((observableValue, oldValue, newValue) -> {
+                if (!newValue.matches("\\d{0,3}") || (!newValue.equals("") && Integer.parseInt(newValue) > 255)) {
+                    textInput.setText(oldValue);
+                }
+            });
+            Button okButton = new Button("OK");
+            okButton.setDefaultButton(true);
+            okButton.setOnAction(event1 -> {
+                if (textInput.getText().equals("")) {
+                    return;
+                }
+                int offset = Integer.parseInt(textInput.getText());
+                calibrators.forEach((s, analogCalibrator) -> analogCalibrator.autoFillP(offset));
+                popup.hide();
+            });
+            Button cancelButton = new Button("Cancel");
+            cancelButton.setCancelButton(true);
+            cancelButton.setOnAction(event1 -> popup.hide());
+            GridPane pane = new GridPane();
+            pane.setHgap(5);
+            pane.setVgap(5);
+            pane.setPadding(new Insets(5));
+            pane.add(new Label("Points offset:"), 0, 0);
+            pane.add(textInput, 1, 0);
+            pane.add(cancelButton, 0, 1);
+            GridPane.setHalignment(okButton, HPos.RIGHT);
+            pane.getColumnConstraints().addAll(new ColumnConstraints(100), new ColumnConstraints(50));
+            pane.add(okButton, 1, 1);
+            popup.setScene(new Scene(pane));
+            popup.show();
+        });
         Button setC = new Button("Fix center values");
         setC.setOnAction(event -> calibrators.forEach((s, analogCalibrator) -> analogCalibrator.fixCenter()));
         HBox bottom = new HBox(
