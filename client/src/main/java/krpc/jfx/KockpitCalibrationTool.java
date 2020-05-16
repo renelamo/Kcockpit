@@ -1,6 +1,8 @@
 package krpc.jfx;
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -29,43 +31,61 @@ public class KockpitCalibrationTool extends Application {
     private final KRPCClient client = new KRPCClient();
     private final LinkedHashMap<String, AnalogCalibrator> calibrators = new LinkedHashMap<>(8);
 
-    private final Thread updateValues = new Thread(() -> {
-        client.logger.INFO("Démarrage du thread de communication série");
-        try {
-            client.connectSerial();
-            do {
+    private final AnimationTimer updateValues = new AnimationTimer() {
+        @Override
+        public void start() {
+            super.start();
+            client.logger.INFO("Démarrage du thread de communication série");
+            try {
+                client.connectSerial();
+            }
+            catch (UnknownOSException e) {
+                client.logger.ERROR("OS inconnu");
+                Platform.exit();
+            }
+            catch (InterruptedException e) {
+                client.logger.INFO("Interruption du thread de communication série");
+                Platform.exit();
+            }
+        }
+
+        @Override
+        public void handle(long now) {
+            try {
+                calibrators.forEach((axisName, analogCalibrator) -> {
+                    try {
+                        Method getValue = client.commManager.getClass().getMethod("get" + StringUtils.capitalize(axisName));
+                        analogCalibrator.Update((Integer) getValue.invoke(client.commManager));
+                    }
+                    catch (NoSuchMethodException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                    catch (InvocationTargetException e) {
+                        if (e.getCause() instanceof IOException) {
+                            throw new UncheckedIOException((IOException) e.getCause());
+                        } else {
+                            e.getCause().printStackTrace();
+                        }
+                    }
+                });
+            }
+            catch (UncheckedIOException e) {
+                client.logger.WARNING("Panneau déconnecté, tentative de reconnection");
                 try {
-                    calibrators.forEach((axisName, analogCalibrator) -> {
-                        try {
-                            Method getValue = client.commManager.getClass().getMethod("get" + StringUtils.capitalize(axisName));
-                            analogCalibrator.Update((Integer) getValue.invoke(client.commManager));
-                        }
-                        catch (NoSuchMethodException | IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
-                        catch (InvocationTargetException e) {
-                            if (e.getCause() instanceof IOException) {
-                                throw new UncheckedIOException((IOException) e.getCause());
-                            } else {
-                                e.getCause().printStackTrace();
-                            }
-                        }
-                    });
-                }
-                catch (UncheckedIOException e) {
-                    client.logger.WARNING("Panneau déconnecté, tentative de reconnection");
                     client.connectSerial();
                 }
-            } while (true);
+                catch (UnknownOSException | InterruptedException interruptedException) {
+                    this.stop();
+                }
+            }
         }
-        catch (UnknownOSException e) {
-            client.logger.ERROR("OS non reconnu");
-        }
-        catch (InterruptedException e) {
+
+        @Override
+        public void stop() {
             client.logger.INFO("Interruption du thread de communication série");
-            Thread.currentThread().interrupt();
+            super.stop();
         }
-    });
+    };
 
     public static void main(String[] args) {
         launch(args);
@@ -124,7 +144,7 @@ public class KockpitCalibrationTool extends Application {
         resetAll.setOnAction(event -> calibrators.forEach((s, analogCalibrator) -> analogCalibrator.ResetAll()));
         Button quit = new Button("Exit");
         quit.setOnAction((actionEvent) -> {
-            updateValues.interrupt();
+            updateValues.stop();
             primaryStage.close();
         });
         Button save = new Button("Save");
@@ -198,8 +218,8 @@ public class KockpitCalibrationTool extends Application {
         Scene scene = new Scene(root, 800, 400);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Kockpit Calibration Tool");
-        primaryStage.setOnCloseRequest((windowEvent) -> updateValues.interrupt());
-        primaryStage.show();
+        primaryStage.setOnCloseRequest((windowEvent) -> updateValues.stop());
         updateValues.start();
+        primaryStage.show();
     }
 }

@@ -107,10 +107,10 @@ public class AnalogCalibrator extends VBox {
         if (!p1.modified) {
             p1.setText(min.getText());
         }
-        if (!p2.modified) {
-            p2.setText(center.getText());
-        }
         if (!simple) {
+            if (!p2.modified) {
+                p2.setText(center.getText());
+            }
             if (!p3.modified) {
                 p3.setText(center.getText());
             }
@@ -120,11 +120,16 @@ public class AnalogCalibrator extends VBox {
             if (!center.modified) {
                 center.setText(String.valueOf((Integer.parseInt(max.getText()) - Integer.parseInt(min.getText())) / 2));
             }
+        } else {
+
+            if (!p2.modified) {
+                p2.setText(max.getText());
+            }
         }
         progressBar.setProgress(((float) newVal - minVal) / (maxVal - minVal));
     }
 
-    void autoFillP(int offset) {
+    void autoFillP(int offset) {//FIXME: ne fonctionne pas
         if (!p1.modified)
             p1.setText(String.valueOf(Integer.parseInt(min.getText()) + offset));
         if (!simple) {
@@ -172,6 +177,7 @@ public class AnalogCalibrator extends VBox {
 
     void fixCenter() {
         if (!simple)
+            center.setText(current.getText());
             center.modified = true;
     }
 
