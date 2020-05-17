@@ -36,12 +36,16 @@ public class AnalogCalibrator extends VBox {
             p2Val = (String) calibrationData.get("p2");
             p1 = new modifiableTextField(p1Val);
             p2 = new modifiableTextField(p2Val);
+            p1.userModified = true;
+            p2.userModified = true;
             if (!simple) {
                 p3Val = (String) calibrationData.get("p3");
                 p4Val = (String) calibrationData.get("p4");
                 center = new modifiableTextField((String) calibrationData.get("center"));
                 p3 = new modifiableTextField(p3Val);
                 p4 = new modifiableTextField(p4Val);
+                p3.userModified = true;
+                p4.userModified = true;
             }
         } else {
             max = new modifiableTextField("");
@@ -78,21 +82,21 @@ public class AnalogCalibrator extends VBox {
     }
 
     void Reset() {
-        if (!min.modified)
-            min.setText("");
-        if (!max.modified)
-            max.setText("");
-        if (!p1.modified)
-            p1.setText(p1Val);
-        if (!p2.modified)
-            p2.setText(p2Val);
+        if (!min.userModified)
+            min.progSetText("");
+        if (!max.userModified)
+            max.progSetText("");
+        if (!p1.userModified)
+            p1.progSetText(p1Val);
+        if (!p2.userModified)
+            p2.progSetText(p2Val);
         if (!simple) {
-            if (!p3.modified)
-                p3.setText(p3Val);
-            if (!p4.modified)
-                p4.setText(p4Val);
-            if (!center.modified)
-                center.setText("");
+            if (!p3.userModified)
+                p3.progSetText(p3Val);
+            if (!p4.userModified)
+                p4.progSetText(p4Val);
+            if (!center.userModified)
+                center.progSetText("");
         }
         current.setText("");
         progressBar.setProgress(0);
@@ -101,48 +105,57 @@ public class AnalogCalibrator extends VBox {
     void Update(int newVal) {
         int maxVal = max.getText().equals("") ? newVal : Math.max(newVal, Integer.parseInt(max.getText()));
         int minVal = min.getText().equals("") ? newVal : Math.min(newVal, Integer.parseInt(min.getText()));
-        max.setText(String.valueOf(maxVal));
-        min.setText(String.valueOf(minVal));
+        max.progSetText(String.valueOf(maxVal));
+        min.progSetText(String.valueOf(minVal));
         current.setText(String.valueOf(newVal));
-        if (!p1.modified) {
-            p1.setText(min.getText());
+        if (!p1.userModified) {
+            p1.progSetText(min.getText());
         }
         if (!simple) {
-            if (!p2.modified) {
-                p2.setText(center.getText());
+            if (!p2.userModified) {
+                p2.progSetText(center.getText());
             }
-            if (!p3.modified) {
-                p3.setText(center.getText());
+            if (!p3.userModified) {
+                p3.progSetText(center.getText());
             }
-            if (!p4.modified) {
-                p4.setText(max.getText());
+            if (!p4.userModified) {
+                p4.progSetText(max.getText());
             }
-            if (!center.modified) {
-                center.setText(String.valueOf((Integer.parseInt(max.getText()) - Integer.parseInt(min.getText())) / 2));
+            if (!center.userModified) {
+                center.progSetText(String.valueOf((Integer.parseInt(max.getText()) - Integer.parseInt(min.getText())) / 2));
             }
         } else {
 
-            if (!p2.modified) {
-                p2.setText(max.getText());
+            if (!p2.userModified) {
+                p2.progSetText(max.getText());
             }
         }
         progressBar.setProgress(((float) newVal - minVal) / (maxVal - minVal));
     }
 
-    void autoFillP(int offset) {//FIXME: ne fonctionne pas
-        if (!p1.modified)
-            p1.setText(String.valueOf(Integer.parseInt(min.getText()) + offset));
-        if (!simple) {
-            if (!p2.modified)
-                p2.setText(String.valueOf(Integer.parseInt(center.getText()) - offset));
-            if (!p3.modified)
-                p3.setText(String.valueOf(Integer.parseInt(center.getText()) + offset));
-            if (!p4.modified)
-                p4.setText(String.valueOf(Integer.parseInt(max.getText()) - offset));
-        } else {
-            if (!p2.modified)
-                p2.setText(String.valueOf(Integer.parseInt(max.getText()) - offset));
+    void autoFillP(int offset) {
+        if (!p1.userModified) {
+            p1.progSetText(String.valueOf(Integer.parseInt(min.getText()) + offset));
         }
+        if (!simple) {
+            if (!p2.userModified) {
+                p2.progSetText(String.valueOf(Integer.parseInt(center.getText()) - offset));
+            }
+            if (!p3.userModified) {
+                p3.progSetText(String.valueOf(Integer.parseInt(center.getText()) + offset));
+            }
+            if (!p4.userModified) {
+                p4.progSetText(String.valueOf(Integer.parseInt(max.getText()) - offset));
+            }
+            p3.userModified = true;
+            p4.userModified = true;
+        } else {
+            if (!p2.userModified) {
+                p2.progSetText(String.valueOf(Integer.parseInt(max.getText()) - offset));
+            }
+        }
+        p1.userModified = true;
+        p2.userModified = true;
     }
 
     JSONObject getJson() {
@@ -163,41 +176,53 @@ public class AnalogCalibrator extends VBox {
     }
 
     void ResetAll() {
-        min.modified = false;
-        max.modified = false;
-        p1.modified = false;
-        p2.modified = false;
+        min.userModified = false;
+        max.userModified = false;
+        p1.userModified = false;
+        p2.userModified = false;
         if (!simple) {
-            p3.modified = false;
-            p4.modified = false;
-            center.modified = false;
+            p3.userModified = false;
+            p4.userModified = false;
+            center.userModified = false;
         }
         Reset();
     }
 
     void fixCenter() {
-        if (!simple)
-            center.setText(current.getText());
-            center.modified = true;
+        if (!simple) {
+            center.progSetText(current.getText());
+            center.userModified = true;
+        }
     }
 
     private void setFormatCheck(TextField field) {
+        if (field instanceof modifiableTextField && ((modifiableTextField) field).progModified) {
+            ((modifiableTextField) field).progModified = false;
+            return;
+        }
         field.textProperty().addListener((observableValue, oldValue, newValue) -> {
-            if (!newValue.matches("\\d{0,3}") || (!newValue.equals("") && Integer.parseInt(newValue) > 255)) {
+            if (!newValue.matches("\\d{0,3}") ||
+                    (!newValue.equals("") && (Integer.parseInt(newValue) > 255 || Integer.parseInt(newValue) < 0))) {
                 field.setText(oldValue);
             } else {
                 if (field instanceof modifiableTextField) {
-                    ((modifiableTextField) field).modified = true;
+                    ((modifiableTextField) field).userModified = true;
                 }
             }
         });
     }
 
     private static class modifiableTextField extends TextField {
-        boolean modified = false;
+        boolean userModified = false;
+        boolean progModified = false;
 
         modifiableTextField(String s) {
             super(s);
+        }
+
+        void progSetText(String s) {
+            progModified = true;
+            setText(s);
         }
     }
 }

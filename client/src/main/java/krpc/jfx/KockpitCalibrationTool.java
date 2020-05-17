@@ -15,6 +15,7 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import krpc.client.RPCException;
 import krpc.core.KRPCClient;
+import krpc.core.Logger;
 import krpc.core.UnknownOSException;
 import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONArray;
@@ -93,6 +94,7 @@ public class KockpitCalibrationTool extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        client.logger.logLevel = Logger.LogLevel.Info;
         BorderPane root = new BorderPane();
         calibrators.put("throttle", null);
         calibrators.put("pitch", null);
@@ -120,7 +122,7 @@ public class KockpitCalibrationTool extends Application {
         root.setLeft(leftVBox);
         //endregion
 
-        //TODO: gérer Throttle
+        //TODO: gérer l'affichage de Throttle
         //region center
         JSONObject calibrations = client.getCalibration();
         if (calibrations != null) {
