@@ -11,31 +11,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/dependencies/krpc-java-0.4.8.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/dependencies/javafx-sdk-14.0.1/lib" />
-        </CLASSES>
-        <JAVADOC />
-        <NATIVE>
-          <root url="file://$MODULE_DIR$/dependencies/javafx-sdk-14.0.1/lib" />
-        </NATIVE>
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/dependencies/javafx-sdk-14.0.1/lib" />
-        </SOURCES>
-        <jarDirectory url="file://$MODULE_DIR$/dependencies/javafx-sdk-14.0.1/lib" recursive="false" />
-        <jarDirectory url="file://$MODULE_DIR$/dependencies/javafx-sdk-14.0.1/lib" recursive="false" type="SOURCES" />
-      </library>
-    </orderEntry>
     <orderEntry type="library" name="Maven: krpc:client:0.4.8" level="project" />
     <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:3.12.0" level="project" />
     <orderEntry type="library" name="Maven: com.fazecast:jSerialComm:2.6.2" level="project" />
