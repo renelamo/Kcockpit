@@ -16,6 +16,7 @@ import kockpit.core.KRPCClient;
 import kockpit.core.Logger;
 import kockpit.core.UnknownOSException;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.mutable.MutableInt;
 import org.json.simple.JSONObject;
 
 import java.io.FileWriter;
@@ -28,60 +29,74 @@ import java.util.LinkedHashMap;
 public class KockpitCalibrationTool extends Application {
     private final KRPCClient client = new KRPCClient();
     private final LinkedHashMap<String, AnalogCalibrator> calibrators = new LinkedHashMap<>(8);
+    private final LinkedHashMap<String, MutableInt> mutableInts = new LinkedHashMap<>(8);
+    private final AnimationTimer animationTimer = new AnimationTimer() {
+        @Override
+        public void handle(long l) {
+            calibrators.forEach((s, analogCalibrator) -> analogCalibrator.Update(mutableInts.get(s).getValue()));
+        }
+    };
+    private final Thread updateValues = new Thread() {
+        volatile boolean initiated = false;
+        volatile boolean interrupted = false;
 
-    private final AnimationTimer updateValues = new AnimationTimer() {
         @Override
         public void start() {
             super.start();
-            client.logger.INFO("Démarrage du thread de communication série");
-            try {
-                client.connectSerial();
-            }
-            catch (UnknownOSException e) {
-                client.logger.ERROR("OS inconnu");
-                Platform.exit();
-            }
-            catch (InterruptedException e) {
-                client.logger.INFO("Interruption du thread de communication série");
-                Platform.exit();
-            }
+            client.logger.DEBUG("Démarrage du thread de communication série");
         }
 
         @Override
-        public void handle(long now) {
-            try {
-                calibrators.forEach((axisName, analogCalibrator) -> {
+        public void run() {
+            do {
+                if (!initiated) {
                     try {
-                        Method getValue = client.commManager.getClass().getMethod("get" + StringUtils.capitalize(axisName));
-                        analogCalibrator.Update((Integer) getValue.invoke(client.commManager));
+                        client.connectSerial();
+                        initiated = true;
                     }
-                    catch (NoSuchMethodException | IllegalAccessException e) {
-                        e.printStackTrace();
+                    catch (UnknownOSException e) {
+                        client.logger.ERROR("OS inconnu");
+                        Thread.currentThread().interrupt();
                     }
-                    catch (InvocationTargetException e) {
-                        if (e.getCause() instanceof IOException) {
-                            throw new UncheckedIOException((IOException) e.getCause());
-                        } else {
-                            e.getCause().printStackTrace();
-                        }
+                    catch (InterruptedException e) {
+                        client.logger.DEBUG("\nInterruption du thread de communication série");
+                        interrupted = true;
+                        Thread.currentThread().interrupt();
+                        break;
                     }
-                });
-            }
-            catch (UncheckedIOException e) {
-                client.logger.WARNING("Panneau déconnecté, tentative de reconnection");
+                }
+
                 try {
-                    client.connectSerial();
+                    calibrators.forEach((axisName, analogCalibrator) -> {
+                        try {
+                            Method getValue = client.commManager.getClass().getMethod("get" + StringUtils.capitalize(axisName));
+                            //analogCalibrator.Update((Integer) getValue.invoke(client.commManager));
+                            mutableInts.get(axisName).setValue((Integer) getValue.invoke(client.commManager));
+                        }
+                        catch (NoSuchMethodException | IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                        catch (InvocationTargetException e) {
+                            if (e.getCause() instanceof IOException) {
+                                throw new UncheckedIOException((IOException) e.getCause());
+                            } else {
+                                e.getCause().printStackTrace();
+                            }
+                        }
+                    });
                 }
-                catch (UnknownOSException | InterruptedException interruptedException) {
-                    this.stop();
+                catch (UncheckedIOException e) {
+                    client.logger.WARNING("Panneau déconnecté, tentative de reconnection");
+                    initiated = false;
                 }
-            }
+            } while (!interrupted);
         }
 
         @Override
-        public void stop() {
-            client.logger.INFO("Interruption du thread de communication série");
-            super.stop();
+        public void interrupt() {
+            client.logger.DEBUG("Interruption du thread de communication série");
+            interrupted = true;
+            super.interrupt();
         }
     };
 
@@ -93,6 +108,7 @@ public class KockpitCalibrationTool extends Application {
     public void start(Stage primaryStage) {
         client.logger.logLevel = Logger.LogLevel.Info;
         BorderPane root = new BorderPane();
+        //region hashMaps
         calibrators.put("throttle", null);
         calibrators.put("pitch", null);
         calibrators.put("yaw", null);
@@ -101,6 +117,15 @@ public class KockpitCalibrationTool extends Application {
         calibrators.put("y", null);
         calibrators.put("z", null);
         calibrators.put("t", null);
+        mutableInts.put("throttle", new MutableInt(0));
+        mutableInts.put("pitch", new MutableInt(0));
+        mutableInts.put("yaw", new MutableInt(0));
+        mutableInts.put("roll", new MutableInt(0));
+        mutableInts.put("x", new MutableInt(0));
+        mutableInts.put("y", new MutableInt(0));
+        mutableInts.put("z", new MutableInt(0));
+        mutableInts.put("t", new MutableInt(0));
+        //endregion
 
         //region left
         VBox leftVBox = new VBox(
@@ -143,7 +168,7 @@ public class KockpitCalibrationTool extends Application {
         resetAll.setOnAction(event -> calibrators.forEach((s, analogCalibrator) -> analogCalibrator.ResetAll()));
         Button quit = new Button("Exit");
         quit.setOnAction((actionEvent) -> {
-            updateValues.stop();
+            updateValues.interrupt();
             primaryStage.close();
         });
         Button save = new Button("Save");
@@ -217,8 +242,15 @@ public class KockpitCalibrationTool extends Application {
         Scene scene = new Scene(root, 800, 400);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Kockpit Calibration Tool");
-        primaryStage.setOnCloseRequest((windowEvent) -> updateValues.stop());
+        primaryStage.setOnCloseRequest((windowEvent) -> updateValues.interrupt());
         updateValues.start();
+        animationTimer.start();
         primaryStage.show();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        updateValues.interrupt();
+        super.stop();
     }
 }
