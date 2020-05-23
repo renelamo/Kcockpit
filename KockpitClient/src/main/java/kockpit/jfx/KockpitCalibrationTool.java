@@ -234,11 +234,14 @@ public class KockpitCalibrationTool extends Application {
         });
         Button setC = new Button("Fix center values");
         setC.setOnAction(event -> calibrators.forEach((s, analogCalibrator) -> analogCalibrator.fixCenter()));
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
         HBox bottom = new HBox(
                 setP,
                 setC,
                 reset,
                 resetAll,
+                spacer,
                 save,
                 quit
         );
@@ -247,10 +250,11 @@ public class KockpitCalibrationTool extends Application {
         root.setBottom(bottom);
         //endregion
 
-        Scene scene = new Scene(root, 800, 400);
+        Scene scene = new Scene(root, 800, 310);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Kockpit Calibration Tool");
         primaryStage.setOnCloseRequest((windowEvent) -> updateValues.interrupt());
+        primaryStage.setResizable(false);
         updateValues.start();
         animationTimer.start();
         primaryStage.show();

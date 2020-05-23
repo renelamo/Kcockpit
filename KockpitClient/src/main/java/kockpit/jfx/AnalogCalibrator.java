@@ -1,9 +1,12 @@
 package kockpit.jfx;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
@@ -73,8 +76,11 @@ public class AnalogCalibrator extends VBox {
         current = new TextField("");
         current.setDisable(true);
 
+        setAlignment(Pos.CENTER);
         if (simple) {
-            getChildren().addAll(name, max, p2, p1, min, current);
+            Region spacer = new Region();
+            setVgrow(spacer, Priority.ALWAYS);
+            getChildren().addAll(name, max,spacer,  p2, p1, min, current);
         } else {
             getChildren().addAll(name, max, p4, p3, center, p2, p1, min,/* progressBar,*/ current);
         }
