@@ -5,8 +5,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-//import javafx.scene.transform.Rotate;
-//import javafx.scene.transform.Translate;
 import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
 
@@ -74,6 +72,7 @@ public class AnalogCalibrator extends VBox {
         */
         current = new TextField("");
         current.setDisable(true);
+
         if (simple) {
             getChildren().addAll(name, max, p2, p1, min, current);
         } else {
@@ -134,25 +133,15 @@ public class AnalogCalibrator extends VBox {
     }
 
     void autoFillP(int offset) {
-        if (!p1.userModified) {
-            p1.progSetText(String.valueOf(Integer.parseInt(min.getText()) + offset));
-        }
+        p1.progSetText(String.valueOf(Integer.parseInt(min.getText()) + offset));
         if (!simple) {
-            if (!p2.userModified) {
-                p2.progSetText(String.valueOf(Integer.parseInt(center.getText()) - offset));
-            }
-            if (!p3.userModified) {
-                p3.progSetText(String.valueOf(Integer.parseInt(center.getText()) + offset));
-            }
-            if (!p4.userModified) {
-                p4.progSetText(String.valueOf(Integer.parseInt(max.getText()) - offset));
-            }
+            p2.progSetText(String.valueOf(Integer.parseInt(center.getText()) - offset));
+            p3.progSetText(String.valueOf(Integer.parseInt(center.getText()) + offset));
+            p4.progSetText(String.valueOf(Integer.parseInt(max.getText()) - offset));
             p3.userModified = true;
             p4.userModified = true;
         } else {
-            if (!p2.userModified) {
-                p2.progSetText(String.valueOf(Integer.parseInt(max.getText()) - offset));
-            }
+            p2.progSetText(String.valueOf(Integer.parseInt(max.getText()) - offset));
         }
         p1.userModified = true;
         p2.userModified = true;

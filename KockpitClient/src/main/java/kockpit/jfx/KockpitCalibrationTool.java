@@ -25,9 +25,10 @@ import java.io.UncheckedIOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 public class KockpitCalibrationTool extends Application {
-    private final KRPCClient client = new KRPCClient();
+    private KRPCClient client;
     private final LinkedHashMap<String, AnalogCalibrator> calibrators = new LinkedHashMap<>(8);
     private final LinkedHashMap<String, MutableInt> mutableInts = new LinkedHashMap<>(8);
     private final AnimationTimer animationTimer = new AnimationTimer() {
@@ -55,12 +56,12 @@ public class KockpitCalibrationTool extends Application {
                         initiated = true;
                     }
                     catch (UnknownOSException e) {
+                        client.logger.stream.println();
                         client.logger.ERROR("OS inconnu");
                         Thread.currentThread().interrupt();
                     }
                     catch (InterruptedException e) {
-                        client.logger.DEBUG("\nInterruption du thread de communication série");
-                        interrupted = true;
+                        client.logger.stream.println();
                         Thread.currentThread().interrupt();
                         break;
                     }
@@ -94,7 +95,9 @@ public class KockpitCalibrationTool extends Application {
 
         @Override
         public void interrupt() {
-            client.logger.DEBUG("Interruption du thread de communication série");
+            if(!interrupted) {
+                client.logger.DEBUG("Interruption du thread de communication série");
+            }
             interrupted = true;
             super.interrupt();
         }
@@ -106,7 +109,12 @@ public class KockpitCalibrationTool extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        client.logger.logLevel = Logger.LogLevel.Info;
+        List<String> parameters = getParameters().getRaw();
+        if (parameters.size()>0) {
+            client = new KRPCClient(Logger.LogLevel.valueOf(parameters.get(0)));
+        } else {
+            client = new KRPCClient();
+        }
         BorderPane root = new BorderPane();
         //region hashMaps
         calibrators.put("throttle", null);

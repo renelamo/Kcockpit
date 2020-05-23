@@ -30,7 +30,11 @@ public class KRPCClient implements AutoCloseable {
     //endregion variables
 
     public KRPCClient() {
-        logger = new Logger(Logger.LogLevel.Debug, System.out);
+        this(Logger.LogLevel.Error);
+    }
+
+    public KRPCClient(Logger.LogLevel logLevel){
+        logger = new Logger(logLevel, System.out);
         commManager = new CommunicationManager(this);
     }
 
