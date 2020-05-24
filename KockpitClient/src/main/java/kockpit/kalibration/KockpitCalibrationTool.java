@@ -1,8 +1,7 @@
-package kockpit.jfx;
+package kockpit.kalibration;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

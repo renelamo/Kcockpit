@@ -7,29 +7,6 @@
 
 volatile bool InputsManager::stage;
 
-int lissage(int data, int centre){
-    int seuil=15;
-    data*=511/centre; //La multiplication est effectuée avant la division d'entiers
-    if(data<=seuil){ //Premier palier
-        data=0;
-    }
-    else if(data<=511-seuil){ //Première pente
-        double m=511.0/(511.0-2*(double)seuil);
-        data=(int) (m* (double)(data-seuil));
-    }
-    else if(data<=511+seuil){ //Deuxième palier
-        data=511;
-    }
-    else if(data<=1023-seuil){ //Seconde pente
-        double m=512.0/(512.0-2*(double)seuil);
-        data=(int) (m* (double)(data-3*seuil));
-    }
-    else{ //Dernier palier
-        data=1023;
-    }
-    return data;
-}
-
 void InputsManager::initPins(){
     //digital inputs
     pinMode(STAGE_BUTTON, INPUT_PULLUP);
@@ -88,43 +65,36 @@ void InputsManager::sendThrottle() {
 
 void InputsManager::sendPitch() {
     int val=analogRead(PITCH_PIN);
-    val= lissage(val, PITCH_CENTER);
     Serial.write(val/4);
 }
 
 void InputsManager::sendYaw() {
     int val=analogRead(YAW_PIN);
-    val= lissage(val, YAW_CENTER);
     Serial.write(val/4);
 }
 
 void InputsManager::sendRoll() {
     int val=analogRead(ROLL_PIN);
-    val= lissage(val, ROLL_CENTER);
     Serial.write(val/4);
 }
 
 void InputsManager::sendX() {
     int val=analogRead(X_PIN);
-    val= lissage(val, X_CENTER);
     Serial.write(val/4);
 }
 
 void InputsManager::sendY() {
     int val=analogRead(Y_PIN);
-    val= lissage(val, Y_CENTER);
     Serial.write(val/4);
 }
 
 void InputsManager::sendZ() {
     int val=analogRead(Z_PIN);
-    val= lissage(val, Z_CENTER);
     Serial.write(val/4);
 }
 
 void InputsManager::sendT() {
     int val=analogRead(T_PIN);
-    val= lissage(val, T_CENTER);
     Serial.write(val/4);
 }
 

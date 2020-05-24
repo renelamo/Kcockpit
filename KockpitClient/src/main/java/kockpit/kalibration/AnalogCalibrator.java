@@ -1,4 +1,4 @@
-package kockpit.jfx;
+package kockpit.kalibration;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

@@ -52,7 +52,7 @@
                     <source>14</source>
                     <target>14</target>
                     <release>14</release>
-                    <mainClass>kockpit.jfx.KockpitCalibrationTool</mainClass>
+                    <mainClass>kockpit.kalibration.KockpitCalibrationTool</mainClass>
                 </configuration>
             </plugin>
             -->
@@ -63,7 +63,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>kockpit.jfx.KockpitCalibrationTool</mainClass>
+                            <mainClass>kockpit.kalibration.KockpitCalibrationTool</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
