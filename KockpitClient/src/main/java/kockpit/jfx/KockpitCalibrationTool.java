@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,19 +25,27 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.InvalidPropertiesFormatException;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 public class KockpitCalibrationTool extends Application {
     private KRPCClient client;
     private final LinkedHashMap<String, AnalogCalibrator> calibrators = new LinkedHashMap<>(8);
+    //L'ensemble des Calibrators, classés par nom d'axe
+
     private final LinkedHashMap<String, MutableInt> mutableInts = new LinkedHashMap<>(8);
+    //Les mutableInt servent à échanger des valeurs entières entre les threads, claassés par nom d'axe
+
     private final AnimationTimer animationTimer = new AnimationTimer() {
         @Override
         public void handle(long l) {
+            //Appelée à chaque frame, pour actualiser les valeurs affichées
             calibrators.forEach((s, analogCalibrator) -> analogCalibrator.Update(mutableInts.get(s).getValue()));
         }
     };
+
+    //Thread de récupéraion des valeurs sur la Série
     private final Thread updateValues = new Thread() {
         volatile boolean initiated = false;
         volatile boolean interrupted = false;
@@ -116,7 +125,9 @@ public class KockpitCalibrationTool extends Application {
             client = new KRPCClient();
         }
         BorderPane root = new BorderPane();
+
         //region hashMaps
+        //initialisation des hashmaps
         calibrators.put("throttle", null);
         calibrators.put("pitch", null);
         calibrators.put("yaw", null);
@@ -139,20 +150,20 @@ public class KockpitCalibrationTool extends Application {
         VBox leftVBox = new VBox(
                 new Label("Axe:"),
                 new Label("Valeur max:"),
-                new Label("p4"),
-                new Label("p3"),
+                new Label("p4:"),
+                new Label("p3:"),
                 new Label("Valeur centrale:"),
-                new Label("p2"),
-                new Label("p1"),
+                new Label("p2:"),
+                new Label("p1:"),
                 new Label("Valeur min:"),
                 new Label("Valeur actuelle:")
         );
+        leftVBox.setAlignment(Pos.CENTER_LEFT);
         leftVBox.setSpacing(14.5);
         leftVBox.setPadding(new Insets(5));
         root.setLeft(leftVBox);
         //endregion
 
-        //TODO: gérer l'affichage de Throttle
         //region center
         JSONObject calibrations = client.getCalibration();
         if (calibrations != null) {
@@ -172,29 +183,41 @@ public class KockpitCalibrationTool extends Application {
         Button reset = new Button("Reset");
         reset.setOnAction((actionEvent -> calibrators.forEach((name, analogCalibrator) -> analogCalibrator.Reset())));
         reset.setCancelButton(true);
+
         Button resetAll = new Button("Reset everything");
         resetAll.setOnAction(event -> calibrators.forEach((s, analogCalibrator) -> analogCalibrator.ResetAll()));
+
         Button quit = new Button("Exit");
         quit.setOnAction((actionEvent) -> {
             updateValues.interrupt();
             primaryStage.close();
         });
+
         Button save = new Button("Save");
         save.setDefaultButton(true);
         save.setOnAction((actionEvent) -> {
             client.logger.INFO("Sauvegarde des valeurs de calibration");
             JSONObject toWrite = new JSONObject();
 
-            calibrators.forEach((name, analogCalibrator) -> toWrite.put(name, analogCalibrator.getJson()));
+            calibrators.forEach((name, analogCalibrator) -> {
+                try {
+                    toWrite.put(name, analogCalibrator.getJson());
+                    try (FileWriter file = new FileWriter("kalibration.json")) {
+                        file.write(toWrite.toJSONString());
+                        file.flush();
+                    }
+                    catch (IOException e) {
+                        client.logger.ERROR("Impossible d'écrire dans le fichier de sauvegarde");
+                    }
+                }
+                catch (InvalidPropertiesFormatException e) {
+                    client.logger.ERROR(e.getMessage());
+                }
+            });
 
-            try (FileWriter file = new FileWriter("kalibration.json")) {
-                file.write(toWrite.toJSONString());
-                file.flush();
-            }
-            catch (IOException e) {
-                client.logger.ERROR("Impossible d'écrire dans le fichier de sauvegarde");
-            }
+
         });
+
         Button setP = new Button("Autoset Point Values");
         setP.setOnAction(event -> {
             Stage popup = new Stage();
@@ -232,10 +255,13 @@ public class KockpitCalibrationTool extends Application {
             popup.setScene(new Scene(pane));
             popup.show();
         });
+
         Button setC = new Button("Fix center values");
         setC.setOnAction(event -> calibrators.forEach((s, analogCalibrator) -> analogCalibrator.fixCenter()));
+
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
+
         HBox bottom = new HBox(
                 setP,
                 setC,

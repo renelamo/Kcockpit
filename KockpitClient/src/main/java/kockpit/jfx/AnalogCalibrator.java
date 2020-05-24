@@ -11,6 +11,8 @@ import javafx.scene.layout.VBox;
 import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
 
+import java.util.InvalidPropertiesFormatException;
+
 public class AnalogCalibrator extends VBox {
     private final modifiableTextField max;
     private final boolean simple;
@@ -86,6 +88,9 @@ public class AnalogCalibrator extends VBox {
         }
     }
 
+    /**
+     * réinitialise tous les champs qui n'ont pas été modifiés par l'utilisateur
+     */
     void Reset() {
         if (!min.userModified)
             min.progSetText("");
@@ -107,6 +112,10 @@ public class AnalogCalibrator extends VBox {
         progressBar.setProgress(0);
     }
 
+    /**
+     * Met à jour tous les champs qui n'ont pas été modfiés par l'utilisateur
+     * @param newVal la nouelle valeur courante
+     */
     void Update(int newVal) {
         int maxVal = max.getText().equals("") ? newVal : Math.max(newVal, Integer.parseInt(max.getText()));
         int minVal = min.getText().equals("") ? newVal : Math.min(newVal, Integer.parseInt(min.getText()));
@@ -138,9 +147,16 @@ public class AnalogCalibrator extends VBox {
         progressBar.setProgress(((float) newVal - minVal) / (maxVal - minVal));
     }
 
+    /**
+     * Règle les valeurs des poinrs avec l'offset donné par rapport aux valeurs extrêmes
+     */
     void autoFillP(int offset) {
         p1.progSetText(String.valueOf(Integer.parseInt(min.getText()) + offset));
         if (!simple) {
+            if(!center.userModified){
+                center.userModified = true;
+                center.progSetText(current.getText()); //on fixCenter, nécessaire à p2/p3 si pas déjà fait
+            }
             p2.progSetText(String.valueOf(Integer.parseInt(center.getText()) - offset));
             p3.progSetText(String.valueOf(Integer.parseInt(center.getText()) + offset));
             p4.progSetText(String.valueOf(Integer.parseInt(max.getText()) - offset));
@@ -153,23 +169,48 @@ public class AnalogCalibrator extends VBox {
         p2.userModified = true;
     }
 
-    JSONObject getJson() {
-        //TODO: implémenter une vérification de la cohérence des données
+    /**
+     * Fournit les valeurs de tous les TextField à sauvegarder
+     * @return Le JSONObject contenant toutes les valeurs
+     * @throws InvalidPropertiesFormatException Si il y a incohérence dans les valeurs des points
+     */
+    JSONObject getJson() throws InvalidPropertiesFormatException{
         JSONObject out = new JSONObject();
         out.put("max", max.getText());
         out.put("min", min.getText());
-        out.put("p1", p1.getText());
-        out.put("p2", p2.getText());
+        int p1int = Integer.parseInt(p1.getText());
+        int p2int = Integer.parseInt(p2.getText());
+        if(p1int>p2int){
+            throw new InvalidPropertiesFormatException("p2 must be greater or equal to p1");
+        }
+            out.put("p1", String.valueOf(p1int));
+            out.put("p2", String.valueOf(p2int));
+
         if (!simple) {
-            out.put("center", center.getText());
-            out.put("p3", p3.getText());
-            out.put("p4", p4.getText());
+            int centerInt = Integer.parseInt(center.getText());
+            int p3int = Integer.parseInt(p3.getText());
+            int p4int = Integer.parseInt(p4.getText());
+            if(p3int>p4int){
+                throw new InvalidPropertiesFormatException("p4 must be greater or equal to p3");
+            }
+            if(p3int<centerInt){
+                throw new InvalidPropertiesFormatException("p3 must be greater or equal to center");
+            }
+            if (centerInt<p2int){
+                throw new InvalidPropertiesFormatException("p2 must be lower or equal to center");
+            }
+            out.put("center",String.valueOf(centerInt));
+            out.put("p3", String.valueOf(p3int));
+            out.put("p4", String.valueOf(p4int));
         } else {
             out.put("p3", "");
         }
         return out;
     }
 
+    /**
+     * Remet tous les champs à 0 (ne fonctionne pas pour p1, raison inconnue)
+     */
     void ResetAll() {
         min.userModified = false;
         max.userModified = false;
@@ -183,6 +224,9 @@ public class AnalogCalibrator extends VBox {
         Reset();
     }
 
+    /**
+     * Bloque la valeur 'center' de l'axe sur la valeur actuelle
+     */
     void fixCenter() {
         if (!simple) {
             center.progSetText(current.getText());
@@ -190,6 +234,9 @@ public class AnalogCalibrator extends VBox {
         }
     }
 
+    /**
+     * Vérifie que le TextField contient bien une chaine représentant un entier entre 0 et 255
+     */
     private void setFormatCheck(TextField field) {
         if (field instanceof modifiableTextField && ((modifiableTextField) field).progModified) {
             ((modifiableTextField) field).progModified = false;
@@ -207,6 +254,9 @@ public class AnalogCalibrator extends VBox {
         });
     }
 
+    /**
+     * Un textField avec une propriété permettant de savoir s'il a été modifié par l'utilisateur ou par le programme
+     */
     private static class modifiableTextField extends TextField {
         boolean userModified = false;
         boolean progModified = false;
