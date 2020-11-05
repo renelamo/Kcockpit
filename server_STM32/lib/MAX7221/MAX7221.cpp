@@ -48,8 +48,11 @@ void MAX7221::flushDigit(DigitsRegister digit) {
     digitalWrite(selectPin, LOW);
     SPI.transfer((unsigned)digit);
     SPI.transfer(state[digit-1]);
+    SPI.transfer((unsigned)digit);
+    SPI.transfer(state[digit-1]);
+    static uint16_t zero = 0;
     for(int i = 0; i<position; ++i){
-        SPI.transfer16(0);
+        SPI.transfer16(zero);
     }
     digitalWrite(selectPin, HIGH);
 }
@@ -69,8 +72,9 @@ void MAX7221::write(Register r, uint8_t data) {
     digitalWrite(selectPin, LOW);
     SPI.transfer((unsigned)r);
     SPI.transfer(data);
+    static uint16_t zero = 0;
     for(int i = 0; i<position; ++i){
-        SPI.transfer16(0);
+        SPI.transfer16(zero);
     }
     digitalWrite(selectPin, HIGH);
 }

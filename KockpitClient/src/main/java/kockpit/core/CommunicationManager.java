@@ -17,9 +17,9 @@ import static java.lang.Math.*;
 public class CommunicationManager implements CommTable {
 
     private final short queueSize = 5;
-    private final float xCameraSpeed = 10f;//en ° par seconde
-    private final float yCameraSpeed = 10f;//en ° par seconde
-    private final float zCameraSpeed = 10f;//en m par seconde
+    private final float xCameraSpeed = 50f;//en ° par seconde
+    private final float yCameraSpeed = 50f;//en ° par seconde
+    private final float zCameraSpeed = 50f;//en m par seconde
     boolean connectKrpc = false;
     private long lastTimeX = System.currentTimeMillis();
     private long lastTimeY = System.currentTimeMillis();
@@ -183,7 +183,7 @@ public class CommunicationManager implements CommTable {
         int tValue = client.in.read();
         float newVal = tQueue.push(tValue).getVal();
         if (connectKrpc) {
-            //client.control.setRoll(tValue);//TODO: trouver une utilité à cette fonction
+            client.control.setRoll(tValue);//TODO: trouver une utilité à cette fonction
         }
         client.logger.DEBUG("T=" + newVal);
         return tValue;
@@ -231,34 +231,40 @@ public class CommunicationManager implements CommTable {
 
     void sendLEDs() throws RPCException, IOException {
         short out = 0x00;
+        short val = 0x01;
+        if ((System.currentTimeMillis() / 500) % 2 == 0) {
+            out |= val;
+        }
+        val <<= 1;
         if (connectKrpc) {
             if (client.control.getSAS()) {
-                out += 1;
+                out |= val;
             }
+            val <<= 1;
             if (client.control.getRCS()) {
-                out += 2;
+                out |= val;
             }
+            val <<= 1;
             if (client.control.getLights()) {
-                out += 4;
+                out |= val;
             }
+            val <<= 1;
             if (client.control.getGear()) {
-                out += 8;
+                out |= val;
             }
+            val <<= 1;
             if (client.control.getBrakes()) {
-                out += 16;
+                out |= val;
             }
-        }
-        if ((System.currentTimeMillis() / 500) % 2 == 0) {
-            out += 32;
         }
 
         int toAdd = 1 << 8;
         if (connectKrpc) {
             for (int actionGroupNumber = 1; actionGroupNumber <= 5; ++actionGroupNumber) {
                 if (client.control.getActionGroup(actionGroupNumber)) {
-                    out += toAdd;
+                    out |= toAdd;
                 }
-                toAdd *= 2;
+                toAdd <<= 1;
             }
         }
         client.STM32.write(LEDS_CODE_SET);

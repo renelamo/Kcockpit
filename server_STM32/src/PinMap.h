@@ -24,12 +24,10 @@ enum SPIPins{
     MOSI_PIN = PB5,
     BARGRAPH_PIN = PB13,
     ALT_PIN = PB14,
-    //ALT_PIN = PC4,
-    PE_PIN = PB15,
+    PE_PIN = PB1,
     AP_PIN = PB1,
-    TIME_PIN = PC4,
-    //TIME_PIN = PB14,
-    LED_PIN = PA14,
+    TIME_PIN = PB14,
+    LED_PIN = PB15,
 };
 
 
@@ -58,5 +56,8 @@ enum ActionGroupsPins{
 
 //Todo: assigner un pin au buzzer
 #define BUZZ_PIN PC14
+#define TFT_RESET 0
+#define TFT_CS 0
+#define TFT_DC 0
 
 #endif

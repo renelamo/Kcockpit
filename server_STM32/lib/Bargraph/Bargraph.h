@@ -5,9 +5,8 @@
 #ifndef TEENSY_BARGRAPH_H
 #define TEENSY_BARGRAPH_H
 
-
 #include <MAX7221.h>
-
+static volatile bool timer_flag;
 
 class Bargraph {
 private:

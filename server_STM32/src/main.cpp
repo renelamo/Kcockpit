@@ -20,6 +20,7 @@ void print_sizes(){
 
 void timerISR(HardwareTimer*){
     digitalToggle(LED_BUILTIN);
+    timer_flag = !timer_flag;
 }
 
 void setup(){

@@ -34,6 +34,9 @@
 
 #define BUZZ_CODE               0xA0
 
+#define CIRCLE_CODE             0xB0
+#define POLY_CODE               0xB1
+
 #define NO_OP_CODE              0xFF
 
 #endif //STM32_COMMTABLE_H

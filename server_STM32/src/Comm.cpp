@@ -8,12 +8,13 @@
 #include "OutputsManager.h"
 #include "InputsManager.h"
 
-bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
+bool Comm::capt(OutputsManager *omgr, InputsManager *imgr) {
     while (!Serial.available());
-    int code=Serial.read();
-    int arg1, arg2;
+    int code = Serial.read();
+    int arg1;
     uint8_t buffer8[8];
-    switch (code){
+    uint8_t *buffer;
+    switch (code) {
         case NO_OP_CODE:
             return true;
         case HANDSHAKE_CODE:
@@ -27,55 +28,69 @@ bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
             arg1 = Serial.read();
             OutputsManager::buzz(arg1);
             return true;
-
+//////////////////////////////////// NAVBALL ////////////////////////////////////////////////
+//region navball
+        case CIRCLE_CODE:
+            while (!Serial.available());
+            arg1 = Serial.read();
+            buffer = static_cast<uint8_t *>(malloc(2 * arg1));
+            Serial.readBytes(buffer, arg1);
+            omgr->drawCurve(buffer, arg1, ST7735_WHITE);
+        case POLY_CODE:
+            while (!Serial.available());
+            arg1 = Serial.read();
+            buffer = static_cast<uint8_t *>(malloc(2 * arg1));
+            Serial.readBytes(buffer, arg1);
+            omgr->fillPoly(buffer, arg1, ST7735_ORANGE); //TODO: change to brown
+//endregion
 ////////////////////////////////// 7 SEGMENTS ///////////////////////////////////////////////
 //region 7_seg
         case ALTITUDE_CODE:
-            while(!Serial.available());
+            while (!Serial.available());
             Serial.readBytes(buffer8, 8);
             //buff[0] poids fort
-            omgr->altitudeSegments->printLong(*((int64_t*)buffer8));
+            omgr->altitudeSegments->printLong(*((int64_t *) buffer8));
             return true;
         case AP_ALT_CODE:
-            while(!Serial.available());
+            while (!Serial.available());
             Serial.readBytes(buffer8, 8);
-            if(buffer8[0] < 0){
+            if (buffer8[0] < 0) {
                 omgr->apoSegments->printErr();
                 return true;
             }
-            omgr->apoSegments->printLong(*((int64_t*)buffer8));
+            omgr->apoSegments->printLong(*((int64_t *) buffer8));
             return true;
         case PE_ALT_CODE:
-            while(!Serial.available());
+            while (!Serial.available());
             Serial.readBytes(buffer8, 8);
-            if(buffer8[0] < 0){
+            if (buffer8[0] < 0) {
                 omgr->periSegments->printErr();
                 return true;
             }
-            omgr->periSegments->printLong(*((int64_t*)buffer8));
+            omgr->periSegments->printLong(*((int64_t *) buffer8));
             return true;
         case AP_TIME_CODE:
-            while(!Serial.available());
+            while (!Serial.available());
             Serial.readBytes(buffer8, 8);
-            omgr->apoSegments->printDate(*((int64_t*)buffer8));
+            omgr->apoSegments->printDate(*((int64_t *) buffer8));
             return true;
         case PE_TIME_CODE:
-            while(!Serial.available());
+            while (!Serial.available());
             Serial.readBytes(buffer8, 8);
-            omgr->periSegments->printDate(*((int64_t*)buffer8));
+            omgr->periSegments->printDate(*((int64_t *) buffer8));
             return true;
         case MET_CODE:
             uint8_t buff[8];
             Serial.readBytes(buff, 8);
-            omgr->setMET(*(int64_t*)(buff));
+            omgr->setMET(*(int64_t *) (buff));
             return true;
 //endregion
 ///////////////////////////////// ACTION GROUPS /////////////////////////////////////////////
 //region action_groups
         case LEDS_CODE_SET:
-            while(!Serial.available());
+            while (!Serial.available());
             Serial.readBytes(buffer8, 2);
-            OutputsManager::setSASLeds(*((uint16_t*)buffer8));
+            OutputsManager::setSASLeds(*((uint16_t *) buffer8));
             return true;
         case SAS_CODE_GET:
             imgr->sendSAS();
@@ -87,22 +102,22 @@ bool Comm::capt(OutputsManager* omgr, InputsManager* imgr) {
 /////////////////////////////////// BARGRAPHS ///////////////////////////////////////////////
 //region bragraphs
         case ELEC_CODE:
-            while(!Serial.available());
+            while (!Serial.available());
             arg1 = Serial.read();
             omgr->setElecCharge(arg1);
             return true;
         case FUEL_CODE:
-            while(!Serial.available());
+            while (!Serial.available());
             arg1 = Serial.read();
             omgr->setFuelLevel(arg1);
             return true;
         case OXID_CODE:
-            while(!Serial.available());
+            while (!Serial.available());
             arg1 = Serial.read();
             omgr->setOxidLevel(arg1);
             return true;
         case MONOP_CODE:
-            while(!Serial.available());
+            while (!Serial.available());
             arg1 = Serial.read();
             omgr->setMonoPLevel(arg1);
             return true;

@@ -10,6 +10,8 @@
 #include "Arduino.h"
 #include <Bargraph.h>
 #include "PinMap.h"
+#include <Adafruit_GFX.h>
+#include <Adafruit_ST7735.h>
 
 
 class OutputsManager {
@@ -33,6 +35,8 @@ public:
     SevenSeg* apoSegments;
     SevenSeg* periSegments;
 
+    Adafruit_ST7735* tft;
+
     explicit OutputsManager();
     void setMET(int64_t seconds);
     void setElecCharge(int ratio);
@@ -43,6 +47,13 @@ public:
     void setWaitMode(bool waitMode);
     static void setSASLeds(uint16_t data);
     static void buzz(int freq);
+
+    /// Draws a curve as segments given some points
+    /// \param coords the list of x and y coordinates
+    /// \param length the number of points (half the number of coordinates)
+    /// \param color
+    void drawCurve(uint8_t coords[], uint8_t length, uint16_t color);
+    void fillPoly(uint8_t* coords, uint8_t length, uint16_t color);
 };
 
 
