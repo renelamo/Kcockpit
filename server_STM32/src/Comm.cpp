@@ -32,7 +32,7 @@ bool Comm::capt(OutputsManager *omgr, InputsManager *imgr) {
 //region navball
         case CIRCLE_CODE:
             while (!Serial.available());
-            arg1 = Serial.read();
+            arg1 = Serial.read(); // nb points
             buffer = static_cast<uint8_t *>(malloc(2 * arg1));
             Serial.readBytes(buffer, arg1);
             omgr->drawCurve(buffer, arg1, ST7735_WHITE);

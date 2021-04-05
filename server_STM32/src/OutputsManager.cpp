@@ -42,9 +42,14 @@ OutputsManager::OutputsManager() {
     periapsisMUX = new MAX7221(PE_PIN);
     periSegments = new SevenSeg(periapsisMUX);
 
+
+    //auto* SPI_2 = new SPIClass(PB5, PB4, PB3);
+    //SPI_2->begin();
+
     tft = new Adafruit_ST7735(&SPI, TFT_CS, TFT_DC, TFT_RESET);
     tft -> initR(INITR_BLACKTAB);
     tft -> fillScreen(ST7735_BLACK);
+    //*/
 }
 
 
@@ -84,6 +89,7 @@ void OutputsManager::buzz(int freq) {
 }
 
 void OutputsManager::wait(uint8_t state) {
+    digitalToggle(LED_GREEN);
     uint8_t toWrite = 0b01000000u >> (state % 6u);
     for (DigitsRegister r:allRegisters) {
         altitudeMUX->setRegister(r, toWrite);

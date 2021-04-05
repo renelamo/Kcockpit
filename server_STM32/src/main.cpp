@@ -24,20 +24,23 @@ void timerISR(HardwareTimer*){
 }
 
 void setup(){
+    pinMode(LED_BUILTIN, OUTPUT);
+    digitalWrite(LED_GREEN, HIGH);
     Serial.setTimeout(100);
     Serial.begin(115200, SERIAL_8N1);
     omgr = new OutputsManager();
     imgr = new InputsManager();
-    digitalWrite(LED_GREEN, HIGH);
-/*
+    digitalWrite(LED_GREEN, LOW);
+    /*
     timer = new HardwareTimer(TIM1);
     timer->attachInterrupt(timerISR);
     timer->setOverflow(2, HERTZ_FORMAT);
     timer->resume();
-    */
+    //*/
     omgr->setWaitMode(true);
     int i = 0;
-    while (!Serial.available()){
+    while(true){
+    //while (!Serial.available()){
         omgr->wait(i++);
         delay(100);
     }

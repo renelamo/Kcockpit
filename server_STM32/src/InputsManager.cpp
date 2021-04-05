@@ -3,7 +3,6 @@
 //
 
 #include "InputsManager.h"
-#include "offsets.h"
 
 volatile bool InputsManager::stage;
 

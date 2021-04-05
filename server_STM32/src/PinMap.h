@@ -56,8 +56,8 @@ enum ActionGroupsPins{
 
 //Todo: assigner un pin au buzzer
 #define BUZZ_PIN PC14
-#define TFT_RESET 0
-#define TFT_CS 0
-#define TFT_DC 0
+#define TFT_RESET PA3
+#define TFT_CS PA2
+#define TFT_DC PA10
 
 #endif

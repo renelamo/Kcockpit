@@ -46,8 +46,8 @@ uint8_t MAX7221::getRegister(DigitsRegister digit) {
 
 void MAX7221::flushDigit(DigitsRegister digit) {
     digitalWrite(selectPin, LOW);
-    SPI.transfer((unsigned)digit);
-    SPI.transfer(state[digit-1]);
+    //SPI.transfer((unsigned)digit);
+    //SPI.transfer(state[digit-1]);
     SPI.transfer((unsigned)digit);
     SPI.transfer(state[digit-1]);
     static uint16_t zero = 0;
